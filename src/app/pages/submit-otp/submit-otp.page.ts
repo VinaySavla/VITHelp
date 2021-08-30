@@ -1,0 +1,55 @@
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormBuilder, Validators } from "@angular/forms";
+
+@Component({
+  selector: "app-submit-otp",
+  templateUrl: "./submit-otp.page.html",
+  styleUrls: ["./submit-otp.page.scss"]
+})
+export class SubmitOtpPage implements OnInit {
+  title: string = "Enter OTP";
+  otp: number;
+  timer: number = 30;
+  time = setInterval(() => {
+    this.timer -= 1;
+  }, 1000);
+  otpForm: any;
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private router: Router,
+  ) {}
+
+  ngOnInit() {
+    this.otpForm = this.formBuilder.group({
+      otp: ["", [Validators.required, Validators.pattern(/^[0-9]{4,4}$/)]]
+    });
+  }
+  changeOTP(value) {
+    if (value) {
+      this.otpForm.patchValue({
+        otp: value.length > 4 ? value.substring(0, 4) : value
+      });
+    }
+  }
+  async resendOTP() {
+    if (this.timer > 0) {
+      return;
+    }
+  }
+  async submitOTP() {
+    if (!this.otpForm.valid) {
+      return;
+    }
+    let data = {
+      countryCode: this.route.snapshot.paramMap.get("countryCode"),
+      phone: this.route.snapshot.paramMap.get("phone"),
+      otp: parseInt(this.otpForm.controls["otp"].value)
+    };
+    this.router.navigate(["/select-role"]);
+  }
+  ionViewWillLeave() {
+    clearInterval(this.time);
+  }
+}

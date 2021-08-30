@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons slot="start" *ngIf="isBackButtonActivate">
+      <ion-back-button [defaultHref]="backPageLink"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="isFullLogoActivate">
+      <img
+        src="assets/images/VITLogo.png"
+        alt="VIT logo"
+        title="VIT logo"
+        width="150"
+      />
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="isSmallLogoActivate">
+      <!-- <ion-icon
+        color="primary"
+        slot="icon-only"
+        name="log-out-outline"
+        (click)="goToLogout()"
+      ></ion-icon> -->
+      <img
+        src="assets/images/VIT-logo.png"
+        alt="VIT logo"
+        title="VIT logo"
+        width="64"
+      />
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="isLoggedAsActivate">Logged As: {{serviceRole}}</ion-buttons>
+  </ion-toolbar>
+</ion-header>

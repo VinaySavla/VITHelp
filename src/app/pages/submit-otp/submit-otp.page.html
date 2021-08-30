@@ -1,0 +1,33 @@
+<app-common-header
+  [title]="title"
+  isBackButtonActivate="true"
+  backPageLink="/login"
+  isSmallLogoActivate="true"
+></app-common-header>
+<ion-content>
+  <div class="otp">
+    <form [formGroup]="otpForm" novalidate>
+      <div class="otp-option">
+        <ion-input
+          type="number"
+          placeholder="OTP"
+          formControlName="otp"
+          ></ion-input>
+          <!-- (input)="changeOTP($event.target.value)" -->
+      </div>
+      <div
+        class="otp-resend-btn"
+        [ngClass]="{'otp-resend-btn-activate':timer<=0}"
+        (click)="resendOTP()"
+      >
+        <span>Resend OTP</span>
+        <span *ngIf="timer>0">({{timer}} sec)</span>
+      </div>
+    </form>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="submitOTP()" [disabled]="!otpForm.valid"
+    >Submit OTP</ion-button
+  >
+</ion-footer>

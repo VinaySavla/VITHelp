@@ -1,0 +1,40 @@
+<ion-content>
+  <form [formGroup]="otpForm" novalidate>
+    <img
+      src="assets/images/VIT-logo.png"
+      alt="VIT logo"
+      title="VIT logo"
+    />
+    <div>
+      <ion-item>
+        <ion-icon name="call"></ion-icon>
+        <ion-input  style="max-width: 20%;border-right: 1px solid grey;"
+          type="number"
+          placeholder=""
+          formControlName="countryCode"
+          ></ion-input>
+          <!-- (input)="changeCountryCode($event.target.value)" -->
+        <ion-input
+          type="number"
+          placeholder=" Your mobile number "
+          formControlName="phone" style="max-width: 50%;"
+          ></ion-input>
+          <!-- (input)="changePhone($event.target.value)" -->
+        
+      </ion-item>
+    </div>
+    <div class="center" style="margin: 20px 0;">
+       By clicking "Send OTP", you are agreeing to the 
+      <a [routerLink]="['/terms-common']">Terms and Conditions.</a></div>
+    <div style="margin: 20px 0;">
+      <ion-button
+        expand="block"
+        shape="flat"
+        (click)="login()"
+        color="primary"
+        [disabled]="!otpForm.valid"
+        >Send OTP</ion-button
+      >
+    </div>
+  </form>
+</ion-content>

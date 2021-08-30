@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="danger">
+      <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div id="container">
+      <div>
+          <img id="image" src="/assets/images/VIT-logo.png" alt="" />
+          <p></p>
+      </div>
+      <ion-button color="danger" size="large" fill="outline" expand="block" id="volunteer-button" strong (click)="setRole(Volunteer)">
+          <ion-icon slot="start" name="shield" ></ion-icon>
+          Volunteer
+      </ion-button>
+      <ion-button color="danger" size="large" fill="outline" expand="block" id="distressed-button" strong (click)="setRole(Distressed)">
+          <ion-icon slot="start" name="receipt"></ion-icon>
+          Distressed
+          <ion-ripple-effect></ion-ripple-effect>
+      </ion-button>
+
+      <ion-footer>
+          <ion-button color="dark" expand="block" (click)="profilePage()">CONTINUE</ion-button>
+      </ion-footer>
+  </div>
+</ion-content>
