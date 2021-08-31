@@ -21,11 +21,11 @@ export class UserProfileComponent implements OnInit {
   isLoading = false;
   userForm: any;
   userInfo: any;
-  userReg:any;
+  userReg: any;
   Volunteer = "Volunteer";
   Distressed = "Distressed";
 
-  checkBoxList= [
+  checkBoxList = [
     {
       value: "food",
       name: "Food",
@@ -51,7 +51,7 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private crudService: CrudService
-  ) {}
+  ) { }
   ngOnInit() {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -76,13 +76,13 @@ export class UserProfileComponent implements OnInit {
       supportList: [''],
       isServiceRoleSelected: [''],
       isUserServiceActive: [
-        '',
+        true,
         [Validators.required]
       ]
     });
   }
 
-  
+
 
   /**
    * CheckBox
@@ -131,19 +131,18 @@ export class UserProfileComponent implements OnInit {
   /**
    * Save user info
    */
-   async saveUserInfo() {
-    this.router.navigate(['/home/map',{ serviceRole:this.serviceRole }]);
-    var voluntData = new FormData();
-    voluntData.append('fName',this.userForm.value.name);
-   /**  voluntData.append('fName',this.userForm.value.phone);*/
-    //voluntData.append('prof',this.userForm.value.profession);
-   /**  voluntData.append('addr',this.userForm.value.formattedAddress);*/
-   /**voluntData.append('available',this.userForm.value.isUserServiceActive);
-      voluntData.append('myFood',this.checkBoxList['0']);
-    voluntData.append('myCloth',this.checkBoxList['1']);
-    voluntData.append('myShelt',this.checkBoxList['2']);
-    voluntData.append('myMedic',this.checkBoxList['3']);*/
+  async saveUserInfo() {
+    this.router.navigate(['/home/map', { serviceRole: this.serviceRole }]);
+    var voluntData = new FormData;
+    voluntData.append('fName', this.userForm.value.name);
+    voluntData.append('phnno', this.userForm.value.phone);
+    voluntData.append('prof', this.userForm.value.profession);
+    voluntData.append('addr', this.userForm.value.formattedAddress);
+    voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
+    voluntData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
+    voluntData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");
+    voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
+    voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
     this.crudService.addVolunteer(voluntData);
-    //console.log(FormData);
-    }
+  }
 }
