@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { CrudService } from 'src/app/crud.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -49,6 +50,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private crudService: CrudService
   ) {}
   ngOnInit() {
     this.userForm = this.formBuilder.group({
@@ -129,9 +131,19 @@ export class UserProfileComponent implements OnInit {
   /**
    * Save user info
    */
-   saveUserInfo() {
+   async saveUserInfo() {
     this.router.navigate(['/home/map',{ serviceRole:this.serviceRole }]);
+    var voluntData = new FormData();
+    voluntData.append('fName',this.userForm.value.name);
+   /**  voluntData.append('fName',this.userForm.value.phone);*/
+    //voluntData.append('prof',this.userForm.value.profession);
+   /**  voluntData.append('addr',this.userForm.value.formattedAddress);*/
+   /**voluntData.append('available',this.userForm.value.isUserServiceActive);
+      voluntData.append('myFood',this.checkBoxList['0']);
+    voluntData.append('myCloth',this.checkBoxList['1']);
+    voluntData.append('myShelt',this.checkBoxList['2']);
+    voluntData.append('myMedic',this.checkBoxList['3']);*/
+    this.crudService.addVolunteer(voluntData);
+    //console.log(FormData);
     }
-
-   
 }

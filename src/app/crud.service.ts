@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +18,7 @@ export class CrudService {
   }
   
    //add volunteer data
-   public addVolunteer(voluntData)
+  public addVolunteer(voluntData)
   { 
     return this.http.post('http://covithelp.16mb.com/volunteer.php',voluntData).subscribe((res: Response)=>{
     });
@@ -30,4 +30,11 @@ export class CrudService {
     return this.http.post('http://covithelp.16mb.com/distressed.php',distressData).subscribe((res: Response)=>{
     });
   }
+
+  /**public addVolunteer(voluntData): Observable<any> {
+    const headers = { 'content-type': 'application/json'}  
+    const body=JSON.stringify(voluntData);
+    console.log(body)
+    return this.http.post('http://covithelp.16mb.com/volunteer.php' + 'people', body,{'headers':headers})
+  }*/
 }
