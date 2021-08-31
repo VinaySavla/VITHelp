@@ -1,0 +1,61 @@
+<!-- Skeleton screen -->
+<ion-item *ngIf="skeletonId == 1">
+  <ion-avatar slot="start">
+    <ion-skeleton-text></ion-skeleton-text>
+  </ion-avatar>
+  <ion-label>
+    <h3>
+      <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+    </h3>
+    <p>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </p>
+    <p>
+      <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+    </p>
+  </ion-label>
+</ion-item>
+
+<!-- Skeleton screen -->
+<ion-card *ngIf="skeletonId == 2">
+  <ion-item>
+    <ion-label>
+      <h3>
+        <ion-skeleton-text animated width="50%"></ion-skeleton-text>
+      </h3>
+      <p>
+        <ion-skeleton-text animated width="80%"></ion-skeleton-text>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-card>
+
+<!-- Skeleton screen -->
+<ion-card *ngIf="skeletonId == 3" class="skeleton-3">
+  <ion-item>
+    <ion-label class="header">
+      <ion-skeleton-text animated width="60%"></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        width="20%"
+        class="btn-skeleton"
+      ></ion-skeleton-text>
+    </ion-label>
+  </ion-item>
+  <div>
+    <ion-item>
+      <ion-label>
+        <ion-skeleton-text animated width="80%"></ion-skeleton-text>
+        <ion-skeleton-text animated width="50%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item class="footer">
+      <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        width="40%"
+        class="days-skeleton"
+      ></ion-skeleton-text>
+    </ion-item>
+  </div>
+</ion-card>

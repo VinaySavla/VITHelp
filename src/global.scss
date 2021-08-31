@@ -24,3 +24,18 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-content {
+    --padding-bottom: 16px;
+    --padding-end: 16px;
+    --padding-start: 16px;
+    --padding-top: 16px;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    ion-modal {
+      padding: 200px 32px;
+      margin: 0 auto;
+    }
+  }
+  

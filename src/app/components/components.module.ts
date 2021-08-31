@@ -7,10 +7,10 @@ import { StartComponent } from "./start/start.component";
 // import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-// import { AppSkeletonComponent } from "./app-skeleton/app-skeleton.component";
+import { AppSkeletonComponent } from "./app-skeleton/app-skeleton.component";
 // import { UserListsComponent } from "./user-lists/user-lists.component";
 // import { PipeModule } from "../pipes/pipe.module";
-// import { NoDataComponent } from "./no-data/no-data.component";
+import { NoDataComponent } from "./no-data/no-data.component";
 
 @NgModule({
   declarations: [
@@ -19,9 +19,9 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
     // LogoComponent,
     // GoogleMapsComponent,
     UserProfileComponent,
-    // AppSkeletonComponent,
+    AppSkeletonComponent,
     // UserListsComponent,
-    // NoDataComponent
+    NoDataComponent
   ],
   exports: [
     SlidesComponent,
@@ -29,9 +29,9 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
     // LogoComponent,
     // GoogleMapsComponent,
     UserProfileComponent,
-    // AppSkeletonComponent,
+    AppSkeletonComponent,
     // UserListsComponent,
-    // NoDataComponent
+    NoDataComponent
   ],
   imports: [
     CommonModule,
