@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
+import { CrudService } from "src/app/crud.service";
 
 @Component({
   selector: "app-login",
@@ -12,6 +13,7 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private crudService: CrudService
   ) {}
 
   ngOnInit() {
@@ -46,5 +48,9 @@ export class LoginPage implements OnInit {
       phone: this.otpForm.controls["phone"].value
     };
     this.router.navigate(["/submit-otp",data])
+    var phnData = new FormData;
+    phnData.append('cntrCode',this.otpForm.value.countryCode);
+    phnData.append('phnNo',this.otpForm.value.phone);
+    this.crudService.addPhnno(phnData);
   }
 }

@@ -12,8 +12,8 @@
           type="number"
           placeholder="OTP"
           formControlName="otp"
+          (input)="changeOTP($event.target.value)"
           ></ion-input>
-          <!-- (input)="changeOTP($event.target.value)" -->
       </div>
       <div
         class="otp-resend-btn"

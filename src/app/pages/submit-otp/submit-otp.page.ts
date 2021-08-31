@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
-
+import { CrudService } from "src/app/crud.service";
+import { HttpClient, HttpClientModule} from "@angular/common/http";
 @Component({
   selector: "app-submit-otp",
   templateUrl: "./submit-otp.page.html",
@@ -16,9 +17,11 @@ export class SubmitOtpPage implements OnInit {
   }, 1000);
   otpForm: any;
   constructor(
+    private crudService: CrudService, 
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {

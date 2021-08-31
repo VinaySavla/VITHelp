@@ -12,14 +12,14 @@
           type="number"
           placeholder=""
           formControlName="countryCode"
+          (input)="changeCountryCode($event.target.value)"
           ></ion-input>
-          <!-- (input)="changeCountryCode($event.target.value)" -->
         <ion-input
           type="number"
           placeholder=" Your mobile number "
           formControlName="phone" style="max-width: 50%;"
+          (input)="changePhone($event.target.value)"
           ></ion-input>
-          <!-- (input)="changePhone($event.target.value)" -->
         
       </ion-item>
     </div>
