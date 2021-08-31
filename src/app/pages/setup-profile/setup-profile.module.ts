@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SetupProfilePageRoutingModule } from './setup-profile-routing.module';
 import { CommonHeaderModule } from 'src/app/components/common-header/common-header.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 import { SetupProfilePage } from './setup-profile.page';
 
@@ -16,7 +17,8 @@ import { SetupProfilePage } from './setup-profile.page';
     IonicModule,
     SetupProfilePageRoutingModule,
     ReactiveFormsModule,
-    CommonHeaderModule
+    CommonHeaderModule,
+    ComponentsModule
   ],
   declarations: [SetupProfilePage]
 })

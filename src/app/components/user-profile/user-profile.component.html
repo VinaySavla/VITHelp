@@ -1,0 +1,75 @@
+<ion-item>
+  <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
+  </ion-label>
+  <ion-input required type="text"></ion-input>
+</ion-item>
+
+<ion-item disabled="true">
+  <ion-icon name="call"></ion-icon>
+  <ion-input required type="number"></ion-input>
+  <ion-input required type="number"></ion-input>
+</ion-item>
+<ion-item *ngIf="serviceRole === Volunteer">
+  <ion-label position="floating">Profession<ion-text color="danger">*</ion-text>
+  </ion-label>
+  <ion-input type="text"></ion-input>
+</ion-item>
+<ion-item>
+  <!-- <ion-label position="floating">Address</ion-label> -->
+  <ion-icon name="locate-outline"></ion-icon>
+  <ion-input placeholder="Address" type="text" readonly></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label>Available for service?</ion-label>
+  <ion-toggle></ion-toggle>
+</ion-item>
+<ion-list *ngIf="serviceRole === Distressed">
+  <ion-toolbar>
+    <ion-title size="large" slot="start">SOS Reason</ion-title>
+  </ion-toolbar>
+  <ion-radio-group value="Food">
+    <ion-item>
+      <ion-label>Food</ion-label>
+      <ion-radio slot="start" value="food"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Clothing</ion-label>
+      <ion-radio slot="start" value="clothing"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Shelter</ion-label>
+      <ion-radio slot="start" value="shelter"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Medical</ion-label>
+      <ion-radio slot="start" value="medical"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>
+
+<ion-list *ngIf="serviceRole === Volunteer">
+  <h4 class="ion-padding-start">Assisting in</h4>
+  <ion-item>
+    <ion-label>Select All</ion-label>
+    <ion-checkbox slot="start"  value="All"></ion-checkbox>
+  </ion-item>
+    <ion-item>
+      <ion-label>Food</ion-label>
+      <ion-checkbox slot="start" value="food"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Clothing</ion-label>
+      <ion-checkbox slot="start" value="clothing"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Shelter</ion-label>
+      <ion-checkbox slot="start" value="shelter"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Medical</ion-label>
+      <ion-checkbox slot="start" value="medical"></ion-checkbox>
+    </ion-item>
+</ion-list>
+<div class="ion-padding">
+  <ion-button expand="block" (click)="saveUserInfo()">Update</ion-button>
+</div>

@@ -1,0 +1,43 @@
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
+@Component({
+  selector: "app-home",
+  templateUrl: "./home.page.html",
+  styleUrls: ["./home.page.scss"]
+})
+export class HomePage implements OnInit {
+  serviceRole:any;
+  tabsList = [
+    {
+      tabName: "map",
+      iconName: "map",
+      label: "Map"
+    },
+    // {
+    //   tabName: "lists",
+    //   iconName: "list-outline",
+    //   label: "Lists"
+    // },
+    {
+      tabName: "notification",
+      iconName: "notifications",
+      label: "Notifications"
+    },
+    {
+      tabName: "settings",
+      iconName: "information-outline",
+      label: "Info"
+    },
+    {
+      tabName: "profile",
+      iconName: "person-circle-outline",
+      label: "Profile"
+    }
+  ];
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.serviceRole = this.route.snapshot.paramMap.get("serviceRole");
+  }
+}
