@@ -133,6 +133,7 @@ export class UserProfileComponent implements OnInit {
    */
   async saveUserInfo() {
     this.router.navigate(['/home/map', { serviceRole: this.serviceRole }]);
+    if(this.serviceRole=="Volunteer"){
     var voluntData = new FormData;
     voluntData.append('fName', this.userForm.value.name);
     voluntData.append('phnno', this.userForm.value.phone);
@@ -144,5 +145,18 @@ export class UserProfileComponent implements OnInit {
     voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
     voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
     this.crudService.addVolunteer(voluntData);
+    }
+    if(this.serviceRole=="Distressed"){
+    var distressData = new FormData;
+    distressData.append('fName', this.userForm.value.name);
+    distressData.append('phoneno', this.userForm.value.phone);
+    distressData.append('addr', this.userForm.value.formattedAddress);
+    distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
+    distressData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
+    distressData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");
+    distressData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
+    distressData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
+    this.crudService.addDistressed(distressData);
+    }
   }
 }

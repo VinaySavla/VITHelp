@@ -28,12 +28,11 @@
   <ion-toolbar>
     <ion-title size="large" slot="start">SOS Reason</ion-title>
   </ion-toolbar>
-  <ion-radio-group [value]="selectedRadio">
-    <ion-item *ngFor="let item of checkBoxList">
-      <ion-label>{{ item.name }}</ion-label>
-      <ion-radio slot="start" [value]="item.value" (click)="selectRadio(item.value)"></ion-radio>
-    </ion-item>
-  </ion-radio-group>
+  <ion-item *ngFor="let item of checkBoxList">
+    <ion-label>{{ item.name }}</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="item.isChecked" (ionChange)="checkEvent()"
+      [ngModelOptions]="{ standalone: true }"></ion-checkbox>
+  </ion-item>
 </ion-list>
 
 <ion-list *ngIf="serviceRole === Volunteer">
