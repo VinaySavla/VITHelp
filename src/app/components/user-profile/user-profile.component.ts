@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { CrudService } from 'src/app/crud.service';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
+import { constants } from 'src/app/constants/constants';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -27,29 +28,31 @@ export class UserProfileComponent implements OnInit {
   distressed = "Distressed";
   phoneNo: any;
   countryCode: any;
+  checkBoxList: any = constants.checkBoxList;
 
-  checkBoxList = [
-    {
-      value: "food",
-      name: "Food",
-      isChecked: false
-    },
-    {
-      value: "clothing",
-      name: "Clothing",
-      isChecked: false
-    },
-    {
-      value: "shelter",
-      name: "Shelter",
-      isChecked: false
-    },
-    {
-      value: "medical",
-      name: "Medical",
-      isChecked: false
-    }
-  ]
+
+  // checkBoxList = [
+  //   {
+  //     value: "food",
+  //     name: "Food",
+  //     isChecked: false
+  //   },
+  //   {
+  //     value: "clothing",
+  //     name: "Clothing",
+  //     isChecked: false
+  //   },
+  //   {
+  //     value: "shelter",
+  //     name: "Shelter",
+  //     isChecked: false
+  //   },
+  //   {
+  //     value: "medical",
+  //     name: "Medical",
+  //     isChecked: false
+  //   }
+  // ]
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
