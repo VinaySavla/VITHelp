@@ -65,6 +65,7 @@ export class UserProfileComponent implements OnInit {
       this.phoneNo = phnNo;
   });
   this.keystore.get("countryCode").then(countryCode => {
+    this.userForm.value.countryCode= countryCode;
     this.countryCode = countryCode;
 });
     this.userForm = this.formBuilder.group({
@@ -149,8 +150,9 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/home/map', { serviceRole: this.serviceRole }]);
     if(this.serviceRole=="Volunteer"){
     var voluntData = new FormData;
+    voluntData.append('cntrCode', this.countryCode);
     voluntData.append('fName', this.userForm.value.name);
-    voluntData.append('phnno', this.userForm.value.phone);
+    voluntData.append('phnno', this.phoneNo);
     voluntData.append('prof', this.userForm.value.profession);
     voluntData.append('addr', this.userForm.value.formattedAddress);
     voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
@@ -159,11 +161,13 @@ export class UserProfileComponent implements OnInit {
     voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
     voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
     this.crudService.addVolunteer(voluntData);
+    console.log(this.userForm.value.phone);
     }
     if(this.serviceRole=="Distressed"){
     var distressData = new FormData;
+    distressData.append('cntrCode', this.countryCode);
     distressData.append('fName', this.userForm.value.name);
-    distressData.append('phoneno', this.userForm.value.phone);
+    distressData.append('phoneno', this.phoneNo);
     distressData.append('addr', this.userForm.value.formattedAddress);
     distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
     distressData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
