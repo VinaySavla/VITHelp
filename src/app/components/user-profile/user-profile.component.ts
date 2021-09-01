@@ -130,7 +130,7 @@ export class UserProfileComponent implements OnInit {
    * Save user info
    */
   async saveUserInfo() {
-    this.router.navigate(['/home/map', { serviceRole: this.serviceRole }]);
+    this.router.navigate(['/home/map']);
     if(this.serviceRole=="Volunteer"){
     var voluntData = new FormData;
     voluntData.append('cntrCode', this.countryCode);
