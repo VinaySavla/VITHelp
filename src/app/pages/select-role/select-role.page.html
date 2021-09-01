@@ -1,27 +1,21 @@
-<ion-header>
-  <ion-toolbar color="danger">
-      <ion-title></ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content fullscreen>
-  <div id="container">
-      <div>
-          <img id="image" src="/assets/images/VIT-logo.png" alt="" />
-          <p></p>
-      </div>
-      <ion-button color="danger" size="large" fill="outline" expand="block" id="volunteer-button" strong (click)="setRole(volunteer)">
-          <ion-icon slot="start" name="shield" ></ion-icon>
-          Volunteer
-      </ion-button>
-      <ion-button color="danger" size="large" fill="outline" expand="block" id="distressed-button" strong (click)="setRole(distressed)">
-          <ion-icon slot="start" name="receipt"></ion-icon>
-          Distressed
-          <ion-ripple-effect></ion-ripple-effect>
-      </ion-button>
-
-      <ion-footer>
-          <ion-button color="dark" expand="block" (click)="profilePage()">CONTINUE</ion-button>
-      </ion-footer>
-  </div>
+<ion-content>
+    <img src="assets/images/VITLogo.png" class="Img" />
+    <div class="role">
+        <div class="role-option" [ngClass]="{
+        'role-option-activated': serviceRole === volunteer
+      }" (click)="selectRole(volunteer)">
+            <ion-icon name="shield" size="large"></ion-icon>
+            <span>Volunteer</span>
+        </div>
+        <div class="role-option" [ngClass]="{
+        'role-option-activated': serviceRole === distressed
+      }" (click)="selectRole(distressed)">
+            <ion-icon name="receipt" size="large"></ion-icon>
+            <span>Distressed</span>
+        </div>
+    </div>
 </ion-content>
+<ion-footer>
+    <ion-button expand="full" (click)="chooseRole()" [disabled]="!serviceRole"
+        style="color: black!important; font-weight:bold;" ion-button color="dark">Continue</ion-button>
+</ion-footer>

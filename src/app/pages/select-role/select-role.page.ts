@@ -24,11 +24,11 @@ export class SelectRolePage implements OnInit {
 
   ngOnInit() {
   }
-  setRole(Role){
+  selectRole(Role){
     this.serviceRole=Role;
     this.keystore.set("User",this.serviceRole)
   }
-  profilePage = () => {
+  chooseRole = () => {
     this.router.navigate(["/setup-profile"]);
   }
 }
