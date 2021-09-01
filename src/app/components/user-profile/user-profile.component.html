@@ -28,7 +28,7 @@
   <ion-toolbar>
     <ion-title size="large" slot="start">SOS Reason</ion-title>
   </ion-toolbar>
-  <ion-radio-group [value]="selectedRadio">
+  <ion-radio-group [value]="selectedRadio"  formControlName="sosReason">
     <ion-item *ngFor="let item of checkBoxList">
       <ion-label>{{ item.name }}</ion-label>
       <ion-radio slot="start" [value]="item.value" (click)="checkEvent()"></ion-radio>

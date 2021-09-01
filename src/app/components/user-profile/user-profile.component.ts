@@ -29,30 +29,9 @@ export class UserProfileComponent implements OnInit {
   phoneNo: any;
   countryCode: any;
   checkBoxList: any = constants.checkBoxList;
+  sosReason:any;
 
 
-  // checkBoxList = [
-  //   {
-  //     value: "food",
-  //     name: "Food",
-  //     isChecked: false
-  //   },
-  //   {
-  //     value: "clothing",
-  //     name: "Clothing",
-  //     isChecked: false
-  //   },
-  //   {
-  //     value: "shelter",
-  //     name: "Shelter",
-  //     isChecked: false
-  //   },
-  //   {
-  //     value: "medical",
-  //     name: "Medical",
-  //     isChecked: false
-  //   }
-  // ]
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -96,7 +75,8 @@ export class UserProfileComponent implements OnInit {
       isUserServiceActive: [
         true,
         [Validators.required]
-      ]
+      ],
+      sosReason: ['']
     });
   }
 
@@ -164,7 +144,6 @@ export class UserProfileComponent implements OnInit {
     voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
     voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
     this.crudService.addVolunteer(voluntData);
-    console.log(this.userForm.value.phone);
     }
     if(this.serviceRole=="Distressed"){
     var distressData = new FormData;
@@ -173,10 +152,7 @@ export class UserProfileComponent implements OnInit {
     distressData.append('phoneno', this.phoneNo);
     distressData.append('addr', this.userForm.value.formattedAddress);
     distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
-    distressData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
-    distressData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");
-    distressData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
-    distressData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
+    distressData.append('sosReason',this.userForm.value.sosReason);
     this.crudService.addDistressed(distressData);
     }
   }
