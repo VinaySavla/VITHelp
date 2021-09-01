@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { CrudService } from 'src/app/crud.service';
+import { StorageProvider } from 'src/app/providers/storage/storage.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -22,8 +23,10 @@ export class UserProfileComponent implements OnInit {
   userForm: any;
   userInfo: any;
   userReg: any;
-  Volunteer = "Volunteer";
-  Distressed = "Distressed";
+  volunteer = "Volunteer";
+  distressed = "Distressed";
+  phoneNo: any;
+  countryCode: any;
 
   checkBoxList = [
     {
@@ -50,9 +53,20 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private keystore: StorageProvider
   ) { }
   ngOnInit() {
+    this.keystore.get("User").then(user => {
+        this.serviceRole = user;
+    });
+    this.keystore.get("phnNo").then(phnNo => {
+      this.userForm.value.phone= phnNo;
+      this.phoneNo = phnNo;
+  });
+  this.keystore.get("countryCode").then(countryCode => {
+    this.countryCode = countryCode;
+});
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       countryCode: [

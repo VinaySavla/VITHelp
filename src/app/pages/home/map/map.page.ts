@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
 
 @Component({
@@ -10,10 +11,12 @@ import { ActivatedRoute } from "@angular/router";
 export class MapPage implements OnInit {
 serviceRole:any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private keystore:StorageProvider) { }
 
   ngOnInit() {
-    this.serviceRole = this.route.snapshot.paramMap.get("serviceRole");
+    this.keystore.get("User").then(user => {
+      this.serviceRole = user;
+  });
   }
 
 }

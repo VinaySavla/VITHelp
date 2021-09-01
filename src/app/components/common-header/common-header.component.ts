@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
+import { StorageProvider } from "src/app/providers/storage/storage.service";
 
 @Component({
   selector: "app-common-header",
@@ -17,10 +18,13 @@ export class CommonHeaderComponent implements OnInit {
   serviceRole: any;
   constructor(
     private router: Router,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute ,
+    private keystore: StorageProvider
   ) {}
 
   ngOnInit() {
-    this.serviceRole = this.route.snapshot.paramMap.get("serviceRole");
+    this.keystore.get("User").then(user => {
+      this.serviceRole = user;
+  });
   }
 }

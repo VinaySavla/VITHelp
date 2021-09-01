@@ -29,6 +29,6 @@ export class SelectRolePage implements OnInit {
     this.keystore.set("User",this.serviceRole)
   }
   profilePage = () => {
-    this.router.navigate(["/setup-profile",{ serviceRole:this.serviceRole }]);
+    this.router.navigate(["/setup-profile"]);
   }
 }
