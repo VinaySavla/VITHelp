@@ -1,0 +1,30 @@
+<app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
+</app-common-header>
+
+<ion-content fullscreen>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-user-lists
+    [userData]="userData"
+    *ngIf="!isLoading && userData"
+  ></app-user-lists>
+  <app-no-data
+    *ngIf="!isLoading && !userData"
+    [text]="noDataText"
+  ></app-no-data>
+  <!-- Skeleton screen -->
+  <div *ngIf="isLoading">
+    <app-app-skeleton
+      skeletonId="1"
+      *ngFor="let temp of tempArray"
+    ></app-app-skeleton>
+  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

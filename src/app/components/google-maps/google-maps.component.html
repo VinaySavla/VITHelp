@@ -1,0 +1,23 @@
+<div class="maps">
+  <!-- <div class="search-bar" id="search-input">
+    <input
+      class="search-input"
+      [(ngModel)]="searchPlace"
+      placeholder="Search for location"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="off"
+      type="text"
+      #search
+      (focus)="searchAddress()"
+    />
+  </div> -->
+  <!-- <div id="my-location" class="location" [ngClass]="{
+    'geolocation-activated': showGeoLocationIcon
+  }">
+    <button class="location-btn" mat-button (click)="getCurrentPosition()">
+      <ion-icon name="locate-outline"></ion-icon>
+    </button>
+  </div> -->
+  <div #gmap class="gmap"></div>
+</div>

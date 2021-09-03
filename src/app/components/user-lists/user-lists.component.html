@@ -1,0 +1,30 @@
+<ion-list>
+  <ion-item *ngFor="let user of userData">
+    <ion-avatar slot="start">
+      <img src="../../../assets/images/user.png" />
+    </ion-avatar>
+    <ion-label>
+      <h2>{{ user.name || "CovitUser" }}</h2>
+      <p class="text-right">
+        <a href="tel:{{ user.phone }}">
+          <ion-icon name="call"></ion-icon>
+        </a>
+      </p>
+      <h3>
+        <ion-icon name="location" color="primary"></ion-icon>
+        {{ user.distance | distanceInKM }} KM
+      </h3>
+      <p>
+        <a
+          target="_blank"
+          [href]="user.mapUrl"
+          style="color: black;
+          text-decoration: none;"
+        >
+          <ion-icon name="home" color="primary"></ion-icon>
+          {{ user.address.formattedAddress }}
+        </a>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-list>

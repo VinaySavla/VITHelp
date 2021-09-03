@@ -1,0 +1,42 @@
+<ion-content>
+  <ion-list *ngIf="serviceRole === distressed">
+    <ion-toolbar>
+      <ion-title size="large" slot="start">SOS Reason</ion-title>
+    </ion-toolbar>
+    <ion-radio-group [value]="selectedRadio">
+      <ion-item *ngFor="let item of checkBoxList">
+        <ion-label>{{ item.name }}</ion-label>
+        <ion-radio
+          slot="start"
+          [value]="item.value"
+          (click)="selectRadio(item.value)"
+        ></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list *ngIf="serviceRole === volunteer">
+    <h4 class="ion-padding-start">Assisting in</h4>
+    <ion-item>
+      <ion-label><strong>Select All</strong></ion-label>
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="masterCheck"
+        [indeterminate]="isIndeterminate"
+        (click)="checkMaster($event)"
+        [ngModelOptions]="{ standalone: true }"
+      ></ion-checkbox>
+    </ion-item>
+    <ion-item *ngFor="let item of checkBoxList">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="item.isChecked"
+        (ionChange)="checkEvent()"
+        [ngModelOptions]="{ standalone: true }"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="saveUserInfo()">Save Changes</ion-button>
+</ion-footer>

@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { StorageProvider } from "src/app/providers/storage/storage.service";
 
 @Component({
   selector: "app-home",
@@ -8,7 +6,6 @@ import { StorageProvider } from "src/app/providers/storage/storage.service";
   styleUrls: ["./home.page.scss"]
 })
 export class HomePage implements OnInit {
-  serviceRole:any;
   tabsList = [
     {
       tabName: "map",
@@ -21,7 +18,7 @@ export class HomePage implements OnInit {
     //   label: "Lists"
     // },
     {
-      tabName: "notification",
+      tabName: "notifications",
       iconName: "notifications",
       label: "Notifications"
     },
@@ -36,11 +33,7 @@ export class HomePage implements OnInit {
       label: "Profile"
     }
   ];
-  constructor(private route: ActivatedRoute, private keystore: StorageProvider) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.keystore.get("User").then(user => {
-      this.serviceRole = user;
-  });
-  }
+  ngOnInit() {}
 }

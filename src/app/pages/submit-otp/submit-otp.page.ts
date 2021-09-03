@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
-import { CrudService } from "src/app/crud.service";
-import { HttpClient, HttpClientModule} from "@angular/common/http";
+import { OtpService } from "src/app/providers/otp/otp.service";
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
+import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
+import { StorageProvider } from "src/app/providers/storage/storage.service";
+
 @Component({
   selector: "app-submit-otp",
   templateUrl: "./submit-otp.page.html",
@@ -17,11 +20,13 @@ export class SubmitOtpPage implements OnInit {
   }, 1000);
   otpForm: any;
   constructor(
-    private crudService: CrudService, 
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private otpService: OtpService,
+    private commonPopover: CommonPopoverService,
+    private networkConnection: NetworkConnectionService,
     private router: Router,
-    private http: HttpClient
+    private keystore: StorageProvider
   ) {}
 
   ngOnInit() {
@@ -40,8 +45,25 @@ export class SubmitOtpPage implements OnInit {
     if (this.timer > 0) {
       return;
     }
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
+    await this.commonPopover.loaderPresent("Resending OTP");
+    this.otpService
+      .sendOTP(this.route.snapshot.paramMap["params"], "true")
+      .then(data => {
+        this.commonPopover.toastPopOver("OTP resend to your number.");
+        this.timer = 30;
+        this.commonPopover.loaderDismiss();
+      })
+      .catch(err => {
+        this.commonPopover.loaderDismiss();
+      });
   }
   async submitOTP() {
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
     if (!this.otpForm.valid) {
       return;
     }
@@ -50,7 +72,22 @@ export class SubmitOtpPage implements OnInit {
       phone: this.route.snapshot.paramMap.get("phone"),
       otp: parseInt(this.otpForm.controls["otp"].value)
     };
-    this.router.navigate(["/select-role"]);
+    await this.commonPopover.loaderPresent("Verifying OTP");
+    this.otpService
+      .verifyOTP(data)
+      .then(res => {
+        this.keystore.set("isAuthenticated", true);
+        this.commonPopover.loaderDismiss();
+        if (res.isServiceRoleSelected) {
+          this.router.navigate(["/home/map"]);
+        } else {
+          this.router.navigate(["/select-role"]);
+        }
+      })
+      .catch(err => {
+        this.commonPopover.loaderDismiss();
+      });
+    // this.router.navigate(["/select-role"]);
   }
   ionViewWillLeave() {
     clearInterval(this.time);

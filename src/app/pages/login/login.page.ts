@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
+import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
+import { OtpService } from "src/app/providers/otp/otp.service";
 import { FormBuilder, Validators } from "@angular/forms";
-import { CrudService } from "src/app/crud.service";
-import { StorageProvider } from "src/app/providers/storage/storage.service";
 
 @Component({
   selector: "app-login",
@@ -13,9 +14,10 @@ export class LoginPage implements OnInit {
   otpForm: any;
   constructor(
     private router: Router,
+    private commonPopover: CommonPopoverService,
+    private networkConnection: NetworkConnectionService,
+    private otpService: OtpService,
     private formBuilder: FormBuilder,
-    private crudService: CrudService,
-    private keystore: StorageProvider
   ) {}
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class LoginPage implements OnInit {
     }
   }
   async login() {
+    //TODO form validation and make body
     if (!this.otpForm.valid) {
       return;
     }
@@ -49,13 +52,20 @@ export class LoginPage implements OnInit {
       countryCode: this.otpForm.controls["countryCode"].value,
       phone: this.otpForm.controls["phone"].value
     };
-    this.router.navigate(["/submit-otp",data])
-
-    this.keystore.set("phnNo",this.otpForm.value.phone);
-    this.keystore.set("countryCode",this.otpForm.value.countryCode);
-    var phnData = new FormData;
-    phnData.append('cntrCode',this.otpForm.value.countryCode);
-    phnData.append('phnNo',this.otpForm.value.phone);
-    this.crudService.addPhnno(phnData);
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
+    await this.commonPopover.loaderPresent("Sending OTP");
+    this.otpService
+      .sendOTP(data)
+      .then(res => {
+        this.commonPopover.loaderDismiss();
+        this.commonPopover.toastPopOver("OTP sent to your number.");
+        this.router.navigate(["/submit-otp",data]);
+      })
+      .catch(error => {
+        this.commonPopover.loaderDismiss();
+      });
+    // this.router.navigate(["/submit-otp",data])
   }
 }

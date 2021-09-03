@@ -1,9 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
-import { CrudService } from 'src/app/crud.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from 'src/app/providers/user/user.service';
+import { NetworkConnectionService } from 'src/app/providers/network-connection/network-connection.service';
+import { CommonPopoverService } from 'src/app/providers/common-popover/common-popover.service';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
-import { constants } from 'src/app/constants/constants';
+import _ from 'lodash';
+import { Router } from '@angular/router';
+import { constants } from '../../constants/constants';
+import { GoogleMapsService } from 'src/app/providers/google-maps/google-maps.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -12,75 +16,108 @@ import { constants } from 'src/app/constants/constants';
 export class UserProfileComponent implements OnInit {
   noDataText = 'Unable to find profile.';
   @Input() serviceRole: string;
-  title = 'Profile';
   tempArray = new Array(8);
+  title = 'Profile';
   isIndeterminate: boolean;
-  ionicForm: FormGroup;
   masterCheck: boolean;
+  checkBoxList: any = constants.checkBoxList;
   selectedList = [];
   selectedRadio: any;
   isAllSelected = false;
   isLoading = false;
   userForm: any;
   userInfo: any;
-  userReg: any;
-  volunteer = "Volunteer";
-  distressed = "Distressed";
-  phoneNo: any;
-  countryCode: any;
-  checkBoxList: any = constants.checkBoxList;
-  sosReason:any;
-
-
+  volunteer = constants.enums.roles.SERVICE_PROVIDER;
+  distressed = constants.enums.roles.SERVICE_TAKER;
   constructor(
     private formBuilder: FormBuilder,
+    private userService: UserService,
+    private networkConnection: NetworkConnectionService,
+    private commonPopover: CommonPopoverService,
+    private keystore: StorageProvider,
     private router: Router,
-    private crudService: CrudService,
-    private keystore: StorageProvider
-  ) { }
+    private googleService: GoogleMapsService
+  ) {}
   ngOnInit() {
-    this.keystore.get("User").then(user => {
-        this.serviceRole = user;
-    });
-    this.keystore.get("phnNo").then(phnNo => {
-      this.userForm.value.phone= phnNo;
-      this.phoneNo = phnNo;
-  });
-  this.keystore.get("countryCode").then(countryCode => {
-    this.userForm.value.countryCode= countryCode;
-    this.countryCode = countryCode;
-});
-    this.userForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      countryCode: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
-      ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
-      ],
-      profession: ['', [Validators.required]],
-      address: this.formBuilder.group({
-        lat: ['', [Validators.required]],
-        lng: ['', [Validators.required]],
-        formattedAddress: [
-          '',
-          [Validators.required]
-        ]
-      }),
-      serviceRole: ['', [Validators.required]],
-      supportList: [''],
-      isServiceRoleSelected: [''],
-      isUserServiceActive: [
-        true,
-        [Validators.required]
-      ],
-      sosReason: ['']
-    });
+    this.fetchUserInfo();
   }
 
+  /**
+   * fetch user profile
+   */
+  fetchUserInfo() {
+    this.isLoading = true;
+    this.userService
+      .getUser()
+      .then(data => {
+        this.isLoading = false;
+        this.userInfo = data;
+        this.selectedList = data.supportList;
+        if (
+          this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER ||
+          this.serviceRole === constants.enums.roles.SERVICE_TAKER
+        ) {
+          this.selectedRadio = this.userInfo.supportList[0];
+        }
+        _.map(this.selectedList, item => {
+          const indx = _.findIndex(this.checkBoxList, elem => {
+            return elem.value === item;
+          });
+          if (indx > -1) {
+            this.checkBoxList[indx].isChecked = true;
+          }
+        });
+        if (this.checkBoxList.length === this.selectedList.length) {
+          this.isAllSelected = true;
+          this.masterCheck = true;
+        }
 
+        this.userForm = this.formBuilder.group({
+          name: [data.name || '', [Validators.required]],
+          countryCode: [
+            data.countryCode || '',
+            [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+          ],
+          phone: [
+            data.phone || '',
+            [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+          ],
+          profession: [data.profession || '', [Validators.required]],
+          address: this.formBuilder.group({
+            lat: [data.address.lat || '', [Validators.required]],
+            lng: [data.address.lng || '', [Validators.required]],
+            formattedAddress: [
+              data.address.formattedAddress || '',
+              [Validators.required]
+            ]
+          }),
+          serviceRole: [data.serviceRole || '', [Validators.required]],
+          supportList: [data.supportList || ''],
+          isServiceRoleSelected: [data.isServiceRoleSelected || ''],
+          isUserServiceActive: [
+            data.isUserServiceActive || '',
+            [Validators.required]
+          ]
+        });
+        if (
+          this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER ||
+          this.serviceRole === constants.enums.roles.SERVICE_TAKER
+        ) {
+          this.userForm.get('profession').clearValidators();
+          this.userForm.get('profession').updateValueAndValidity();
+        }
+        if (this.serviceRole) {
+          this.userForm.patchValue({
+            serviceRole: this.serviceRole
+          });
+          this.userForm.get('isUserServiceActive').clearValidators();
+          this.userForm.get('isUserServiceActive').updateValueAndValidity();
+        }
+      })
+      .catch(err => {
+        this.isLoading = false;
+      });
+  }
 
   /**
    * CheckBox
@@ -130,30 +167,81 @@ export class UserProfileComponent implements OnInit {
    * Save user info
    */
   async saveUserInfo() {
-    this.router.navigate(['/home/map']);
-    if(this.serviceRole=="Volunteer"){
-    var voluntData = new FormData;
-    voluntData.append('cntrCode', this.countryCode);
-    voluntData.append('fName', this.userForm.value.name);
-    voluntData.append('phnno', this.phoneNo);
-    voluntData.append('prof', this.userForm.value.profession);
-    voluntData.append('addr', this.userForm.value.formattedAddress);
-    voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
-    voluntData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
-    voluntData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");
-    voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
-    voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
-    this.crudService.addVolunteer(voluntData);
+    console.log('User  Profile Component | saveUserInfo()');
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
     }
-    if(this.serviceRole=="Distressed"){
-    var distressData = new FormData;
-    distressData.append('cntrCode', this.countryCode);
-    distressData.append('fName', this.userForm.value.name);
-    distressData.append('phoneno', this.phoneNo);
-    distressData.append('addr', this.userForm.value.formattedAddress);
-    distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
-    distressData.append('sosReason',this.userForm.value.sosReason);
-    this.crudService.addDistressed(distressData);
+
+    // if (!this.userForm.valid) {
+    //   console.log('User Profile Component | saveUserInfo() | User Form validation failed');
+    //   return;
+    // }
+
+    let list = _.filter(this.checkBoxList, { isChecked: true });
+    list = _.map(list, 'value');
+
+    const data = {
+      name: this.userForm.controls.name.value,
+      address: this.userForm.controls.address.value,
+      supportList:
+        this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
+        this.serviceRole === constants.enums.roles.SERVICE_PROVIDER
+          ? list
+          : [this.selectedRadio],
+      serviceRole: this.serviceRole || this.userInfo.serviceRole,
+      isServiceRoleSelected: true,
+      isUserServiceActive: this.userForm.controls.isUserServiceActive.value,
+      profession : this.userForm.controls.profession.value
+
+    };
+
+   
+
+    if (
+      this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
+      this.serviceRole === constants.enums.roles.SERVICE_PROVIDER
+    ) {
+      data.profession = this.userForm.controls.profession.value;
+    }
+
+
+    console.log('User Profile Component | saveUserInfo() | data inputted | ' + JSON.stringify(data));
+
+    await this.commonPopover.loaderPresent('Updating user profile.');
+
+    this.userService
+      .updateUser(data)
+      .then(res => {
+        console.log('User Profile Component | saveUserInfo() | response | ' + JSON.stringify(res));
+        this.commonPopover.loaderDismiss();
+        this.commonPopover.toastPopOver('Profile updated successfully');
+        this.keystore.set('User', res);
+        if (this.serviceRole) {
+          this.router.navigate(['/home/map']);
+        }
+      })
+      .catch(err => {
+        this.commonPopover.loaderDismiss();
+        console.error('User Profile Component | saveUserInfo() | response | ' + JSON.stringify(err));
+      });
+  }
+
+  /**
+   * Get current position
+   */
+  async getCurrentPosition() {
+    await this.commonPopover.loaderPresent('Fetching current location');
+    const address = await this.googleService.getCurrentPosition();
+    this.commonPopover.loaderDismiss();
+    if (!_.isEmpty(address)) {
+      // Set value of lat-lng,formatted_address
+      this.userForm.patchValue({
+        address: {
+          lat: address.lat,
+          lng: address.lng,
+          formattedAddress: address.formattedAddress
+        }
+      });
     }
   }
 }

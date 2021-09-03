@@ -7,9 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AppSkeletonComponent implements OnInit {
   @Input() skeletonId: number;
-
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

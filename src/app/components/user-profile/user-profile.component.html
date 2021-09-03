@@ -1,55 +1,102 @@
-<form [formGroup]="userForm" novalidate>
-<ion-item>
-  <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
-  </ion-label>
-  <ion-input required type="text" formControlName="name" ></ion-input>
-</ion-item>
-
-<ion-item disabled="true">
-  <ion-icon name="call"></ion-icon>
-  <ion-input required type="number" [value]="countryCode" formControlName="countryCode"></ion-input>
-  <ion-input required type="number" [value]="phoneNo" formControlName="phone"></ion-input>
-</ion-item>
-<ion-item *ngIf="serviceRole === volunteer">
-  <ion-label position="floating">Profession<ion-text color="danger">*</ion-text>
-  </ion-label>
-  <ion-input type="text" formControlName="profession"></ion-input>
-</ion-item>
-<ion-item formGroupName="address">
-  <!-- <ion-label position="floating">Address</ion-label> -->
-  <ion-icon name="locate-outline"></ion-icon>
-  <ion-input placeholder="Address" type="text" formControlName="formattedAddress" readonly></ion-input>
-</ion-item>
-<ion-item>
-  <ion-label>Available for service?</ion-label>
-  <ion-toggle formControlName="isUserServiceActive"></ion-toggle>
-</ion-item>
-<ion-list *ngIf="serviceRole === distressed">
-  <ion-toolbar>
-    <ion-title size="large" slot="start">SOS Reason</ion-title>
-  </ion-toolbar>
-  <ion-radio-group [value]="selectedRadio"  formControlName="sosReason">
-    <ion-item *ngFor="let item of checkBoxList">
-      <ion-label>{{ item.name }}</ion-label>
-      <ion-radio slot="start" [value]="item.value" (click)="checkEvent()"></ion-radio>
+<form [formGroup]="userForm" novalidate *ngIf="!isLoading && userForm">
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label position="floating"
+        >Full Name <ion-text color="danger">*</ion-text></ion-label
+      >
+      <ion-input required type="text" formControlName="name"></ion-input>
     </ion-item>
-  </ion-radio-group>
-</ion-list>
 
-<ion-list *ngIf="serviceRole === volunteer">
-  <h4 class="ion-padding-start">Assisting in</h4>
+    <ion-item disabled="true">
+      <ion-icon name="call"></ion-icon>
+      <ion-input
+        required
+        type="number"
+        formControlName="countryCode"
+      ></ion-input>
+      <ion-input required type="number" formControlName="phone"></ion-input>
+    </ion-item>
+
+    <ion-item
+      *ngIf="userInfo.serviceRole === volunteer || serviceRole === volunteer"
+    >
+      <ion-label position="floating"
+        >Profession<ion-text color="danger">*</ion-text></ion-label
+      >
+      <ion-input type="text" formControlName="profession"></ion-input>
+    </ion-item>
+    <ion-item formGroupName="address" (click)="getCurrentPosition()">
+      <!-- <ion-label position="floating">Address</ion-label> -->
+      <ion-icon name="locate-outline"></ion-icon>
+      <ion-input
+        placeholder="Address"
+        type="text"
+        formControlName="formattedAddress"
+        readonly
+      ></ion-input>
+    </ion-item>
+    <ion-item *ngIf="!serviceRole">
+      <ion-label>Available for service?</ion-label>
+      <ion-toggle formControlName="isUserServiceActive"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list
+    *ngIf="
+      userInfo &&
+      (userInfo.serviceRole === distressed || serviceRole === distressed)
+    "
+  >
+    <ion-toolbar>
+      <ion-title size="large" slot="start">SOS Reason</ion-title>
+    </ion-toolbar>
+    <ion-radio-group [value]="selectedRadio">
+      <ion-item *ngFor="let item of checkBoxList">
+        <ion-label>{{ item.name }}</ion-label>
+        <ion-radio
+          slot="start"
+          [value]="item.value"
+          (click)="selectRadio(item.value)"
+        ></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list
+    *ngIf="
+      userInfo &&
+      (userInfo.serviceRole === volunteer || serviceRole === volunteer)
+    "
+  >
+    <h4 class="ion-padding-start">Assisting in</h4>
     <ion-item>
       <ion-label><strong>Select All</strong></ion-label>
-      <ion-checkbox slot="start" [(ngModel)]="masterCheck" [indeterminate]="isIndeterminate"
-        (click)="checkMaster($event)" [ngModelOptions]="{ standalone: true }"></ion-checkbox>
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="masterCheck"
+        [indeterminate]="isIndeterminate"
+        (click)="checkMaster($event)"
+        [ngModelOptions]="{ standalone: true }"
+      ></ion-checkbox>
     </ion-item>
     <ion-item *ngFor="let item of checkBoxList">
       <ion-label>{{ item.name }}</ion-label>
-      <ion-checkbox slot="start" [(ngModel)]="item.isChecked" (ionChange)="checkEvent()"
-        [ngModelOptions]="{ standalone: true }"></ion-checkbox>
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="item.isChecked"
+        (ionChange)="checkEvent()"
+        [ngModelOptions]="{ standalone: true }"
+      ></ion-checkbox>
     </ion-item>
-</ion-list>
-<div class="ion-padding">
-  <ion-button expand="block" (click)="saveUserInfo()">Update</ion-button>
-</div>
+  </ion-list>
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="saveUserInfo()">Update</ion-button>
+  </div>
 </form>
+<!-- Skeleton screen -->
+<div *ngIf="isLoading">
+  <app-app-skeleton
+    skeletonId="2"
+    *ngFor="let temp of tempArray"
+  ></app-app-skeleton>
+</div>
+<!-- No Data -->
+<app-no-data *ngIf="!isLoading && !userForm" [text]="noDataText"></app-no-data>

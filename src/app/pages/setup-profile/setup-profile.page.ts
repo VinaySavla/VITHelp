@@ -8,7 +8,6 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class SetupProfilePage implements OnInit {
   serviceRole: any;
-  
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
