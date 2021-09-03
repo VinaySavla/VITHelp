@@ -8,6 +8,7 @@ import { SubmitOtpPageRoutingModule } from './submit-otp-routing.module';
 
 import { SubmitOtpPage } from './submit-otp.page';
 import { CommonHeaderModule } from 'src/app/components/common-header/common-header.module';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { CommonHeaderModule } from 'src/app/components/common-header/common-head
     IonicModule,
     SubmitOtpPageRoutingModule,
     CommonHeaderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   declarations: [SubmitOtpPage]
 })

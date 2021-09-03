@@ -6,8 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./faq.page.scss'],
 })
 export class FaqPage implements OnInit {
-    title="FAQs- General ";
-    
+  title="FAQs- General ";
+  constructor() { }
+
   ngOnInit() {
     var acc = document.getElementsByClassName("accordion");
     var i;

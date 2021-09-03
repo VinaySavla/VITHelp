@@ -7,8 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ContactUsPageRoutingModule } from './contact-us-routing.module';
 
 import { ContactUsPage } from './contact-us.page';
-import { CommonHeaderModule } from "src/app/components/common-header/common-header.module";
-
+import { CommonHeaderModule } from 'src/app/components/common-header/common-header.module';
 
 @NgModule({
   imports: [
