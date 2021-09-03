@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CrudService } from "src/app/crud.service";
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
+import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
 
 @Component({
@@ -14,6 +16,8 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private commonPopover: CommonPopoverService,
+    private networkConnection: NetworkConnectionService,
     private crudService: CrudService,
     private keystore: StorageProvider
   ) {}
@@ -49,6 +53,10 @@ export class LoginPage implements OnInit {
       countryCode: this.otpForm.controls["countryCode"].value,
       phone: this.otpForm.controls["phone"].value
     };
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
+    await this.commonPopover.loaderPresent("Sending OTP");
     this.router.navigate(["/submit-otp",data])
 
     this.keystore.set("phnNo",this.otpForm.value.phone);
@@ -57,5 +65,6 @@ export class LoginPage implements OnInit {
     phnData.append('cntrCode',this.otpForm.value.countryCode);
     phnData.append('phnNo',this.otpForm.value.phone);
     this.crudService.addPhnno(phnData);
+    this.commonPopover.loaderDismiss();
   }
 }

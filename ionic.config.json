@@ -1,5 +1,8 @@
 {
-  "name": "VITHelp",
-  "integrations": {},
+  "name": "vit",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }
