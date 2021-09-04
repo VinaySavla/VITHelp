@@ -43,7 +43,7 @@ export class SelectRolePage implements OnInit {
   }
   selectRole(Role){
     this.serviceRole=Role;
-    // this.keystore.set("User",this.serviceRole)
+    this.keystore.set("User",this.serviceRole)
   }
   async chooseRole() {
     // if (!this.serviceRole) {
@@ -92,10 +92,7 @@ export class SelectRolePage implements OnInit {
         this.commonPopover.loaderDismiss();
       }
     } else {
-      this.router.navigate([
-        "/setup-profile",
-        { serviceRole: this.serviceRole }
-      ]);
+      this.router.navigate(["/setup-profile"]);
     }
 
     // Update current location

@@ -4,7 +4,7 @@ import { IonicModule } from "@ionic/angular";
 import { SlidesComponent } from "./slides/slides.component";
 import { StartComponent } from "./start/start.component";
 // import { LogoComponent } from "./logo/logo.component";
-// import { GoogleMapsComponent } from "./google-maps/google-maps.component";
+import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { AppSkeletonComponent } from "./app-skeleton/app-skeleton.component";
@@ -17,7 +17,7 @@ import { NoDataComponent } from "./no-data/no-data.component";
     SlidesComponent,
     StartComponent,
     // LogoComponent,
-    // GoogleMapsComponent,
+    GoogleMapsComponent,
     UserProfileComponent,
     AppSkeletonComponent,
     // UserListsComponent,
@@ -27,7 +27,7 @@ import { NoDataComponent } from "./no-data/no-data.component";
     SlidesComponent,
     StartComponent,
     // LogoComponent,
-    // GoogleMapsComponent,
+    GoogleMapsComponent,
     UserProfileComponent,
     AppSkeletonComponent,
     // UserListsComponent,

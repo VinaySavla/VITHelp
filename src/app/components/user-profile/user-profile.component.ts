@@ -67,6 +67,7 @@ export class UserProfileComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
       ],
+      age: ['', [Validators.required, Validators.pattern(/^[20-55]{1,2}$/)]],
       profession: ['', [Validators.required]],
       address: this.formBuilder.group({
         lat: ['', [Validators.required]],
@@ -153,6 +154,7 @@ export class UserProfileComponent implements OnInit {
       voluntData.append('cntrCode', this.countryCode);
       voluntData.append('fName', this.userForm.value.name);
       voluntData.append('phnno', this.phoneNo);
+      voluntData.append('Age', this.userForm.value.age);
       voluntData.append('prof', this.userForm.value.profession);
     voluntData.append('addr', this.userForm.value.formattedAddress);
     voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
@@ -167,10 +169,12 @@ export class UserProfileComponent implements OnInit {
     distressData.append('cntrCode', this.countryCode);
     distressData.append('fName', this.userForm.value.name);
     distressData.append('phoneno', this.phoneNo);
+    distressData.append('Age',this.userForm.value.age);
     distressData.append('addr', this.userForm.value.formattedAddress);
     distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
     distressData.append('sosReason',this.userForm.value.sosReason);
     this.crudService.addDistressed(distressData);
+    
   }
   this.commonPopover.loaderDismiss();
   this.router.navigate(['/home/map']);

@@ -10,6 +10,11 @@
   <ion-input required type="number" [value]="countryCode" formControlName="countryCode"></ion-input>
   <ion-input required type="number" [value]="phoneNo" formControlName="phone"></ion-input>
 </ion-item>
+<ion-item>
+  <!-- TODO : restrict updating if age not valid -->
+  <ion-label position="floating" >Age <ion-text color="danger">*</ion-text></ion-label>
+<ion-input required type="number" formControlName="age"></ion-input>
+</ion-item>
 <ion-item *ngIf="serviceRole === volunteer">
   <ion-label position="floating">Profession<ion-text color="danger">*</ion-text>
   </ion-label>
