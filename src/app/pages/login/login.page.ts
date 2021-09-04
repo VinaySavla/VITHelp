@@ -57,8 +57,7 @@ export class LoginPage implements OnInit {
       return this.networkConnection.isConnectionMessage();
     }
     await this.commonPopover.loaderPresent("Sending OTP");
-    this.router.navigate(["/submit-otp",data])
-
+    //TODO send otp Method
     this.keystore.set("phnNo",this.otpForm.value.phone);
     this.keystore.set("countryCode",this.otpForm.value.countryCode);
     var phnData = new FormData;
@@ -66,5 +65,6 @@ export class LoginPage implements OnInit {
     phnData.append('phnNo',this.otpForm.value.phone);
     this.crudService.addPhnno(phnData);
     this.commonPopover.loaderDismiss();
+    this.router.navigate(["/submit-otp",data])
   }
 }

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MapPageRoutingModule } from './map-routing.module';
 import { CommonHeaderModule } from "src/app/components/common-header/common-header.module";
+import { ComponentsModule } from 'src/app/components/components.module';
 
 import { MapPage } from './map.page';
 
@@ -15,7 +16,8 @@ import { MapPage } from './map.page';
     FormsModule,
     IonicModule,
     MapPageRoutingModule,
-    CommonHeaderModule
+    CommonHeaderModule,
+    ComponentsModule
   ],
   declarations: [MapPage]
 })

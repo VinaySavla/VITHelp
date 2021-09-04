@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { CrudService } from 'src/app/crud.service';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 import { constants } from 'src/app/constants/constants';
+import { NetworkConnectionService } from 'src/app/providers/network-connection/network-connection.service';
+import { CommonPopoverService } from 'src/app/providers/common-popover/common-popover.service';
+import _ from 'lodash';
+import { GoogleMapsService } from 'src/app/providers/google-maps/google-maps.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -36,7 +40,10 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private crudService: CrudService,
-    private keystore: StorageProvider
+    private keystore: StorageProvider,
+    private networkConnection: NetworkConnectionService,
+    private commonPopover: CommonPopoverService,
+    private googleService: GoogleMapsService
   ) { }
   ngOnInit() {
     this.keystore.get("User").then(user => {
@@ -130,13 +137,23 @@ export class UserProfileComponent implements OnInit {
    * Save user info
    */
   async saveUserInfo() {
-    this.router.navigate(['/home/map']);
+    console.log('User  Profile Component | saveUserInfo()');
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
+
+    let list = _.filter(this.checkBoxList, { isChecked: true });
+    list = _.map(list, 'value');
+
+    await this.commonPopover.loaderPresent('Updating user profile.');
+
+
     if(this.serviceRole=="Volunteer"){
-    var voluntData = new FormData;
-    voluntData.append('cntrCode', this.countryCode);
-    voluntData.append('fName', this.userForm.value.name);
-    voluntData.append('phnno', this.phoneNo);
-    voluntData.append('prof', this.userForm.value.profession);
+      var voluntData = new FormData;
+      voluntData.append('cntrCode', this.countryCode);
+      voluntData.append('fName', this.userForm.value.name);
+      voluntData.append('phnno', this.phoneNo);
+      voluntData.append('prof', this.userForm.value.profession);
     voluntData.append('addr', this.userForm.value.formattedAddress);
     voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
     voluntData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
@@ -146,7 +163,7 @@ export class UserProfileComponent implements OnInit {
     this.crudService.addVolunteer(voluntData);
     }
     if(this.serviceRole=="Distressed"){
-    var distressData = new FormData;
+      var distressData = new FormData;
     distressData.append('cntrCode', this.countryCode);
     distressData.append('fName', this.userForm.value.name);
     distressData.append('phoneno', this.phoneNo);
@@ -154,6 +171,23 @@ export class UserProfileComponent implements OnInit {
     distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
     distressData.append('sosReason',this.userForm.value.sosReason);
     this.crudService.addDistressed(distressData);
-    }
   }
+  this.commonPopover.loaderDismiss();
+  this.router.navigate(['/home/map']);
+}
+async getCurrentPosition() {
+  await this.commonPopover.loaderPresent('Fetching current location');
+  const address = await this.googleService.getCurrentPosition();
+  this.commonPopover.loaderDismiss();
+  if (!_.isEmpty(address)) {
+    // Set value of lat-lng,formatted_address
+    this.userForm.patchValue({
+      address: {
+        lat: address.lat,
+        lng: address.lng,
+        formattedAddress: address.formattedAddress
+      }
+    });
+  }
+}
 }

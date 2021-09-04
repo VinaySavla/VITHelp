@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 
 
 @Component({
@@ -9,14 +10,20 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
   styleUrls: ['./map.page.scss'],
 })
 export class MapPage implements OnInit {
-serviceRole:any;
+  serviceRole: any;
+  title = "Map"
 
-  constructor(private route: ActivatedRoute, private keystore:StorageProvider) { }
+  constructor(private route: ActivatedRoute, private keystore: StorageProvider, private commonPopover: CommonPopoverService) { }
 
   ngOnInit() {
+    this.checkIfRoleSelected();
+  }
+  checkIfRoleSelected() {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
-  });
+      if (this.serviceRole == "Distressed") {
+        this.commonPopover.toastPopOver("False alarm is legally punishable!");
+      }
+    });
   }
-
 }

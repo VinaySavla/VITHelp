@@ -15,7 +15,7 @@
   </ion-label>
   <ion-input type="text" formControlName="profession"></ion-input>
 </ion-item>
-<ion-item formGroupName="address">
+<ion-item formGroupName="address" (click)="getCurrentPosition()">
   <!-- <ion-label position="floating">Address</ion-label> -->
   <ion-icon name="locate-outline"></ion-icon>
   <ion-input placeholder="Address" type="text" formControlName="formattedAddress" readonly></ion-input>

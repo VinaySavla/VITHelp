@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CrudService } from "src/app/crud.service";
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
+import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { HttpClient, HttpClientModule} from "@angular/common/http";
+import { StorageProvider } from "src/app/providers/storage/storage.service";
+
 @Component({
   selector: "app-submit-otp",
   templateUrl: "./submit-otp.page.html",
@@ -21,7 +25,10 @@ export class SubmitOtpPage implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private commonPopover: CommonPopoverService,
+    private networkConnection: NetworkConnectionService,
+    private keystore: StorageProvider
   ) {}
 
   ngOnInit() {
@@ -40,8 +47,17 @@ export class SubmitOtpPage implements OnInit {
     if (this.timer > 0) {
       return;
     }
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
+    await this.commonPopover.loaderPresent("Resending OTP");
+    //TODO Resend otp Method
+    this.commonPopover.loaderDismiss();
   }
   async submitOTP() {
+    if (this.networkConnection.isOffline()) {
+      return this.networkConnection.isConnectionMessage();
+    }
     if (!this.otpForm.valid) {
       return;
     }
@@ -50,6 +66,11 @@ export class SubmitOtpPage implements OnInit {
       phone: this.route.snapshot.paramMap.get("phone"),
       otp: parseInt(this.otpForm.controls["otp"].value)
     };
+    await this.commonPopover.loaderPresent("Verifying OTP");
+    //TODO Verify OTP Method
+    //TODO if otp verified : this.keystore.set("isAuthenticated", true); to be added
+    this.keystore.set("isAuthenticated", true);
+    this.commonPopover.loaderDismiss();
     this.router.navigate(["/select-role"]);
   }
   ionViewWillLeave() {
