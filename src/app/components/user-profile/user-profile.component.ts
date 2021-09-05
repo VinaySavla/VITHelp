@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
-import { CrudService } from 'src/app/crud.service';
+import { CrudService } from 'src/app/service/crud.service';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 import { constants } from 'src/app/constants/constants';
 import { NetworkConnectionService } from 'src/app/providers/network-connection/network-connection.service';
@@ -150,13 +150,13 @@ export class UserProfileComponent implements OnInit {
 
 
     if(this.serviceRole=="Volunteer"){
-      var voluntData = new FormData;
-      voluntData.append('cntrCode', this.countryCode);
-      voluntData.append('fName', this.userForm.value.name);
-      voluntData.append('phnno', this.phoneNo);
-      voluntData.append('Age', this.userForm.value.age);
-      voluntData.append('prof', this.userForm.value.profession);
-    voluntData.append('addr', this.userForm.value.formattedAddress);
+    var voluntData = new FormData;
+    voluntData.append('cntrCode', this.countryCode);
+    voluntData.append('fName', this.userForm.value.name);
+    voluntData.append('phnno', this.phoneNo);
+    voluntData.append('Age', this.userForm.value.age);
+    voluntData.append('prof', this.userForm.value.profession);
+    voluntData.append('addr', this.userForm.value.address.formattedAddress);
     voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
     voluntData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
     voluntData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");

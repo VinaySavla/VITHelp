@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
-import { CrudService } from "src/app/crud.service";
+import { HttpClient } from "@angular/common/http"
+import { CrudService } from "src/app/service/crud.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
@@ -12,15 +13,18 @@ import { StorageProvider } from "src/app/providers/storage/storage.service";
   styleUrls: ["./login.page.scss"]
 })
 export class LoginPage implements OnInit {
+  array: any = [];
   otpForm: any;
+  dataMaster: any;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private commonPopover: CommonPopoverService,
     private networkConnection: NetworkConnectionService,
     private crudService: CrudService,
-    private keystore: StorageProvider
-  ) {}
+    private keystore: StorageProvider,
+    public http: HttpClient
+  ) { }
 
   ngOnInit() {
     this.otpForm = this.formBuilder.group({
@@ -44,7 +48,11 @@ export class LoginPage implements OnInit {
         phone: value.length > 15 ? value.substring(0, 15) : value
       });
     }
+
   }
+
+ 
+
   async login() {
     if (!this.otpForm.valid) {
       return;
@@ -53,18 +61,19 @@ export class LoginPage implements OnInit {
       countryCode: this.otpForm.controls["countryCode"].value,
       phone: this.otpForm.controls["phone"].value
     };
+    
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
     await this.commonPopover.loaderPresent("Sending OTP");
     //TODO send otp Method
-    this.keystore.set("phnNo",this.otpForm.value.phone);
-    this.keystore.set("countryCode",this.otpForm.value.countryCode);
+    this.keystore.set("phnNo", this.otpForm.value.phone);
+    this.keystore.set("countryCode", this.otpForm.value.countryCode);
     var phnData = new FormData;
-    phnData.append('cntrCode',this.otpForm.value.countryCode);
-    phnData.append('phnNo',this.otpForm.value.phone);
+    phnData.append('cntrCode', this.otpForm.value.countryCode);
+    phnData.append('phnNo', this.otpForm.value.phone);
     this.crudService.addPhnno(phnData);
     this.commonPopover.loaderDismiss();
-    this.router.navigate(["/submit-otp",data])
+    this.router.navigate(["/submit-otp", data]);
   }
 }

@@ -66,6 +66,7 @@ export class SelectRolePage implements OnInit {
     //   .catch(err => {
     //     this.commonPopover.loaderDismiss();
     //   });
+    //this.keystore.set('isAuthenticated',false);
     if (this.isServiceRoleStored) {
       if (this.serviceRole === this.storedRole) {
         this.router.navigate(["/home"]);
