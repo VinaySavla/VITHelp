@@ -37,8 +37,7 @@ export class SubmitOtpPage implements OnInit {
     this.otpForm = this.formBuilder.group({
       otp: ["", [Validators.required, Validators.pattern(/^[0-9]{4,4}$/)]]
     });
-    this.phnNo =this.keystore.get('phnNo');
-    this.getPhnno();
+    
   }
   changeOTP(value) {
     if (value) {
@@ -74,14 +73,14 @@ export class SubmitOtpPage implements OnInit {
     await this.commonPopover.loaderPresent("Verifying OTP");
     //TODO Verify OTP Method
     //TODO if otp verified : this.keystore.set("isAuthenticated", true); to be added
+    this.phnNo =this.keystore.get('phnNo');
+    this.getPhnno();
     for (var i=0; i<=this.array.length; i++) {
       if (this.array[i] === this.phnNo) {
       alert("present");
-      console.log("present");
     }
     else {
       alert("not present");
-      console.log(" not present");
     }
   } 
   console.log(JSON.stringify(this.array));
@@ -92,7 +91,9 @@ export class SubmitOtpPage implements OnInit {
   getPhnno() {
     this.http.get<any>('http://covithelp.16mb.com/phnno.php').subscribe(data => {
       //var response = data;
-      this.array = data;
+      this.array = data.split(" ")
+      this.array = this.array.map((str) => Number(str))
+      // this.array = data;
       console.log(this.array);
     }, error => {
       console.log(error)
