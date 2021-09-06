@@ -16,7 +16,4 @@ export class NotificationPage implements OnInit {
       this.serviceRole = user;
   });
   }
- goToCase() {
-  this.router.navigate(["/case"]);
- }
 }
