@@ -1,13 +1,17 @@
-<app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
-</app-common-header>
+<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+  <app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
+  </app-common-header>
 
-<ion-content>
-  <ion-card>
-    <ion-button (click)="goToCase()">Case 1</ion-button>
-  </ion-card>
-  <!-- <div id="noData">
-    <img src="../../../assets/images/job-seeker.png" width="100" />
-    <h3>No Volunteer/Distress Nearby</h3>
-</div> -->
-
-</ion-content>
+  <ion-content>
+    <ion-card>
+      <ion-button [routerLink]="['/home/notification/case']">Case 1</ion-button>
+    </ion-card>
+    <!-- <div id="noData">
+      <img src="../../../assets/images/job-seeker.png" width="100" />
+      <h3>No Volunteer/Distress Nearby</h3>
+    </div> -->
+    
+  </ion-content>
+  
+</ion-app>
