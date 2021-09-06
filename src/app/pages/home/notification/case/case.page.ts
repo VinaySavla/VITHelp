@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CasePage implements OnInit {
 title="case: "
+isHidden:boolean=true;
   constructor() { }
 
   ngOnInit() {
+  }
+  addSupport(){
+    this.isHidden=false;
+  }
+  sendSupport(){
+    this.isHidden=true;
   }
 
 }

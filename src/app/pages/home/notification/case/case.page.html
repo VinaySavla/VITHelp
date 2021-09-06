@@ -5,5 +5,27 @@
   isSmallLogoActivate="true"
 ></app-common-header>
 <ion-content>
-  <p>content here</p>
+  <ion-card>
+    <p>Name: </p>
+    <p>Age: </p>
+    <p>Phone Number: </p>
+    <p>Address: </p>
+    <p>Reason: </p>
+    <p>status: </p>
+  </ion-card>
+  <p>update status</p>
+    <ion-button> attending </ion-button>
+    <ion-button> attended </ion-button>
+    <ion-button> resolved </ion-button>
+    <ion-button (click)="addSupport()"> additional support extended</ion-button>
+    <ion-button> closed </ion-button>
 </ion-content>
+
+<div [hidden]=isHidden>
+<ion-footer>
+  <ion-item>
+    <ion-input placeholder="Comment Here"></ion-input>
+    <ion-button (click)="sendSupport()"><ion-icon name="send-sharp"></ion-icon></ion-button>
+  </ion-item>
+</ion-footer>
+</div>
