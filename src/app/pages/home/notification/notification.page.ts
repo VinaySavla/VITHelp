@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
 @Component({
@@ -9,12 +9,14 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
 })
 export class NotificationPage implements OnInit {
   serviceRole:any;
-  constructor(private route: ActivatedRoute, private keystore:StorageProvider) { }
+  constructor(private route: ActivatedRoute,private router:Router, private keystore:StorageProvider) { }
 
   ngOnInit() {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
   });
   }
-
+ goToCase() {
+  this.router.navigate(["/case"]);
+ }
 }
