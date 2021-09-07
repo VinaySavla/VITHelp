@@ -1,29 +1,43 @@
-<app-common-header
-  [title]="title"
-  isBackButtonActivate="true"
-  backPageLink="/home/notification"
-  isSmallLogoActivate="true"
-></app-common-header>
+<app-common-header [title]="title" isBackButtonActivate="true" backPageLink="/home/notification" isSmallLogoActivate="true" (click)="showContent()"></app-common-header>
+<div [hidden]=contentHidden>
+
+    <ion-card>
+        <p>Name: </p>
+        <p>Age: </p>
+        <p>Phone Number: </p>
+        <p>Address: </p>
+        <p>Reason: </p>
+    </ion-card>
+
+</div>
+
 <ion-content>
-  <ion-card>
-    <p>Name: </p>
-    <p>Age: </p>
-    <p>Phone Number: </p>
-    <p>Address: </p>
-    <p>Reason: </p>
-  </ion-card>
+    <ion-grid>
+        <ion-row *ngFor="let message of messages">
+            <ion-col size-12>
+                <b>{{ message.user }}</b>
+                <span>{{ message.msg }}</span>
+                <div class="time" text-right><br> {{message.createdAt | date:'short'}}</div>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
 </ion-content>
-<div id="status">
-<ion-button (click)="sendSupport()"> attending </ion-button>
-<ion-button (click)="sendSupport()"> attended </ion-button>
-<ion-button (click)="sendSupport()"> resolved </ion-button>
-<ion-button (click)="addSupport()"> additional support extended</ion-button>
-<div [hidden]=isHidden>
-<ion-item>
-  <ion-input placeholder="Comment Here"></ion-input>
-  <ion-button (click)="sendSupport()"><ion-icon name="send-sharp"></ion-icon></ion-button>
-</ion-item>
-</div>
-</div>
-<!-- <ion-footer>
-</ion-footer> -->
+
+
+<ion-footer>
+
+    <ion-button (click)="sendSupport()"> attending </ion-button>
+    <ion-button (click)="sendSupport()"> attended </ion-button>
+    <ion-button (click)="sendSupport()"> resolved </ion-button>
+    <ion-button (click)="addSupport()"> additional support extended</ion-button>
+    <div [hidden]=isHidden>
+        <ion-item>
+            <ion-input placeholder="Comment Here"></ion-input>
+            <ion-button (click)="sendSupport()">
+                <ion-icon name="send-sharp"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </div>
+
+</ion-footer>
