@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-case',
@@ -34,28 +35,31 @@ export class CasePage implements OnInit {
 
   messages = [
     {
-      user: 'useer1',
+      user: 'Distress',
       createdAt: 1554090856000,
       msg: 'Attending'
     },
     {
-      user: 'useer2',
+      user: 'Volunteer',
       createdAt: 1554090856000,
-      msg: '',
+      msg: 'Attending'
     },
     {
-      user: 'useer3',
+      user: 'Distress',
       createdAt: 1554090856000,
-      msg: '',
+      msg: 'Attending'
     },
     {
-      user: 'useer4',
+      user: 'Volunteer',
       createdAt: 1554090856000,
-      msg: '',
+      msg: 'Attending'
     }
   ];
 
 
+  currentUser = 'Volunteer';
+
+  @ViewChild(IonContent) content: IonContent
 
   sendessage() { }
 

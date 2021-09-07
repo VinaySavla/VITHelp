@@ -8,3 +8,26 @@
 p {
     padding-left: 5px;
 }
+
+.time {
+    color: #dfdfdf;
+    font-size: smaller;
+    float: right;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+.otherMessage {
+    background-color: var(--ion-color-danger);
+    color: #fff;
+}
+
+.myMessage {
+    background-color: var(--ion-color-secondary);
+    color: #fff;
+}
