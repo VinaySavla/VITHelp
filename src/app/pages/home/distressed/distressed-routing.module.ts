@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: DistressedPage
+  },
+  {
+    path: 'chatbot',
+    loadChildren: () => import('./chatbot/chatbot.module').then( m => m.ChatbotPageModule)
   }
 ];
 

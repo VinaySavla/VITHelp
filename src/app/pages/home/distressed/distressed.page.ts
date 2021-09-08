@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { StorageProvider } from './../../../providers/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DistressedPage implements OnInit {
   serviceRole: any;
-  constructor(private keystore: StorageProvider) { }
+  constructor(private keystore: StorageProvider, private router:Router) { }
 
   ngOnInit() {
     this.keystore.get("User").then(user => {

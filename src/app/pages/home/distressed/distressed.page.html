@@ -1,11 +1,19 @@
-<app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
-</app-common-header>
-
-<ion-content>
-  <div *ngIf="serviceRole==='Volunteer'">
-    <h1>ONLY FOR DISTRESS LOGIN</h1>
-  </div>
-  <div *ngIf="serviceRole==='Distressed'">
-    <p>ChatBot Here in this div</p>
-  </div>
-</ion-content>
+<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+  <app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
+  </app-common-header>
+  
+  <ion-content>
+    <div *ngIf="serviceRole==='Volunteer'">
+      <h1>ONLY FOR DISTRESS LOGIN</h1>
+    </div>
+    <div *ngIf="serviceRole==='Distressed'">
+      <p>raise distress here</p>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [routerLink]="['/home/distressed/chatbot']">
+          <ion-icon name="chatbox"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+  </ion-content>
+</ion-app>
