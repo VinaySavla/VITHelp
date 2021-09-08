@@ -2,13 +2,52 @@
   <ion-router-outlet></ion-router-outlet>
   <app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
   </app-common-header>
-  
+
   <ion-content>
     <div *ngIf="serviceRole==='Volunteer'">
       <h1>ONLY FOR DISTRESS LOGIN</h1>
     </div>
     <div *ngIf="serviceRole==='Distressed'">
-      <p>raise distress here</p>
+      <form [formGroup]="DistressForm" novalidate>
+        <ion-item>
+          <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item disabled="true">
+          <ion-icon name="call"></ion-icon>
+          <ion-input required type="number" [value]="countryCode" formControlName="countryCode"></ion-input>
+          <ion-input required type="number" [value]="phoneNo" formControlName="phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <!-- TODO : restrict updating if age not valid -->
+          <ion-label position="floating">Age <ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required type="number" formControlName="age"></ion-input>
+        </ion-item>
+        <ion-item formGroupName="address" (click)="getCurrentPosition()">
+          <!-- <ion-label position="floating">Address</ion-label> -->
+          <ion-icon name="locate-outline"></ion-icon>
+          <ion-input placeholder="Address" type="text" formControlName="formattedAddress" readonly></ion-input>
+        </ion-item>
+
+        <ion-list>
+          <ion-toolbar>
+            <ion-title size="large" slot="start">SOS Reason</ion-title>
+          </ion-toolbar>
+          <ion-radio-group [value]="selectedRadio">
+            <ion-item *ngFor="let item of checkBoxList">
+              <ion-label>{{ item.name }}</ion-label>
+              <ion-radio slot="start" [value]="item.value" (click)="selectRadio(item.value)"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+        <div class="ion-padding">
+          <ion-button expand="block" (click)="raiseDistress()">Raise Distress</ion-button>
+        </div>
+      </form>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button [routerLink]="['/home/distressed/chatbot']">
           <ion-icon name="chatbox"></ion-icon>
@@ -17,3 +56,4 @@
     </div>
   </ion-content>
 </ion-app>
+<!-- Location && Type of Help -->

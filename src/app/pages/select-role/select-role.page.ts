@@ -7,6 +7,7 @@ import { constants } from "src/app/constants/constants";
 import { Platform } from "@ionic/angular";
 import { GoogleMapsService } from "src/app/providers/google-maps/google-maps.service";
 import _ from "lodash";
+import { StatusService } from "src/app/providers/status/status.service";
 
 @Component({
   selector: 'app-select-role',
@@ -19,8 +20,9 @@ export class SelectRolePage implements OnInit {
   storedRole: any = "";
   // volunteer = constants.enums.roles.SERVICE_PROVIDER;
   // distressed = constants.enums.roles.SERVICE_TAKER;
-  volunteer="Volunteer"
-  distressed="Distressed"
+  volunteer = "Volunteer"
+  distressed = "Distressed"
+  phoneNumber: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,72 +31,48 @@ export class SelectRolePage implements OnInit {
     private commonPopover: CommonPopoverService,
     private keystore: StorageProvider,
     private platform: Platform,
+    private statusService: StatusService,
     private googleService: GoogleMapsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.keystore.get("User").then(user => {
-      if (user.isServiceRoleSelected) {
-        this.serviceRole = user.serviceRole;
-        this.storedRole = user.serviceRole;
-        this.isServiceRoleStored = true;
-      }
-    });
+        this.serviceRole = user;
+      });
   }
-  selectRole(Role){
-    this.serviceRole=Role;
-    this.keystore.set("User",this.serviceRole)
+  selectRole(Role) {
+    this.serviceRole = Role;
+    this.keystore.set("User", this.serviceRole)
   }
   async chooseRole() {
-    // if (!this.serviceRole) {
-    //   return;
-    // }
-    // if (this.networkConnection.isOffline()) {
-    //   return this.networkConnection.isConnectionMessage();
-    // }
-    // let data = {
-    //   serviceRole: this.serviceRole
-    // };
-    // await this.commonPopover.loaderPresent("Selecting Role");
-    // this.userService
-    //   .selectRole(data)
-    //   .then(res => {
-    //     this.commonPopover.loaderDismiss();
-    //     this.router.navigate(["/home"]);
-    //     this.keystore.set("User", res);
-    //   })
-    //   .catch(err => {
-    //     this.commonPopover.loaderDismiss();
-    //   });
-    //this.keystore.set('isAuthenticated',false);
-    if (this.isServiceRoleStored) {
-      if (this.serviceRole === this.storedRole) {
-        this.router.navigate(["/home"]);
-      } else {
-        if (this.networkConnection.isOffline()) {
-          return this.networkConnection.isConnectionMessage();
-        }
-        let data = {
-          serviceRole: this.serviceRole,
-          supportList: []
-        };
-        await this.commonPopover.loaderPresent("Updating Role");
-        // TODO: Update user Method
-        // this.userService
-        //   .updateUser(data)
-        //   .then(res => {
-        //     this.commonPopover.loaderDismiss();
-        //     this.router.navigate(["/home"]);
-        //     this.keystore.set("User", res);
-        //   })
-        //   .catch(err => {
-        //     this.commonPopover.loaderDismiss();
-        //   });
-        this.commonPopover.loaderDismiss();
-      }
-    } else {
+    this.keystore.get('phnNo').then((value) => this.phoneNumber=value);
+    const userNumber = await this.statusService.authUser(this.phoneNumber);
+    console.log(userNumber);
+    console.log(this.phoneNumber);
+    if(this.phoneNumber==parseInt(userNumber)){
+      this.router.navigate(["/home"]);
+    }
+    else{
       this.router.navigate(["/setup-profile"]);
     }
+
+    // if (this.isServiceRoleStored) {
+    //   if (this.serviceRole === this.storedRole) {
+    //     this.router.navigate(["/home"]);
+    //   } else {
+    //     if (this.networkConnection.isOffline()) {
+    //       return this.networkConnection.isConnectionMessage();
+    //     }
+    //     let data = {
+    //       serviceRole: this.serviceRole,
+    //       supportList: []
+    //     };
+    //     await this.commonPopover.loaderPresent("Updating Role");
+    //     this.commonPopover.loaderDismiss();
+    //   }
+    // } else {
+    //   this.router.navigate(["/setup-profile"]);
+    // }
 
     // Update current location
     this.getCurrentLocation(this.serviceRole);
@@ -120,4 +98,4 @@ export class SelectRolePage implements OnInit {
     //   this.keystore.set("User", res);
     // });
   }
-}  
+}

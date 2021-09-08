@@ -1,6 +1,12 @@
+import { StatusService } from 'src/app/providers/status/status.service';
+import { CommonPopoverService } from './../../../providers/common-popover/common-popover.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageProvider } from './../../../providers/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
+import _ from 'lodash';
+import { constants } from 'src/app/constants/constants';
+import { GoogleMapsService } from 'src/app/providers/google-maps/google-maps.service';
 
 @Component({
   selector: 'app-distressed',
@@ -8,13 +14,96 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./distressed.page.scss'],
 })
 export class DistressedPage implements OnInit {
+  ionicForm: FormGroup;
   serviceRole: any;
-  constructor(private keystore: StorageProvider, private router:Router) { }
+  DistressForm: any;
+  phoneNo: any;
+  countryCode: any;
+  selectedRadio: any;
+  checkBoxList: any = constants.checkBoxList;
+  constructor(
+    private keystore: StorageProvider,
+    private router: Router, 
+    private formBuilder: FormBuilder,
+    private StatusService: StatusService,
+    private googleService: GoogleMapsService,
+    private commonPopover: CommonPopoverService
+  ) { }
 
   ngOnInit() {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
+    });
+    this.keystore.get("phnNo").then(phnNo => {
+      this.DistressForm.value.phone= phnNo;
+      this.phoneNo = phnNo;
   });
+  this.keystore.get("countryCode").then(countryCode => {
+    this.DistressForm.value.countryCode= countryCode;
+    this.countryCode = countryCode;
+  });
+    this.DistressForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      countryCode: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+      ],
+      phone: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+      ],
+      age: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
+      address: this.formBuilder.group({
+        lat: ['', [Validators.required]],
+        lng: ['', [Validators.required]],
+        formattedAddress: [
+          '',
+          [Validators.required]
+        ]
+      }),
+      sosReason: ['', Validators.required]
+    });
+  }
+  selectRadio(value) {
+    this.selectedRadio = value;
+  }
+  raiseDistress(){
+
+    const data = {
+      DistressedName: this.DistressForm.controls.name.value,
+      PhoneNumber: this.phoneNo,
+      Age: this.DistressForm.controls.age.value,
+      address: this.DistressForm.value.address.formattedAddress,
+      lat: this.DistressForm.value.address.lat,
+      lng: this.DistressForm.value.address.lng,
+      sosReason: this.selectedRadio
+    };
+    this.commonPopover.loaderPresent("Raising Distress Alert");
+    try{
+      this.StatusService.raiseCase(data).then(res =>{
+        this.commonPopover.loaderDismiss();
+      })
+    }
+    catch(error){
+      console.log(error);
+      this.commonPopover.loaderDismiss();
+    }
   }
 
+
+  async getCurrentPosition() {
+    await this.commonPopover.loaderPresent('Fetching current location');
+    const address = await this.googleService.getCurrentPosition();
+    this.commonPopover.loaderDismiss();
+    if (!_.isEmpty(address)) {
+      // Set value of lat-lng,formatted_address
+      this.DistressForm.patchValue({
+        address: {
+          lat: address.lat,
+          lng: address.lng,
+          formattedAddress: address.formattedAddress
+        }
+      });
+    }
+  }
 }

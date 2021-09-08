@@ -1,3 +1,5 @@
+import { StatusService } from 'src/app/providers/status/status.service';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
@@ -25,7 +27,7 @@ export class UserProfileComponent implements OnInit {
   selectedRadio: any;
   isAllSelected = false;
   isLoading = false;
-  userForm: any;
+  signUpForm: any;
   userInfo: any;
   userReg: any;
   volunteer = "Volunteer";
@@ -34,168 +36,171 @@ export class UserProfileComponent implements OnInit {
   countryCode: any;
   checkBoxList: any = constants.checkBoxList;
   sosReason:any;
-
-
+  
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private crudService: CrudService,
     private keystore: StorageProvider,
     private networkConnection: NetworkConnectionService,
     private commonPopover: CommonPopoverService,
+    private statusService: StatusService,
     private googleService: GoogleMapsService
-  ) { }
+    ) {}
+
   ngOnInit() {
     this.keystore.get("User").then(user => {
-        this.serviceRole = user;
-    });
-    this.keystore.get("phnNo").then(phnNo => {
-      this.userForm.value.phone= phnNo;
-      this.phoneNo = phnNo;
+      this.serviceRole = user;
   });
-  this.keystore.get("countryCode").then(countryCode => {
-    this.userForm.value.countryCode= countryCode;
-    this.countryCode = countryCode;
+  this.keystore.get("phnNo").then(phnNo => {
+    this.signUpForm.value.phone= phnNo;
+    this.phoneNo = phnNo;
 });
-    this.userForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      countryCode: [
+this.keystore.get("countryCode").then(countryCode => {
+  this.signUpForm.value.countryCode= countryCode;
+  this.countryCode = countryCode;
+});
+  this.signUpForm = this.formBuilder.group({
+    name: ['', [Validators.required]],
+    countryCode: [
+      '',
+      [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+    ],
+    phone: [
+      '',
+      [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+    ],
+    age: ['', [Validators.required, Validators.pattern(/^[20-55]{1,2}$/)]],
+    profession: ['', [Validators.required]],
+    address: this.formBuilder.group({
+      lat: ['', [Validators.required]],
+      lng: ['', [Validators.required]],
+      formattedAddress: [
         '',
-        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
-      ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
-      ],
-      age: ['', [Validators.required, Validators.pattern(/^[20-55]{1,2}$/)]],
-      profession: ['', [Validators.required]],
-      address: this.formBuilder.group({
-        lat: ['', [Validators.required]],
-        lng: ['', [Validators.required]],
-        formattedAddress: [
-          '',
-          [Validators.required]
-        ]
-      }),
-      serviceRole: ['', [Validators.required]],
-      supportList: [''],
-      isServiceRoleSelected: [''],
-      isUserServiceActive: [
-        true,
         [Validators.required]
-      ],
-      sosReason: ['']
-    });
+      ]
+    }),
+    serviceRole: ['', [Validators.required]],
+    supportList: [''],
+    isServiceRoleSelected: [''],
+    isUserServiceActive: [
+      true,
+      [Validators.required]
+    ],
+    sosReason: ['']
+  });
   }
-
-
-
-  /**
+   /**
    * CheckBox
    * @param event
    */
-  checkMaster(event) {
-    setTimeout(() => {
-      this.checkBoxList.forEach((obj: { isChecked: boolean }) => {
-        obj.isChecked = this.masterCheck;
+    checkMaster(event) {
+      setTimeout(() => {
+        this.checkBoxList.forEach((obj: { isChecked: boolean }) => {
+          obj.isChecked = this.masterCheck;
+        });
       });
-    });
-  }
-
-  /**
-   * Check box event
-   */
-  checkEvent() {
-    const totalItems = this.checkBoxList.length;
-    let checked = 0;
-    this.checkBoxList.map((obj: { isChecked: any }) => {
-      if (obj.isChecked) { checked++; }
-    });
-    if (checked > 0 && checked < totalItems) {
-      // If even one item is checked but not all
-      this.isIndeterminate = true;
-      this.masterCheck = false;
-    } else if (checked === totalItems) {
-      // If all are checked
-      this.masterCheck = true;
-      this.isIndeterminate = false;
-    } else {
-      // If none is checked
-      this.isIndeterminate = false;
-      this.masterCheck = false;
     }
-  }
-
-  /**
-   * Select radio
-   * @param value
-   */
-  selectRadio(value) {
-    this.selectedRadio = value;
-  }
-
-  /**
-   * Save user info
-   */
-  async saveUserInfo() {
-    console.log('User  Profile Component | saveUserInfo()');
-    if (this.networkConnection.isOffline()) {
-      return this.networkConnection.isConnectionMessage();
-    }
-
-    let list = _.filter(this.checkBoxList, { isChecked: true });
-    list = _.map(list, 'value');
-
-    await this.commonPopover.loaderPresent('Updating user profile.');
-
-
-    if(this.serviceRole=="Volunteer"){
-    var voluntData = new FormData;
-    voluntData.append('cntrCode', this.countryCode);
-    voluntData.append('fName', this.userForm.value.name);
-    voluntData.append('phnno', this.phoneNo);
-    voluntData.append('Age', this.userForm.value.age);
-    voluntData.append('prof', this.userForm.value.profession);
-    voluntData.append('addr', this.userForm.value.address.formattedAddress);
-    voluntData.append('lat', this.userForm.value.address.lat);
-    voluntData.append('lng', this.userForm.value.address.lng);
-    voluntData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
-    voluntData.append('myFood', this.checkBoxList['0'].isChecked?"1":"0");
-    voluntData.append('myCloth', this.checkBoxList['1'].isChecked?"1":"0");
-    voluntData.append('myShelt', this.checkBoxList['2'].isChecked?"1":"0");
-    voluntData.append('myMedic', this.checkBoxList['3'].isChecked?"1":"0");
-    this.crudService.addVolunteer(voluntData);
-    }
-    if(this.serviceRole=="Distressed"){
-      var distressData = new FormData;
-    distressData.append('cntrCode', this.countryCode);
-    distressData.append('fName', this.userForm.value.name);
-    distressData.append('phoneno', this.phoneNo);
-    distressData.append('Age',this.userForm.value.age);
-    distressData.append('addr', this.userForm.value.address.formattedAddress);
-    distressData.append('lat', this.userForm.value.address.lat);
-    distressData.append('lng', this.userForm.value.address.lng);
-    distressData.append('available', this.userForm.value.isUserServiceActive?"1":"0");
-    distressData.append('sosReason',this.userForm.value.sosReason);
-    this.crudService.addDistressed(distressData);
-    // console.log(this.userForm.value.address.formattedAddress);
-  }
-  this.commonPopover.loaderDismiss();
-  this.router.navigate(['/home/map']);
-}
-async getCurrentPosition() {
-  await this.commonPopover.loaderPresent('Fetching current location');
-  const address = await this.googleService.getCurrentPosition();
-  this.commonPopover.loaderDismiss();
-  if (!_.isEmpty(address)) {
-    // Set value of lat-lng,formatted_address
-    this.userForm.patchValue({
-      address: {
-        lat: address.lat,
-        lng: address.lng,
-        formattedAddress: address.formattedAddress
+  
+    /**
+     * Check box event
+     */
+    checkEvent() {
+      const totalItems = this.checkBoxList.length;
+      let checked = 0;
+      this.checkBoxList.map((obj: { isChecked: any }) => {
+        if (obj.isChecked) { checked++; }
+      });
+      if (checked > 0 && checked < totalItems) {
+        // If even one item is checked but not all
+        this.isIndeterminate = true;
+        this.masterCheck = false;
+      } else if (checked === totalItems) {
+        // If all are checked
+        this.masterCheck = true;
+        this.isIndeterminate = false;
+      } else {
+        // If none is checked
+        this.isIndeterminate = false;
+        this.masterCheck = false;
       }
-    });
+    }
+  
+    /**
+     * Select radio
+     * @param value
+     */
+    selectRadio(value) {
+      this.selectedRadio = value;
+    }
+  
+    /**
+     * Save user info
+     */
+    async saveUserInfo() {
+      console.log('User  Profile Component | saveUserInfo()');
+      if (this.networkConnection.isOffline()) {
+        return this.networkConnection.isConnectionMessage();
+      }
+  
+      let list = _.filter(this.checkBoxList, { isChecked: true });
+      list = _.map(list, 'value');
+
+      const data = {
+        Name: this.signUpForm.controls.name.value,
+        CountryCode:this.countryCode,
+        PhoneNumber: this.phoneNo,
+        Age: this.signUpForm.controls.age.value,
+        address: this.signUpForm.value.address.formattedAddress,
+        lat: this.signUpForm.value.address.lat,
+        lng: this.signUpForm.value.address.lng,
+        Food: this.checkBoxList['0'].isChecked?"1":"0",
+        Clothing: this.checkBoxList['1'].isChecked?"1":"0",
+        Shelter: this.checkBoxList['2'].isChecked?"1":"0",
+        Medical: this.checkBoxList['3'].isChecked?"1":"0",
+        serviceRole: this.serviceRole,
+        isServiceRoleSelected: true,
+        isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
+        profession : this.signUpForm.controls.profession.value
+  
+      };
+
+      
+      if (
+        this.serviceRole === "Volunteer"
+        ) {
+          data.profession = this.signUpForm.controls.profession.value;
+        }
+        
+        await this.commonPopover.loaderPresent('Updating user profile.');
+       try{
+
+         this.statusService.userData(data);
+       }
+       catch(error)
+       {
+         console.log(error);
+       }
+        
+        
+   
+    this.commonPopover.loaderDismiss();
+    this.router.navigate(['/home/map']);
   }
-}
+  async getCurrentPosition() {
+    await this.commonPopover.loaderPresent('Fetching current location');
+    const address = await this.googleService.getCurrentPosition();
+    this.commonPopover.loaderDismiss();
+    if (!_.isEmpty(address)) {
+      // Set value of lat-lng,formatted_address
+      this.signUpForm.patchValue({
+        address: {
+          lat: address.lat,
+          lng: address.lng,
+          formattedAddress: address.formattedAddress
+        }
+      });
+    }
+  }
 }

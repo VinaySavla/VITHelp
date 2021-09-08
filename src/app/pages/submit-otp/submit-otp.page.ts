@@ -16,9 +16,6 @@ export class SubmitOtpPage implements OnInit {
   title: string = "Enter OTP";
   otp: number;
   timer: number = 30;
-  phnNo: any;
-  array: any = [];
-  array1: any = [];
   time = setInterval(() => {
     this.timer -= 1;
   }, 1000);
@@ -74,53 +71,10 @@ export class SubmitOtpPage implements OnInit {
     await this.commonPopover.loaderPresent("Verifying OTP");
     //TODO Verify OTP Method
     //TODO if otp verified : this.keystore.set("isAuthenticated", true); to be added
-    this.phnNo = this.keystore.get('phnNo');
-    this.getVoluntPhn();
-    this.getDistressPhn();
-    for (var i = 0; i <= this.array.length; i++) {
-      if (this.array[i] === this.phnNo) {
-        alert("Number registered as volunteer");
-      }
-      else {
-        alert("not present");
-      }
-    }
-    for (var i = 0; i <= this.array1.length; i++) {
-      if (this.array1[i] === this.phnNo) {
-        alert("Number registered as distressed");
-      }
-      else {
-        alert("not present");
-      }
-    }
-    console.log(JSON.stringify(this.array));
     this.keystore.set("isAuthenticated", true);
     this.commonPopover.loaderDismiss();
     this.router.navigate(["/select-role"]);
   }
-  getVoluntPhn() {
-    this.http.get<any>('http://covithelp.16mb.com/voluntphn.php').subscribe(data => {
-      //var response = data;
-      this.array = data.split(" ")
-      this.array = this.array.map((str) => Number(str))
-      // this.array = data;
-      console.log(this.array);
-    }, error => {
-      console.log(error)
-    })
-  }
-  getDistressPhn() {
-    this.http.get<any>('http://covithelp.16mb.com/distressphn.php').subscribe(data => {
-      //var response = data;
-      this.array1 = data.split(" ")
-      this.array1 = this.array1.map((str) => Number(str))
-      // this.array = data;
-      console.log(this.array1);
-    }, error => {
-      console.log(error)
-    })
-  }
-
   ionViewWillLeave() {
     clearInterval(this.time);
   }

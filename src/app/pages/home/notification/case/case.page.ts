@@ -9,7 +9,8 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
   styleUrls: ['./case.page.scss'],
 })
 export class CasePage implements OnInit {
-  title = "case: "
+  title = "Case: "
+  currentUser:boolean;
   statusData: any[];
   isHidden: boolean = true;
   contentHidden: boolean = true;
@@ -54,15 +55,11 @@ export class CasePage implements OnInit {
     });
   }
 
-
-
-
-
-  currentUser = 'Distressed';
-
+  
   @ViewChild(IonContent) content: IonContent
 
   sendMessage(buttonValue: string) {
+    this.currentUser=true;
     const data = {
       CaseID: 1,
       VolunteerID: 2,
@@ -80,6 +77,9 @@ export class CasePage implements OnInit {
       user: 1,
       msg: buttonValue,
       createdAt: 1554090856000
+    });
+    setTimeout(() =>{
+      this.content.scrollToBottom(200);
     });
   }
 
