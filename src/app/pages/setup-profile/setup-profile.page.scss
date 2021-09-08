@@ -1,0 +1,26 @@
+.checkbox {
+    margin: 18px 32px 18px 4px;
+  }
+  input[type="checkbox"] {
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border-radius: 1px;
+    box-sizing: border-box;
+    position: relative;
+    box-sizing: content-box;
+    width: 16px;
+    height: 16px;
+    border-width: 0;
+    transition: all 0.3s linear;
+    border: 1px solid gray;
+  }
+  input[type="checkbox"]:checked {
+    background-color: var(--ion-color-primary);
+  }
+  input[type="checkbox"]:focus {
+    outline: 0 none;
+    box-shadow: none;
+  }
+  

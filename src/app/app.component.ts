@@ -7,11 +7,14 @@ import { Keyboard } from "@ionic-native/keyboard/ngx";
 import { CommonPopoverService } from "./providers/common-popover/common-popover.service";
 import { LoginService } from "./providers/login/login.service";
 import { StorageProvider } from "./providers/storage/storage.service";
+import { UserService } from "./providers/user/user.service";
+import { ServiceProvider } from "./providers/service/service.service";
 import { SupportListComponent } from "./components/support-list/support-list.component";
 import { Router } from "@angular/router";
 import { constants } from "./constants/constants";
 import { GoogleMapsService } from "./providers/google-maps/google-maps.service";
 import _ from "lodash";
+import { StatusService } from "./providers/status/status.service";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -29,6 +32,8 @@ export class AppComponent {
     private loginService: LoginService,
     private keystore: StorageProvider,
     private router: Router,
+    private statusService: StatusService,
+    private userService: UserService,
     private googleService: GoogleMapsService
   ) {
     this.initializeApp();
@@ -126,9 +131,9 @@ export class AppComponent {
       address: address,
       serviceRole: serviceRole
     };
-    // this.userService.updateUser(data).then(res => {
-      // this.keystore.set("User", res);
-    // });
+    this.userService.updateUser(data).then(res => {
+      this.keystore.set("User", res);
+    });
   }
 
   /**

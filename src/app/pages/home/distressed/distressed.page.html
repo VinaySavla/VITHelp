@@ -1,0 +1,11 @@
+<app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
+</app-common-header>
+
+<ion-content>
+  <div *ngIf="serviceRole==='Volunteer'">
+    <h1>ONLY FOR DISTRESS LOGIN</h1>
+  </div>
+  <div *ngIf="serviceRole==='Distressed'">
+    <p>ChatBot Here in this div</p>
+  </div>
+</ion-content>

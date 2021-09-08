@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
 })
 export class ProfilePage implements OnInit {
   serviceRole:any;
-  constructor(private route: ActivatedRoute, private keystore:StorageProvider) { }
+  constructor(private keystore:StorageProvider) { }
 
   ngOnInit() {
     this.keystore.get("User").then(user => {

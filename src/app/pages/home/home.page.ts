@@ -26,6 +26,11 @@ export class HomePage implements OnInit {
       label: "Notifications"
     },
     {
+      tabName: "distressed",
+      iconName: "nuclear-sharp",
+      label: "Raise Distress"
+    },
+    {
       tabName: "settings",
       iconName: "information-outline",
       label: "Info"

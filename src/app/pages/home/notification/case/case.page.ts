@@ -1,5 +1,7 @@
+import { StatusService } from './../../../../providers/status/status.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
+import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
 @Component({
   selector: 'app-case',
@@ -8,18 +10,30 @@ import { IonContent } from '@ionic/angular';
 })
 export class CasePage implements OnInit {
   title = "case: "
+  statusData: any[];
   isHidden: boolean = true;
   contentHidden: boolean = true;
-  constructor() { }
+  serviceRole: String;
+  userStatus: any;
+  constructor(private keystore: StorageProvider, private statusService: StatusService) { }
 
   ngOnInit() {
+    this.statusService.getStatus().then((statusData) => { this.statusData = statusData["statuses"]; });
+    this.keystore.get("User").then(user => {
+      this.serviceRole = user;
+
+
+    });
   }
   addSupport() {
-    this.isHidden = false;
+    if (this.isHidden) {
+      this.isHidden = false;
+    }
+    else {
+      this.isHidden = true;
+    }
   }
-  sendSupport() {
-    this.isHidden = true;
-  }
+
   showContent() {
     if (this.contentHidden) {
       this.contentHidden = false;
@@ -29,43 +43,44 @@ export class CasePage implements OnInit {
     }
   }
 
-  // hideContent(){
-  //   this.contentHidden=true;
-  // }
 
-  messages = [
-    {
-      user: 'Distress',
-      createdAt: 1554090856000,
-      msg: 'Attending'
-    },
-    {
-      user: 'Volunteer',
-      createdAt: 1554090856000,
-      msg: 'Attending'
-    },
-    {
-      user: 'Distress',
-      createdAt: 1554090856000,
-      msg: 'Attending'
-    },
-    {
-      user: 'Volunteer',
-      createdAt: 1554090856000,
-      msg: 'Attending'
-    }
-  ];
+  public get messages() {
+    return this.statusData == undefined ? [] : this.statusData.map((status) => {
+      return {
+        user: status.VolunteerID != undefined ? status.VolunteerID : status.DistressedID,
+        msg: status.status,
+        createdAt: status.TimeStamp
+      }
+    });
+  }
 
 
-  currentUser = 'Volunteer';
+
+
+
+  currentUser = 'Distressed';
 
   @ViewChild(IonContent) content: IonContent
 
-  sendessage() { }
+  sendMessage(buttonValue: string) {
+    const data = {
+      CaseID: 1,
+      VolunteerID: 2,
+      DistressedID: null,
+      status: buttonValue,
+
+    };
+    this.statusService.sendStatus(data);
+    // this.userStatus = {
+    //   user:1,
+    //   msg: buttonValue,
+    //   CreatedAt: 1554090856000
+    // }
+    this.statusData.push({
+      user: 1,
+      msg: buttonValue,
+      createdAt: 1554090856000
+    });
+  }
 
 }
-
-// export class CasePage{
-
-// }
-

@@ -1,3 +1,4 @@
+import { StatusService } from './providers/status/status.service';
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
@@ -15,6 +16,8 @@ import { IonicStorageModule } from "@ionic/storage";
 import { StorageProvider } from "./providers/storage/storage.service";
 import { SupportListComponent } from "./components/support-list/support-list.component";
 import { FormsModule } from "@angular/forms";
+import { UserService } from "./providers/user/user.service";
+import { ServiceProvider } from "./providers/service/service.service";
 
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
@@ -55,6 +58,9 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Keyboard,
     Network,
+    UserService,
+    ServiceProvider,
+    StatusService,
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: TokenInterceptor,

@@ -33,6 +33,7 @@
     "@ionic-native/status-bar": "^5.36.0",
     "@ionic/angular": "^5.5.2",
     "@ionic/storage": "^2.2.0",
+    "axios": "^0.21.4",
     "cordova-plugin-network-information": "^3.0.0",
     "install": "^0.13.0",
     "lodash": "^4.17.21",

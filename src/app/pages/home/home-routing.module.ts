@@ -24,6 +24,10 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
+        path: 'distressed',
+        loadChildren: () => import('./distressed/distressed.module').then( m => m.DistressedPageModule)
+      },
+      {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
         canActivate: [AuthGuard]
@@ -35,6 +39,7 @@ const routes: Routes = [
       }
     ]
   },
+
 ];
 
 @NgModule({
