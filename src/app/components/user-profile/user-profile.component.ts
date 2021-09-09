@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
   userReg: any;
   volunteer = "Volunteer";
   distressed = "Distressed";
-  phoneNo: any;
+  phoneNumber: any;
   countryCode: any;
   checkBoxList: any = constants.checkBoxList;
   sosReason:any;
@@ -53,9 +53,9 @@ export class UserProfileComponent implements OnInit {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
   });
-  this.keystore.get("phnNo").then(phnNo => {
-    this.signUpForm.value.phone= phnNo;
-    this.phoneNo = phnNo;
+  this.keystore.get("PhoneNumber").then(PhoneNumber => {
+    this.signUpForm.value.phone= PhoneNumber;
+    this.phoneNumber = PhoneNumber;
 });
 this.keystore.get("countryCode").then(countryCode => {
   this.signUpForm.value.countryCode= countryCode;
@@ -150,11 +150,11 @@ this.keystore.get("countryCode").then(countryCode => {
       const data = {
         Name: this.signUpForm.controls.name.value,
         CountryCode:this.countryCode,
-        PhoneNumber: this.phoneNo,
+        PhoneNumber: this.phoneNumber,
         Age: this.signUpForm.controls.age.value,
-        address: this.signUpForm.value.address.formattedAddress,
-        lat: this.signUpForm.value.address.lat,
-        lng: this.signUpForm.value.address.lng,
+        Address: this.signUpForm.value.address.formattedAddress,
+        Lat: this.signUpForm.value.address.lat,
+        Lng: this.signUpForm.value.address.lng,
         Food: this.checkBoxList['0'].isChecked?"1":"0",
         Clothing: this.checkBoxList['1'].isChecked?"1":"0",
         Shelter: this.checkBoxList['2'].isChecked?"1":"0",
@@ -162,7 +162,7 @@ this.keystore.get("countryCode").then(countryCode => {
         serviceRole: this.serviceRole,
         isServiceRoleSelected: true,
         isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
-        profession : this.signUpForm.controls.profession.value
+        Profession : this.signUpForm.controls.profession.value
   
       };
 
@@ -170,13 +170,14 @@ this.keystore.get("countryCode").then(countryCode => {
       if (
         this.serviceRole === "Volunteer"
         ) {
-          data.profession = this.signUpForm.controls.profession.value;
+          data.Profession = this.signUpForm.controls.profession.value;
         }
         
-        await this.commonPopover.loaderPresent('Updating user profile.');
+        await this.commonPopover.loaderPresent('Updating User Profile.');
        try{
-
          this.statusService.userData(data);
+         console.log(JSON.stringify(data));
+         console.log(this.phoneNumber);
        }
        catch(error)
        {

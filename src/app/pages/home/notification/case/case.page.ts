@@ -1,5 +1,6 @@
+import { CommonPopoverService } from './../../../../providers/common-popover/common-popover.service';
 import { StatusService } from './../../../../providers/status/status.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,NgZone  } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
@@ -9,6 +10,7 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
   styleUrls: ['./case.page.scss'],
 })
 export class CasePage implements OnInit {
+  @ViewChild('content') content : IonContent;
   title = "Case: "
   currentUser:boolean;
   statusData: any[];
@@ -16,14 +18,14 @@ export class CasePage implements OnInit {
   contentHidden: boolean = true;
   serviceRole: String;
   userStatus: any;
-  constructor(private keystore: StorageProvider, private statusService: StatusService) { }
+  commentBox:String = '';
+  messageBox:String;
+  constructor(private keystore: StorageProvider, private statusService: StatusService, private commonPopover:CommonPopoverService,public _zone: NgZone) { }
 
   ngOnInit() {
     this.statusService.getStatus().then((statusData) => { this.statusData = statusData["statuses"]; });
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
-
-
     });
   }
   addSupport() {
@@ -48,39 +50,41 @@ export class CasePage implements OnInit {
   public get messages() {
     return this.statusData == undefined ? [] : this.statusData.map((status) => {
       return {
-        user: status.VolunteerID != undefined ? status.VolunteerID : status.DistressedID,
-        msg: status.status,
+        // user: status.VolunteerID != undefined ? status.VolunteerID : status.DistressedID,
+        user: status.UserID,
+        serviceRole: status.serviceRole,
+        msg: status.Status,
         createdAt: status.TimeStamp
       }
     });
   }
 
   
-  @ViewChild(IonContent) content: IonContent
-
+  
   sendMessage(buttonValue: string) {
-    this.currentUser=true;
+    this.commonPopover.loaderPresent("Updating Status");
+    this.messageBox = buttonValue + ': ' + this.commentBox;
     const data = {
       CaseID: 1,
-      VolunteerID: 2,
-      DistressedID: null,
-      status: buttonValue,
+      UserID: 1,
+      serviceRole: this.serviceRole,
+      Status: this.messageBox,
 
     };
-    this.statusService.sendStatus(data);
-    // this.userStatus = {
-    //   user:1,
-    //   msg: buttonValue,
-    //   CreatedAt: 1554090856000
-    // }
-    this.statusData.push({
-      user: 1,
-      msg: buttonValue,
-      createdAt: 1554090856000
-    });
-    setTimeout(() =>{
-      this.content.scrollToBottom(200);
-    });
+    try{
+      this.statusData.push({
+        user: 1,
+        msg: this.messageBox,
+        createdAt: 1554090856000
+      });
+      this.statusService.sendStatus(data).then(res =>{
+        this.commonPopover.loaderDismiss();
+      })
+    }
+    catch(error){
+      console.log(error);
+      this.commonPopover.loaderDismiss();
+    }
+    this.commentBox='';
   }
-
 }

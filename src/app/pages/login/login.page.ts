@@ -67,7 +67,7 @@ export class LoginPage implements OnInit {
     }
     await this.commonPopover.loaderPresent("Sending OTP");
     //TODO send otp Method
-    this.keystore.set("phnNo", this.otpForm.value.phone);
+    this.keystore.set("PhoneNumber", this.otpForm.value.phone);
     this.keystore.set("countryCode", this.otpForm.value.countryCode);
     var phnData = new FormData;
     phnData.append('cntrCode', this.otpForm.value.countryCode);

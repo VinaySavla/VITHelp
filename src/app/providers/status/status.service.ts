@@ -30,6 +30,15 @@ export class StatusService {
       
     }
   }
+  async getCase() {
+    try {
+      const res = await axios.get('http://localhost:3001/data/caseData/1');
+      return res.data;
+    } catch(error) {
+      console.log(error);
+      
+    }
+  }
   async sendStatus(data) {
     const headers = {
       "Content-Type":"Application/Json"
@@ -42,10 +51,10 @@ export class StatusService {
       
     }
   }
-  async authUser(Phno) {
+  async authUser(PhoneNumber) {
     try {
-      const res = await axios.get(`http://localhost:3001/data/userData/${Phno}`);
-      return res.data.PhoneNumber
+      const res = await axios.get(`http://localhost:3001/data/userData/${PhoneNumber}`);
+      return res.data
     } catch(error) {
       console.log(error);
       

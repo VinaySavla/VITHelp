@@ -14,21 +14,21 @@
 <ion-content>
     <ion-grid>
         <ion-row *ngFor="let message of messages">
-            <ion-col size="9" *ngIf="!this.currentUser" class="message otherMessage">
-                <b>{{ message.user }}</b><br>
+            <ion-col size="9" *ngIf="message.serviceRole == 'Volunteer'" class="message otherMessage">
+                <b>{{ message.user }}:{{message.serviceRole}}</b><br>
                 <span>{{ message.msg }}</span>
                 <div class="time" text-right>
                     <br> {{message.createdAt | date:'short'}}
                 </div>
             </ion-col>
-            <ion-col offset="3" size="9" *ngIf="this.currentUser" class="message myMessage">
-                <b>{{ message.user }}</b><br>
+            
+            <ion-col offset="3" size="9" *ngIf="message.serviceRole == 'Distressed'" class="message myMessage">
+                <b>{{ message.user }}:{{message.serviceRole}}</b><br>
                 <span>{{ message.msg }}</span>
                 <div class="time" text-right>
                     <br> {{message.createdAt | date:'short'}}
                 </div>
             </ion-col>
-
         </ion-row>
     </ion-grid>
 </ion-content>
@@ -37,12 +37,12 @@
 <ion-footer>
 <div *ngIf='this.serviceRole==="Volunteer"'>
     <ion-button (click)="sendMessage('Attending')" value="Attending"> attending </ion-button>
-    <ion-button (click)="sendMessage('Attended')" value="Attened"> attended </ion-button>
+    <ion-button (click)="sendMessage('Attended')" value="Attended"> attended </ion-button>
     <ion-button (click)="sendMessage('Resolved')" value="resolved"> resolved </ion-button>
     <ion-button (click)="addSupport()" value="Additional Support Extended"> additional support extended</ion-button>
     <div [hidden]=isHidden>
         <ion-item>
-            <ion-input placeholder="Comment Here"></ion-input>
+            <ion-input placeholder="Comment Here" [(ngModel)]="commentBox"></ion-input>
             <ion-button (click)="sendMessage('Additional Support Extended')">
                 <ion-icon name="send-sharp"></ion-icon>
             </ion-button>

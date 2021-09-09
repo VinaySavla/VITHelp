@@ -54,9 +54,9 @@ export class SetupProfilePage implements OnInit {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
   });
-  this.keystore.get("phnNo").then(phnNo => {
-    this.signUpForm.value.phone= phnNo;
-    this.phoneNo = phnNo;
+  this.keystore.get("PhoneNumber").then(PhoneNumber => {
+    this.signUpForm.value.phone= PhoneNumber;
+    this.phoneNo = PhoneNumber;
 });
 this.keystore.get("countryCode").then(countryCode => {
   this.signUpForm.value.countryCode= countryCode;

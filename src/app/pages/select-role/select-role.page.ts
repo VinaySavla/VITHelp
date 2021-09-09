@@ -45,11 +45,10 @@ export class SelectRolePage implements OnInit {
     this.keystore.set("User", this.serviceRole)
   }
   async chooseRole() {
-    this.keystore.get('phnNo').then((value) => this.phoneNumber=value);
-    const userNumber = await this.statusService.authUser(this.phoneNumber);
-    console.log(userNumber);
-    console.log(this.phoneNumber);
-    if(this.phoneNumber==parseInt(userNumber)){
+    
+    const phoneNumber= await this.keystore.get('PhoneNumber');
+    const userData = await this.statusService.authUser(phoneNumber);
+    if(userData.users && typeof userData.users !="undefined" && userData.users !=null && userData.users.length != null && userData.users.length > 0 &&  phoneNumber==userData.users[0].PhoneNumber){
       this.router.navigate(["/home"]);
     }
     else{

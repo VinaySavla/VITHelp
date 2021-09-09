@@ -15,11 +15,6 @@ export class HomePage implements OnInit {
       iconName: "map",
       label: "Map"
     },
-    // {
-    //   tabName: "lists",
-    //   iconName: "list-outline",
-    //   label: "Lists"
-    // },
     {
       tabName: "notification",
       iconName: "notifications",
@@ -29,6 +24,28 @@ export class HomePage implements OnInit {
       tabName: "distressed",
       iconName: "nuclear-sharp",
       label: "Raise Distress"
+    },
+    {
+      tabName: "settings",
+      iconName: "information-outline",
+      label: "Info"
+    },
+    {
+      tabName: "profile",
+      iconName: "person-circle-outline",
+      label: "Profile"
+    }
+  ];
+  tabsListV = [
+    {
+      tabName: "map",
+      iconName: "map",
+      label: "Map"
+    },
+    {
+      tabName: "notification",
+      iconName: "notifications",
+      label: "Notifications"
     },
     {
       tabName: "settings",

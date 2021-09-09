@@ -15,7 +15,7 @@ import { GoogleMapsService } from 'src/app/providers/google-maps/google-maps.ser
 })
 export class DistressedPage implements OnInit {
   ionicForm: FormGroup;
-  serviceRole: any;
+  serviceRole: 'Volunteer' | 'Distressed';
   DistressForm: any;
   phoneNo: any;
   countryCode: any;
@@ -34,9 +34,9 @@ export class DistressedPage implements OnInit {
     this.keystore.get("User").then(user => {
       this.serviceRole = user;
     });
-    this.keystore.get("phnNo").then(phnNo => {
-      this.DistressForm.value.phone= phnNo;
-      this.phoneNo = phnNo;
+    this.keystore.get("PhoneNumber").then(PhoneNumber => {
+      this.DistressForm.value.phone= PhoneNumber;
+      this.phoneNo = PhoneNumber;
   });
   this.keystore.get("countryCode").then(countryCode => {
     this.DistressForm.value.countryCode= countryCode;
@@ -73,9 +73,9 @@ export class DistressedPage implements OnInit {
       DistressedName: this.DistressForm.controls.name.value,
       PhoneNumber: this.phoneNo,
       Age: this.DistressForm.controls.age.value,
-      address: this.DistressForm.value.address.formattedAddress,
-      lat: this.DistressForm.value.address.lat,
-      lng: this.DistressForm.value.address.lng,
+      Address: this.DistressForm.value.address.formattedAddress,
+      Lat: this.DistressForm.value.address.lat,
+      Lng: this.DistressForm.value.address.lng,
       sosReason: this.selectedRadio
     };
     this.commonPopover.loaderPresent("Raising Distress Alert");
