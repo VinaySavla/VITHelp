@@ -3,7 +3,7 @@
   <app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
   </app-common-header>
 
-  <ion-content>
+  <ion-content *ngIf="user">
     <div *ngIf="serviceRole==='Distressed'">
       <form [formGroup]="DistressForm" novalidate>
         <ion-item>
@@ -15,7 +15,7 @@
         <ion-item disabled="true">
           <ion-icon name="call"></ion-icon>
           <ion-input required type="number" [value]="countryCode" formControlName="countryCode"></ion-input>
-          <ion-input required type="number" [value]="phoneNo" formControlName="phone"></ion-input>
+          <ion-input required type="number" [value]="PhoneNumber" formControlName="phone"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Age <ion-text color="danger">*</ion-text>

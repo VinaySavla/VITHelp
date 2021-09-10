@@ -17,8 +17,9 @@ export class DistressedPage implements OnInit {
   ionicForm: FormGroup;
   serviceRole: 'Volunteer' | 'Distressed';
   DistressForm: any;
-  phoneNo: any;
+  PhoneNumber: any;
   countryCode: any;
+  user: any;
   selectedRadio: any;
   checkBoxList: any = constants.checkBoxList;
   constructor(
@@ -35,43 +36,54 @@ export class DistressedPage implements OnInit {
       this.serviceRole = user;
     });
     this.keystore.get("PhoneNumber").then(PhoneNumber => {
-      this.DistressForm.value.phone= PhoneNumber;
-      this.phoneNo = PhoneNumber;
+      // this.DistressForm.value.phone= PhoneNumber;
+      this.PhoneNumber = PhoneNumber;
   });
   this.keystore.get("countryCode").then(countryCode => {
-    this.DistressForm.value.countryCode= countryCode;
+    // this.DistressForm.value.countryCode= countryCode;
     this.countryCode = countryCode;
   });
-    this.DistressForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      countryCode: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
-      ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
-      ],
-      age: ['', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
-      address: this.formBuilder.group({
-        lat: ['', [Validators.required]],
-        lng: ['', [Validators.required]],
-        formattedAddress: [
-          '',
-          [Validators.required]
-        ]
-      }),
-      sosReason: ['', Validators.required]
+  this.fetchUser();
+}
+
+fetchUser(){
+    this.keystore.get("user").then(user => {
+      this.user = user;
+      this.DistressForm = this.formBuilder.group({
+        name: [this.user.Name || '', [Validators.required]],
+        countryCode: [
+          parseInt(this.user.CountryCode) || '',
+          [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+        ],
+        phone: [
+          this.user.PhoneNumber||'',
+          [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+        ],
+        age: [this.user.Age || '', [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)]],
+        address: this.formBuilder.group({
+          lat: ['', [Validators.required]],
+          lng: ['', [Validators.required]],
+          formattedAddress: [
+            '',
+            [Validators.required]
+          ]
+        }),
+        sosReason: ['', Validators.required]
+      });
+    }).catch(err =>{
+      console.log(err);
     });
-  }
-  selectRadio(value) {
+      
+    }
+    selectRadio(value) {
     this.selectedRadio = value;
   }
   raiseDistress(){
 
     const data = {
+      UserID: this.user.UserID,
       DistressedName: this.DistressForm.controls.name.value,
-      PhoneNumber: this.phoneNo,
+      PhoneNumber: this.PhoneNumber,
       Age: this.DistressForm.controls.age.value,
       Address: this.DistressForm.value.address.formattedAddress,
       Lat: this.DistressForm.value.address.lat,

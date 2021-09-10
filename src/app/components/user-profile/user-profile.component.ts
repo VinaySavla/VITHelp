@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
   isAllSelected = false;
   isLoading = false;
   signUpForm: FormGroup;
-  userInfo: any;
+  userData: any;
   userReg: any;
   volunteer = "Volunteer";
   distressed = "Distressed";
@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit {
   countryCode: any;
   checkBoxList: any = constants.checkBoxList;
   sosReason: any;
-  
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -47,48 +47,13 @@ export class UserProfileComponent implements OnInit {
     private commonPopover: CommonPopoverService,
     private statusService: StatusService,
     private googleService: GoogleMapsService
-    ) { }
-    
-    ngOnInit() {
+  ) { }
+
+  ngOnInit() {
     this.getUser();
+
     this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
-    });
-    this.keystore.get("PhoneNumber").then(PhoneNumber => {
-      this.signUpForm.value.phone = PhoneNumber;
-      this.phoneNumber = PhoneNumber;
-    });
-    this.keystore.get("countryCode").then(countryCode => {
-      this.signUpForm.value.countryCode = countryCode;
-      this.countryCode = countryCode;
-    });
-    this.signUpForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      countryCode: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
-      ],
-      phone: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
-      ],
-      age: ['', [Validators.required, Validators.pattern(/^[0-9]{2}$/), Validators.min(20), Validators.max(55)]],
-      profession: [''],
-      address: this.formBuilder.group({
-        lat: ['', [Validators.required]],
-        lng: ['', [Validators.required]],
-        formattedAddress: [
-          '',
-          [Validators.required]
-        ]
-      }),
-      serviceRole: [''],
-      supportList: [''],
-      isServiceRoleSelected: [''],
-      isUserServiceActive: [
-        true
-      ],
-      // sosReason: ['']
     });
 
   }
@@ -96,33 +61,90 @@ export class UserProfileComponent implements OnInit {
 
 
   async getUser() {
+    this.isLoading = true;
     const phoneNumber = await this.keystore.get('PhoneNumber');
-    const userData = await this.statusService.getUser(phoneNumber);
-    if (userData.users && typeof userData.users != "undefined" && userData.users != null && userData.users.length != null && userData.users.length > 0) {
-      console.log(userData.users[0])
-      //TODO find method and set Values of form fields
+    // const userData = await this.statusService.getUser(phoneNumber);
+    this.statusService.getUser(phoneNumber).then(res => {
+      this.userData = res
+      console.log(this.userData);
+      this.isLoading = false;
+      if ((this.userData.users && typeof this.userData.users != "undefined" && this.userData.users != null && this.userData.users.length != null && this.userData.users.length > 0)) {
+        console.log(this.userData.users[0])
+        this.signUpForm = this.formBuilder.group({
+          name: [this.userData.users[0].Name || '', [Validators.required]],
+          countryCode: [
+            this.userData.users[0].CountryCode || '',
+            [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+          ],
+          phone: [
+            this.userData.users[0].PhoneNumber || '',
+            [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+          ],
+          age: [this.userData.users[0].Age || '', [Validators.required, Validators.pattern(/^[0-9]{2}$/), Validators.min(20), Validators.max(55)]],
+          profession: [this.userData.users[0].Profession || ''],
+          address: this.formBuilder.group({
+            lat: [this.userData.users[0].Lat || '', [Validators.required]],
+            lng: [this.userData.users[0].Lng || '', [Validators.required]],
+            formattedAddress: [
+              this.userData.users[0].Address || '',
+              [Validators.required]
+            ]
+          }),
+          serviceRole: [this.userData.users[0].serviceRole || ''],
+          isServiceRoleSelected: [this.userData.users[0].isServiceRoleSelected || ''],
+          isUserServiceActive: [
+            this.userData.users[0].isUserServiceActive || true
+          ],
+        });
+      }
+      else {
+        this.isLoading = false;
+        this.keystore.get("PhoneNumber").then(PhoneNumber => {
+          this.signUpForm.value.phone = PhoneNumber;
+          this.phoneNumber = PhoneNumber;
+        });
+        this.keystore.get("countryCode").then(countryCode => {
+          this.signUpForm.value.countryCode = countryCode;
+          this.countryCode = countryCode;
+        });
+        this.signUpForm = this.formBuilder.group({
+          name: ['', [Validators.required]],
+          countryCode: [
+            '',
+            [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+          ],
+          phone: [
+            '',
+            [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
+          ],
+          age: ['', [Validators.required, Validators.pattern(/^[0-9]{2}$/), Validators.min(20), Validators.max(55)]],
+          profession: [''],
+          address: this.formBuilder.group({
+            lat: ['', [Validators.required]],
+            lng: ['', [Validators.required]],
+            formattedAddress: [
+              '',
+              [Validators.required]
+            ]
+          }),
+          serviceRole: [''],
+          isServiceRoleSelected: [''],
+          isUserServiceActive: [
+            true
+          ],
+        });
+      }
+    })
+      .catch(err => {
+        this.isLoading = false;
+        console.log(err);
+      });
+  }
 
-      // this.signUpForm.setValue({
-      //   name:userData.users[0].Name,
-      //   countryCode: userData.users[0].CountryCode,
-      //   phone: userData.users[0].PhoneNumber,
-      //   age: userData.users[0].Age,
-      //   profession: userData.users[0].Profession,
-      //   address: this.formBuilder.group({
-      //     lat: userData.users[0].Lat,
-      //     lng: userData.users[0].Lng,
-      //     formattedAddress:userData.users[0].Address,
-      //   }),
-      //  serviceRole:userData.users[0].serviceRole,
-      //   isServiceRoleSelected: userData.users[0].isServiceRoleSelected,
-      //   isUserServiceActive: userData.users[0].isUserServiceActive,
-      //   supportList:['']
-      // })
-    }
-  }   /**
-   * CheckBox
-   * @param event
-   */
+  /**
+  * CheckBox
+  * @param event
+  */
   checkMaster(event) {
     setTimeout(() => {
       this.checkBoxList.forEach((obj: { isChecked: boolean }) => {
@@ -179,7 +201,7 @@ export class UserProfileComponent implements OnInit {
       const data = {
         Name: this.signUpForm.controls.name.value,
         CountryCode: this.countryCode,
-        PhoneNumber: this.phoneNumber,
+        PhoneNumber: parseInt(this.phoneNumber),
         Age: this.signUpForm.controls.age.value,
         Address: this.signUpForm.value.address.formattedAddress,
         Lat: this.signUpForm.value.address.lat,
@@ -195,7 +217,7 @@ export class UserProfileComponent implements OnInit {
 
       };
 
-
+      
       if (
         this.serviceRole === "Volunteer"
       ) {

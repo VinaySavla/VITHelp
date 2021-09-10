@@ -1,4 +1,4 @@
-<form [formGroup]="signUpForm" novalidate>
+<form [formGroup]="signUpForm" novalidate  *ngIf="!isLoading && signUpForm">
   <ion-item>
     <ion-label position="floating">Full Name <ion-text color="danger">*</ion-text>
     </ion-label>
