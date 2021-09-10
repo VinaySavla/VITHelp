@@ -31,7 +31,7 @@ export class DistressedPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.keystore.get("User").then(user => {
+    this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
     });
     this.keystore.get("PhoneNumber").then(PhoneNumber => {

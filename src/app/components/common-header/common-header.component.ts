@@ -27,7 +27,7 @@ export class CommonHeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.keystore.get("User").then(user => {
+    this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
   });
   }

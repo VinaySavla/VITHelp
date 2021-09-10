@@ -60,7 +60,7 @@ export class AppComponent {
       //   if (!auth) {
       //     return;
       //   }
-      //   this.keystore.get("User").then(user => {
+      //   this.keystore.get("serviceRole").then(user => {
       //     if (!user.isServiceRoleSelected) {
       //       // navigate to select role screen
       //       setTimeout(() => {

@@ -1,6 +1,6 @@
 import { CommonPopoverService } from './../../../../providers/common-popover/common-popover.service';
 import { StatusService } from './../../../../providers/status/status.service';
-import { Component, OnInit, ViewChild,NgZone  } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
@@ -9,26 +9,43 @@ import { StorageProvider } from 'src/app/providers/storage/storage.service';
   templateUrl: './case.page.html',
   styleUrls: ['./case.page.scss'],
 })
-export class CasePage implements OnInit {
-  @ViewChild('content') content : IonContent;
-  title = "Case: "
-  currentUser:boolean;
+export class CasePage implements OnInit, AfterViewChecked {
+  title= 'Case: ';
+  currentUser: boolean;
   statusData: any[];
   isHidden: boolean = true;
   contentHidden: boolean = true;
   serviceRole: String;
   userStatus: any;
-  commentBox:String = '';
-  messageBox:String;
-  constructor(private keystore: StorageProvider, private statusService: StatusService, private commonPopover:CommonPopoverService,public _zone: NgZone) { }
+  commentBox: String = '';
+  messageBox: String;
+  userCaseData: any;
+  user: any;
+
+  @ViewChild('content', { static: false }) content: IonContent;
+
+
+  constructor(private keystore: StorageProvider, private statusService: StatusService, private commonPopover: CommonPopoverService){}
 
   ngOnInit() {
-    this.statusService.getStatus().then((statusData) => { this.statusData = statusData["statuses"]; });
-    this.keystore.get("User").then(user => {
-      this.serviceRole = user;
+    this.statusService.getStatus().then((statusData) => {
+      this.statusData = statusData["statuses"];
     });
+    this.keystore.get("serviceRole").then(user => {
+      this.serviceRole = user;
+      this.getCaseDetails();
+    });
+    this.keystore.get("user").then(user => this.user = user);
   }
-  addSupport() {
+
+  ngAfterViewChecked(){ this.content.scrollToBottom(); }
+  
+  async getCaseDetails() {
+    const caseData = await this.statusService.getCase();
+    this.userCaseData=caseData;
+    this.title = "Case: "+this.userCaseData.CaseID;
+  }
+  addSupport() { 
     if (this.isHidden) {
       this.isHidden = false;
     }
@@ -50,7 +67,6 @@ export class CasePage implements OnInit {
   public get messages() {
     return this.statusData == undefined ? [] : this.statusData.map((status) => {
       return {
-        // user: status.VolunteerID != undefined ? status.VolunteerID : status.DistressedID,
         user: status.UserID,
         serviceRole: status.serviceRole,
         msg: status.Status,
@@ -59,32 +75,35 @@ export class CasePage implements OnInit {
     });
   }
 
-  
-  
+
+
   sendMessage(buttonValue: string) {
     this.commonPopover.loaderPresent("Updating Status");
     this.messageBox = buttonValue + ': ' + this.commentBox;
     const data = {
-      CaseID: 1,
-      UserID: 1,
+      CaseID: this.userCaseData.CaseID,
+      UserID: this.user.UserID,
       serviceRole: this.serviceRole,
       Status: this.messageBox,
-
     };
-    try{
-      this.statusData.push({
-        user: 1,
-        msg: this.messageBox,
-        createdAt: 1554090856000
-      });
-      this.statusService.sendStatus(data).then(res =>{
+    console.log(this.user);
+    try {
+      this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();
+        this.ngOnInit();
       })
     }
-    catch(error){
+    catch (error) {
       console.log(error);
       this.commonPopover.loaderDismiss();
     }
-    this.commentBox='';
+    this.commentBox = '';
+    if(buttonValue =='Closed')
+    {
+      this.statusService.closeCase(this.userCaseData.CaseID).then(res => {
+        this.ngOnInit();
+        this.commonPopover.loaderDismiss();
+      });
+    }
   }
 }

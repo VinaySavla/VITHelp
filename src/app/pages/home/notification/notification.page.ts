@@ -12,7 +12,7 @@ export class NotificationPage implements OnInit {
   constructor(private route: ActivatedRoute,private router:Router, private keystore:StorageProvider) { }
 
   ngOnInit() {
-    this.keystore.get("User").then(user => {
+    this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
   });
   }

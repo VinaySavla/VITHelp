@@ -1,32 +1,32 @@
 export const constants = {
   checkBoxList: [
     {
-      value: "food",
+      value: "Food",
       name: "Food",
       isChecked: false
     },
     {
-      value: "clothing",
+      value: "Clothing",
       name: "Clothing",
       isChecked: false
     },
     {
-      value: "shelter",
+      value: "Shelter",
       name: "Shelter",
       isChecked: false
     },
     {
-      value: "medical",
+      value: "Medical",
       name: "Medical",
       isChecked: false
     }
   ],
   enums: {
     supportList: {
-      FOOD: "food",
-      CLOTHING: "clothing",
-      SHELTER: "shelter",
-      MEDICAL: "medical"
+      FOOD: "Food",
+      CLOTHING: "Clothing",
+      SHELTER: "Shelter",
+      MEDICAL: "Medical"
     },
     roles: {
       SERVICE_PROVIDER: "service_provider",

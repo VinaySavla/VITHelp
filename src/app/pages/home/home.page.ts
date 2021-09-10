@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
   constructor(private route: ActivatedRoute, private keystore: StorageProvider) {}
 
   ngOnInit() {
-    this.keystore.get("User").then(user => {
+    this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
   });
   }

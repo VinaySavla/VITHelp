@@ -30,15 +30,26 @@ export class StatusService {
       
     }
   }
-  async getCase() {
+  async getCase(id = 1) {
     try {
-      const res = await axios.get('http://localhost:3001/data/caseData/1');
+      const res = await axios.get(`http://localhost:3001/data/caseData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
       
     }
   }
+
+  async closeCase(id) {
+    try {
+      const res = await axios.delete(`http://localhost:3001/data/caseData/${id}`);
+      return res.data;
+    } catch(error) {
+      console.log(error);
+      
+    }
+  }
+
   async sendStatus(data) {
     const headers = {
       "Content-Type":"Application/Json"
@@ -51,7 +62,7 @@ export class StatusService {
       
     }
   }
-  async authUser(PhoneNumber) {
+  async getUser(PhoneNumber) {
     try {
       const res = await axios.get(`http://localhost:3001/data/userData/${PhoneNumber}`);
       return res.data

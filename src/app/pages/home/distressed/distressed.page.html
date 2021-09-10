@@ -4,9 +4,6 @@
   </app-common-header>
 
   <ion-content>
-    <div *ngIf="serviceRole==='Volunteer'">
-      <h1>ONLY FOR DISTRESS LOGIN</h1>
-    </div>
     <div *ngIf="serviceRole==='Distressed'">
       <form [formGroup]="DistressForm" novalidate>
         <ion-item>
@@ -21,13 +18,11 @@
           <ion-input required type="number" [value]="phoneNo" formControlName="phone"></ion-input>
         </ion-item>
         <ion-item>
-          <!-- TODO : restrict updating if age not valid -->
           <ion-label position="floating">Age <ion-text color="danger">*</ion-text>
           </ion-label>
           <ion-input required type="number" formControlName="age"></ion-input>
         </ion-item>
         <ion-item formGroupName="address" (click)="getCurrentPosition()">
-          <!-- <ion-label position="floating">Address</ion-label> -->
           <ion-icon name="locate-outline"></ion-icon>
           <ion-input placeholder="Address" type="text" formControlName="formattedAddress" readonly></ion-input>
         </ion-item>
@@ -56,4 +51,3 @@
     </div>
   </ion-content>
 </ion-app>
-<!-- Location && Type of Help -->

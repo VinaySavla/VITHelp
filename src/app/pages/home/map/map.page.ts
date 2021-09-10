@@ -19,7 +19,7 @@ export class MapPage implements OnInit {
     this.checkIfRoleSelected();
   }
   checkIfRoleSelected() {
-    this.keystore.get("User").then(user => {
+    this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
       if (this.serviceRole == "Distressed") {
         this.commonPopover.toastPopOver("False alarm is legally punishable!");

@@ -25,7 +25,7 @@
     <ion-icon name="locate-outline"></ion-icon>
     <ion-input placeholder="Address" type="text" formControlName="formattedAddress" readonly></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item *ngIf="serviceRole === 'Volunteer'">
     <ion-label>Available for service?</ion-label>
     <ion-toggle formControlName="isUserServiceActive"></ion-toggle>
   </ion-item>

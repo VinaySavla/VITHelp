@@ -25,7 +25,7 @@ export class AuthProvider {
   }
 
   currentUser() {
-    return this.keyStore.get("user").then(user => {
+    return this.keyStore.get("serviceRole").then(user => {
       // return this.user = user && user.length ? JSON.parse(user) : ''
       return (this.user = user ? user : "");
     });
