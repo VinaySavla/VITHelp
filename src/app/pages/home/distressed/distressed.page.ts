@@ -31,6 +31,8 @@ export class DistressedPage implements OnInit {
     private commonPopover: CommonPopoverService
   ) { }
 
+ 
+
   ngOnInit() {
     this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
