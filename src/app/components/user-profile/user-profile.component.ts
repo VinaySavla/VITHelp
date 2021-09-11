@@ -63,7 +63,6 @@ export class UserProfileComponent implements OnInit {
   async getUser() {
     this.isLoading = true;
     const phoneNumber = await this.keystore.get('PhoneNumber');
-    // const userData = await this.statusService.getUser(phoneNumber);
     this.statusService.getUser(phoneNumber).then(res => {
       this.userData = res
       console.log(this.userData);
@@ -217,7 +216,7 @@ export class UserProfileComponent implements OnInit {
 
       };
 
-      
+
       if (
         this.serviceRole === "Volunteer"
       ) {

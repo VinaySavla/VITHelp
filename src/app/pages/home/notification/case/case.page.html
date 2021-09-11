@@ -7,6 +7,7 @@
         <p>Phone Number: {{userCaseData.PhoneNumber}} </p>
         <p>Address: {{userCaseData.Address}}</p>
         <p>Reason: {{userCaseData.sosReason}}</p>
+        <p>Status: {{userCaseData.Status}}</p>
     </ion-card>
 
 </div>
@@ -14,7 +15,7 @@
 <ion-content #content>
     <ion-grid>
         <ion-row *ngFor="let message of messages">
-            <ion-col size="9" *ngIf="message.serviceRole == 'Volunteer'" class="message otherMessage">
+            <ion-col size="9" *ngIf="message.serviceRole == 'Distressed'" class="message otherMessage">
                 <b>{{ message.user }}:{{message.serviceRole}}</b><br>
                 <span>{{ message.msg }}</span>
                 <div class="time" text-right>
@@ -22,7 +23,7 @@
                 </div>
             </ion-col>
             
-            <ion-col offset="3" size="9" *ngIf="message.serviceRole == 'Distressed'" class="message myMessage">
+            <ion-col offset="3" size="9" *ngIf="message.serviceRole == 'Volunteer'" class="message myMessage">
                 <b>{{ message.user }}:{{message.serviceRole}}</b><br>
                 <span>{{ message.msg }}</span>
                 <div class="time" text-right>
@@ -43,7 +44,7 @@
     <div [hidden]=isHidden>
         <ion-item>
             <ion-input placeholder="Comment Here" [(ngModel)]="commentBox"></ion-input>
-            <ion-button (click)="sendMessage('Additional Support Extended')">
+            <ion-button (click)="sendMessage('Additional Support Extended:')">
                 <ion-icon name="send-sharp"></ion-icon>
             </ion-button>
         </ion-item>

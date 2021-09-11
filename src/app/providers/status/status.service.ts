@@ -21,16 +21,25 @@ export class StatusService {
     }
   }
 
-  async getStatus() {
+  async getStatus(id) {
     try {
-      const res = await axios.get('http://localhost:3001/data/statusData/1');
+      const res = await axios.get(`http://localhost:3001/data/statusData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
       
     }
   }
-  async getCase(id = 1) {
+  async getCases() {
+    try {
+      const res = await axios.get(`http://localhost:3001/data/caseData/`);
+      return res.data;
+    } catch(error) {
+      console.log(error);
+      
+    }
+  }
+  async getCase(id) {
     try {
       const res = await axios.get(`http://localhost:3001/data/caseData/${id}`);
       return res.data;

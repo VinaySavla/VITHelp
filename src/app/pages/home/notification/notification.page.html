@@ -3,15 +3,25 @@
   <app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
   </app-common-header>
 
-  <ion-content>
-    <ion-card>
-      <ion-button [routerLink]="['/home/notification/case']" type="block">Case 1</ion-button>
-    </ion-card>
-    <!-- <div id="noData">
-      <img src="../../../assets/images/job-seeker.png" width="100" />
-      <h3>No Volunteer/Distress Nearby</h3>
-    </div> -->
-    
+  <ion-content *ngIf="Cases">
+    <ion-card *ngFor="let Case of Cases" class="ion-padding">
+      <div>
+        <ion-item>
+          <ion-label>Case: {{Case.CaseID}}</ion-label>
+          <ion-button color="white">
+            <ion-icon color="success" size="large" name="checkmark-sharp"></ion-icon>
+          </ion-button>
+          <ion-button color="white" (click)="declineCase(Case.CaseID)">
+            <ion-icon color="danger" size="large" name="close-sharp"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label>Reason: {{Case.sosReason}}</ion-label>
+          <div>
+            <ion-button [routerLink]="['/home/notification/case']" (click)="toCase(Case.CaseID)">Status</ion-button>
+          </div>
+        </ion-item>
+      </div>
+      </ion-card>
   </ion-content>
-  
 </ion-app>
