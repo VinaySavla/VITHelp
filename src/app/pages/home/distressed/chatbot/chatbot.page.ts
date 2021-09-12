@@ -24,6 +24,16 @@ export class ChatbotPage implements OnInit {
     script3.type = 'text/javascript';
     script3.src = "/assets/build/static/js/main.67d9528c.chunk.js";
     document.getElementsByTagName("body")[0].appendChild(script3);
+
+    // TODO
+    /*
+    this.keystore.get("user").then((user) => {
+      const script4 = document.createElement('script');
+      script4.type = 'text/javascript';
+      script1.innerText = `ActionProvider.setUserId(${user.UserID})`;
+      document.getElementsByTagName("body")[0].appendChild(script4);
+    });
+    */
   }
 
   ngOnInit() {
