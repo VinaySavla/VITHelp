@@ -79,7 +79,7 @@ export class CasePage implements OnInit, AfterViewChecked {
     return this.statusData == undefined ? [] : this.statusData.map((status) => {
       // console.log(status);
       return {
-        user: status.UserId,
+        user: status.user.Name,
         serviceRole: status.serviceRole,
         // serviceRole: this.serviceRole, //Temp Fix
         msg: status.Status,
