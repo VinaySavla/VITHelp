@@ -1,3 +1,4 @@
+import { StatusService } from 'src/app/providers/status/status.service';
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -20,6 +21,7 @@ export class SubmitOtpPage implements OnInit {
     this.timer -= 1;
   }, 1000);
   otpForm: any;
+  PhoneNumber:any;
   constructor(
     private crudService: CrudService,
     private route: ActivatedRoute,
@@ -28,15 +30,19 @@ export class SubmitOtpPage implements OnInit {
     private http: HttpClient,
     private commonPopover: CommonPopoverService,
     private networkConnection: NetworkConnectionService,
-    private keystore: StorageProvider
+    private keystore: StorageProvider,
+    private StatusService: StatusService
   ) { }
 
   ngOnInit() {
     this.otpForm = this.formBuilder.group({
       otp: ["", [Validators.required, Validators.pattern(/^[0-9]{4,4}$/)]]
     });
-
+    this.getNumber();
   }
+  async getNumber(){
+    this.PhoneNumber = await this.keystore.get('PhoneNumber')
+}
   changeOTP(value) {
     if (value) {
       this.otpForm.patchValue({
@@ -63,17 +69,27 @@ export class SubmitOtpPage implements OnInit {
       return;
     }
     let data = {
-      countryCode: this.route.snapshot.paramMap.get("countryCode"),
-      phone: this.route.snapshot.paramMap.get("phone"),
+      // countryCode: this.route.snapshot.paramMap.get("countryCode"),
+      phone: this.PhoneNumber,
       otp: parseInt(this.otpForm.controls["otp"].value)
     };
 
     await this.commonPopover.loaderPresent("Verifying OTP");
     //TODO Verify OTP Method
-    //TODO if otp verified : this.keystore.set("isAuthenticated", true); to be added
-    this.keystore.set("isAuthenticated", true);
-    this.commonPopover.loaderDismiss();
-    this.router.navigate(["/select-role"]);
+    this.StatusService.verifyOtp(data,this.PhoneNumber).then(res=> {
+      res = res;
+      // console.log(res.verification.OTP);
+      // console.log(data.otp)
+      if(res.verification.OTP == data.otp)
+      {
+        this.keystore.set("isAuthenticated", true);
+        this.commonPopover.loaderDismiss();
+        this.router.navigate(["/select-role"]);
+      }else{
+        this.commonPopover.loaderDismiss();
+        alert("Incorrect OTP");
+      }
+    })
   }
   ionViewWillLeave() {
     clearInterval(this.time);

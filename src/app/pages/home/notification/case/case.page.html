@@ -2,11 +2,11 @@
 <div [hidden]=contentHidden *ngIf="userCaseData">
 
     <ion-card>
-        <p>Name: {{userCaseData.DistressedName}} </p>
+        <p>Name: {{userCaseData.Name}} </p>
         <p>Age:{{userCaseData.Age}} </p>
         <p>Phone Number: {{userCaseData.PhoneNumber}} </p>
         <p>Address: {{userCaseData.Address}}</p>
-        <p>Reason: {{userCaseData.sosReason}}</p>
+        <p>Reason: {{userCaseData.helptype.HelpType}}</p>
         <p>Status: {{userCaseData.Status}}</p>
     </ion-card>
 

@@ -1,3 +1,4 @@
+import { StatusService } from 'src/app/providers/status/status.service';
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
     private networkConnection: NetworkConnectionService,
     private crudService: CrudService,
     private keystore: StorageProvider,
-    public http: HttpClient
+    public http: HttpClient,
+    private statusService: StatusService
   ) { }
 
   ngOnInit() {
@@ -58,8 +60,8 @@ export class LoginPage implements OnInit {
       return;
     }
     let data = {
-      countryCode: this.otpForm.controls["countryCode"].value,
-      phone: this.otpForm.controls["phone"].value
+      // countryCode: this.otpForm.controls["countryCode"].value,
+      PhoneNumber: this.otpForm.controls["phone"].value
     };
     
     if (this.networkConnection.isOffline()) {
@@ -69,11 +71,12 @@ export class LoginPage implements OnInit {
     //TODO send otp Method
     this.keystore.set("PhoneNumber", this.otpForm.value.phone);
     this.keystore.set("countryCode", this.otpForm.value.countryCode);
-    var phnData = new FormData;
-    phnData.append('cntrCode', this.otpForm.value.countryCode);
-    phnData.append('phnNo', this.otpForm.value.phone);
-    this.crudService.addPhnno(phnData);
+    // var phnData = new FormData;
+    // phnData.append('cntrCode', this.otpForm.value.countryCode);
+    // phnData.append('phnNo', this.otpForm.value.phone);
+    // this.crudService.addPhnno(phnData);
+    this.statusService.requestOtp(data).then();
     this.commonPopover.loaderDismiss();
-    this.router.navigate(["/submit-otp", data]);
+    this.router.navigate(["/submit-otp"/* , data */]);
   }
 }

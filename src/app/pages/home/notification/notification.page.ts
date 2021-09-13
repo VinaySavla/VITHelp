@@ -26,27 +26,37 @@ export class NotificationPage implements OnInit {
   ngOnInit() {
     this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
-      this.keystore.get("user").then(user => this.user = user);
-      this.getCases();
+      this.keystore.get("user").then(user => {
+        this.user = user
+        this.getCases();
+      });
     });
   }
-
+  
   getCases() {
-    this.statusService.getCases().then(Cases => {
-      this.Cases = Cases;
-    })
+    if (this.serviceRole === "Distressed"){
+      this.statusService.getUserCase(this.user.Id).then(Cases => {
+        this.Cases = Cases;
+        console.log(this.Cases);
+      })
+    } else {
+      this.statusService.getCases().then(Cases => {
+        this.Cases = Cases.filter(caseToBeCheck => !this.rejected(caseToBeCheck));
+      })
+    }
   }
   toCase(CaseID) {
     this.keystore.set('CaseID', CaseID);
   }
   declineCase(CaseID) {
     this.commonPopover.loaderPresent("Updating Status");
-      const data = {
-      CaseID: CaseID,
-      UserID: this.user.UserID,
+    const data = {
+      CaseId: CaseID,
+      UserId: this.user.Id,
       serviceRole: this.serviceRole,
-      Status: 'Decline',
+      Status: 'Declined',
     };
+    console.log(this.user.Id)
     try {
       this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();
@@ -57,5 +67,16 @@ export class NotificationPage implements OnInit {
       console.log(error);
       this.commonPopover.loaderDismiss();
     }
+  }
+
+  rejected(caseToBeCheck: any): boolean {
+    for(const status of caseToBeCheck.statuses) {
+      if(status.UserId == this.user.Id) {
+        if(status.Status == "Declined") {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

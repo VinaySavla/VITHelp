@@ -154,16 +154,11 @@ this.keystore.get("countryCode").then(countryCode => {
         PhoneNumber: this.signUpForm.controls.phone.value,
         Age: this.signUpForm.controls.age.value,
         address: this.signUpForm.value.address.formattedAddress,
-        lat: this.signUpForm.value.address.lat,
-        lng: this.signUpForm.value.address.lng,
-        Food: this.checkBoxList['0'].isChecked?"1":"0",
-        Clothing: this.checkBoxList['1'].isChecked?"1":"0",
-        Shelter: this.checkBoxList['2'].isChecked?"1":"0",
-        Medical: this.checkBoxList['3'].isChecked?"1":"0",
-        serviceRole: this.serviceRole,
-        isServiceRoleSelected: true,
+        Lat: this.signUpForm.value.address.lat,
+        Lng: this.signUpForm.value.address.lng,
+        // serviceRole: this.serviceRole,
         isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
-        profession : this.signUpForm.controls.profession.value
+        Profession : this.signUpForm.controls.profession.value
   
       };
       console.log(JSON.stringify(data));
@@ -174,7 +169,7 @@ this.keystore.get("countryCode").then(countryCode => {
       if (
         this.serviceRole === "Volunteer"
         ) {
-          data.profession = this.signUpForm.controls.profession.value;
+          data.Profession = this.signUpForm.controls.profession.value;
         }
         
         await this.commonPopover.loaderPresent('Updating user profile.');

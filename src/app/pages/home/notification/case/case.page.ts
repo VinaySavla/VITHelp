@@ -21,7 +21,7 @@ export class CasePage implements OnInit, AfterViewChecked {
   messageBox: String;
   userCaseData: any;
   user: any;
-  CaseID: any;
+  CaseId: any;
 
   @ViewChild('content', { static: false }) content: IonContent;
 
@@ -43,15 +43,16 @@ export class CasePage implements OnInit, AfterViewChecked {
   ngAfterViewChecked() { this.content.scrollToBottom(); }
 
   async getCaseDetails() {
-    this.keystore.get("CaseID").then(CaseID => {
-      this.CaseID = CaseID;
-      // const caseData = await this.statusService.getCase(this.CaseID);
-      this.statusService.getCase(this.CaseID).then(caseData => {
+    this.keystore.get("CaseID").then(CaseId => {
+      this.CaseId = CaseId;
+      // const caseData = await this.statusService.getCase(this.CaseId);
+      this.statusService.getCase(this.CaseId).then(caseData => {
         this.userCaseData = caseData;
-        this.title = "Case: " + this.userCaseData.CaseID;
+        this.title = "Case: " + this.userCaseData.Id;
       });
-      this.statusService.getStatus(this.CaseID).then((statusData) => {
+      this.statusService.getStatus(this.CaseId).then((statusData) => {
         this.statusData = statusData["statuses"];
+        console.log(this.statusData);
       });
     });
   }
@@ -76,11 +77,13 @@ export class CasePage implements OnInit, AfterViewChecked {
 
   public get messages() {
     return this.statusData == undefined ? [] : this.statusData.map((status) => {
+      // console.log(status);
       return {
-        user: status.UserID,
+        user: status.UserId,
         serviceRole: status.serviceRole,
+        // serviceRole: this.serviceRole, //Temp Fix
         msg: status.Status,
-        createdAt: status.TimeStamp
+        createdAt: status.time
       }
     });
   }
@@ -91,12 +94,12 @@ export class CasePage implements OnInit, AfterViewChecked {
     this.commonPopover.loaderPresent("Updating Status");
     this.messageBox = buttonValue + ' ' + this.commentBox;
     const data = {
-      CaseID: this.userCaseData.CaseID,
-      UserID: this.user.UserID,
+      CaseId: this.userCaseData.Id,
+      UserId: this.user.Id,
       serviceRole: this.serviceRole,
       Status: this.messageBox,
     };
-    console.log(this.user);
+    console.log(data);
     try {
       this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();
@@ -109,7 +112,7 @@ export class CasePage implements OnInit, AfterViewChecked {
     }
     this.commentBox = '';
     if (buttonValue == 'Closed') {
-      this.statusService.closeCase(this.userCaseData.CaseID).then(res => {
+      this.statusService.closeCase(this.userCaseData.Id).then(res => {
         this.ngOnInit();
         this.commonPopover.loaderDismiss();
       });

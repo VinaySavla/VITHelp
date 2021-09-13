@@ -36,6 +36,7 @@ export class UserProfileComponent implements OnInit {
   countryCode: any;
   checkBoxList: any = constants.checkBoxList;
   sosReason: any;
+  isExistingUser: Boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +66,7 @@ export class UserProfileComponent implements OnInit {
     const phoneNumber = await this.keystore.get('PhoneNumber');
     this.statusService.getUser(phoneNumber).then(res => {
       this.userData = res
+      this.isExistingUser = true;
       console.log(this.userData);
       this.isLoading = false;
       if ((this.userData.users && typeof this.userData.users != "undefined" && this.userData.users != null && this.userData.users.length != null && this.userData.users.length > 0)) {
@@ -199,21 +201,15 @@ export class UserProfileComponent implements OnInit {
 
       const data = {
         Name: this.signUpForm.controls.name.value,
-        CountryCode: this.countryCode,
-        PhoneNumber: parseInt(this.phoneNumber),
+        CountryCode: this.countryCode || this.userData.users[0].CountryCode,
+        PhoneNumber: parseInt(this.phoneNumber) || this.userData.users[0].PhoneNumber,
         Age: this.signUpForm.controls.age.value,
         Address: this.signUpForm.value.address.formattedAddress,
         Lat: this.signUpForm.value.address.lat,
         Lng: this.signUpForm.value.address.lng,
-        Food: this.checkBoxList['0'].isChecked ? "1" : "0",
-        Clothing: this.checkBoxList['1'].isChecked ? "1" : "0",
-        Shelter: this.checkBoxList['2'].isChecked ? "1" : "0",
-        Medical: this.checkBoxList['3'].isChecked ? "1" : "0",
-        serviceRole: this.serviceRole,
-        isServiceRoleSelected: true,
+        // serviceRole: this.serviceRole,
         isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
         Profession: this.signUpForm.controls.profession.value
-
       };
 
 
@@ -224,16 +220,29 @@ export class UserProfileComponent implements OnInit {
       }
 
       await this.commonPopover.loaderPresent('Updating User Profile.');
-      try {
-        this.statusService.userData(data);
-        console.log(JSON.stringify(data));
-        console.log(this.phoneNumber);
+      if (this.isExistingUser = false) {
+
+        try {
+          this.statusService.userData(data);
+          // console.log(JSON.stringify(data));
+          // console.log(this.phoneNumber);
+        }
+        catch (error) {
+          console.log(error);
+        }
+        this.commonPopover.loaderDismiss();
+        this.router.navigate(['/home/map']);
+      } else {
+        try {
+          this.statusService.updateUser(data,this.userData.users[0].Id);
+          // console.log(JSON.stringify(data));
+        }
+        catch (error) {
+          console.log(error);
+        }
+        this.commonPopover.loaderDismiss();
+        this.router.navigate(['/home/map']);
       }
-      catch (error) {
-        console.log(error);
-      }
-      this.commonPopover.loaderDismiss();
-      this.router.navigate(['/home/map']);
     }
   }
   async getCurrentPosition() {

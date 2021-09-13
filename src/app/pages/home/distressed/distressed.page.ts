@@ -22,6 +22,7 @@ export class DistressedPage implements OnInit {
   user: any;
   selectedRadio: any;
   checkBoxList: any = constants.checkBoxList;
+  HelpType:any;
   constructor(
     private keystore: StorageProvider,
     private router: Router, 
@@ -40,15 +41,15 @@ export class DistressedPage implements OnInit {
     this.keystore.get("PhoneNumber").then(PhoneNumber => {
       // this.DistressForm.value.phone= PhoneNumber;
       this.PhoneNumber = PhoneNumber;
-  });
-  this.keystore.get("countryCode").then(countryCode => {
-    // this.DistressForm.value.countryCode= countryCode;
-    this.countryCode = countryCode;
-  });
-  this.fetchUser();
-}
-
-fetchUser(){
+    });
+    this.keystore.get("countryCode").then(countryCode => {
+      // this.DistressForm.value.countryCode= countryCode;
+      this.countryCode = countryCode;
+    });
+    this.fetchUser();
+  }
+  
+  fetchUser(){
     this.keystore.get("user").then(user => {
       this.user = user;
       this.DistressForm = this.formBuilder.group({
@@ -79,18 +80,27 @@ fetchUser(){
     }
     selectRadio(value) {
     this.selectedRadio = value;
+    if(this.selectedRadio == "Food"){
+      this.HelpType = 1;
+    } else if( this.selectedRadio == "Clothing"){
+      this.HelpType = 2;
+    } else if( this.selectedRadio == "Shelter"){
+      this.HelpType = 3;
+    } else if(this.selectedRadio == "Medical"){
+      this.HelpType = 4;
+    }
   }
   raiseDistress(){
 
     const data = {
-      UserID: this.user.UserID,
-      DistressedName: this.DistressForm.controls.name.value,
+      UserId: this.user.Id,
+      Name: this.DistressForm.controls.name.value,
       PhoneNumber: this.PhoneNumber,
       Age: this.DistressForm.controls.age.value,
       Address: this.DistressForm.value.address.formattedAddress,
       Lat: this.DistressForm.value.address.lat,
       Lng: this.DistressForm.value.address.lng,
-      sosReason: this.selectedRadio
+      HelpTypeId: this.HelpType
     };
     this.commonPopover.loaderPresent("Raising Distress Alert");
     try{

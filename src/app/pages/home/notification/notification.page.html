@@ -7,18 +7,18 @@
     <ion-card *ngFor="let Case of Cases" class="ion-padding">
       <div>
         <ion-item>
-          <ion-label>Case: {{Case.CaseID}}</ion-label>
-          <ion-button color="white">
+          <ion-label>Case: {{Case.Id}}</ion-label>
+          <ion-button color="white" *ngIf="serviceRole == 'Volunteer'">
             <ion-icon color="success" size="large" name="checkmark-sharp"></ion-icon>
           </ion-button>
-          <ion-button color="white" (click)="declineCase(Case.CaseID)">
+          <ion-button color="white" (click)="declineCase(Case.Id)" *ngIf="serviceRole == 'Volunteer'">
             <ion-icon color="danger" size="large" name="close-sharp"></ion-icon>
           </ion-button>
         </ion-item>
         <ion-item>
-          <ion-label>Reason: {{Case.sosReason}}</ion-label>
+          <ion-label>Reason: {{Case.helptype.HelpType}}</ion-label>
           <div>
-            <ion-button [routerLink]="['/home/notification/case']" (click)="toCase(Case.CaseID)">Status</ion-button>
+            <ion-button [routerLink]="['/home/notification/case']" (click)="toCase(Case.Id)">Status</ion-button>
           </div>
         </ion-item>
       </div>
