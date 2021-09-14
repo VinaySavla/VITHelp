@@ -91,6 +91,9 @@ export class DistressedPage implements OnInit {
     }
   }
   raiseDistress(){
+    // var CaseID; // Temp Fix
+    //TODO: take case id from response of raise case
+    // this.keystore.set('CaseID', CaseID);
 
     const data = {
       UserId: this.user.Id,
@@ -113,6 +116,8 @@ export class DistressedPage implements OnInit {
       this.commonPopover.loaderDismiss();
     }
   }
+
+
 
 
   async getCurrentPosition() {
