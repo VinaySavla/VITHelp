@@ -46,7 +46,7 @@ export class SelectRolePage implements OnInit {
     this.commonPopover.loaderPresent('Selecting Role');
     const phoneNumber= await this.keystore.get('PhoneNumber');
     const userData = await this.statusService.getUser(phoneNumber);
-    this.keystore.set("user", userData.users[0]); // TODO FixME
+    this.keystore.set("user", userData.users[0]);
     if(userData.users && typeof userData.users !="undefined" && userData.users !=null && userData.users.length != null && userData.users.length > 0 &&  phoneNumber==userData.users[0].PhoneNumber){
       this.router.navigate(["/home"]);
       this.commonPopover.loaderDismiss();

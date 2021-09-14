@@ -66,10 +66,10 @@ export class UserProfileComponent implements OnInit {
     const phoneNumber = await this.keystore.get('PhoneNumber');
     this.statusService.getUser(phoneNumber).then(res => {
       this.userData = res
-      this.isExistingUser = true;
       console.log(this.userData);
       this.isLoading = false;
       if ((this.userData.users && typeof this.userData.users != "undefined" && this.userData.users != null && this.userData.users.length != null && this.userData.users.length > 0)) {
+        this.isExistingUser = true;
         console.log(this.userData.users[0])
         this.signUpForm = this.formBuilder.group({
           name: [this.userData.users[0].Name || '', [Validators.required]],
@@ -99,6 +99,7 @@ export class UserProfileComponent implements OnInit {
         });
       }
       else {
+        this.isExistingUser = false;
         this.isLoading = false;
         this.keystore.get("PhoneNumber").then(PhoneNumber => {
           this.signUpForm.value.phone = PhoneNumber;
@@ -220,25 +221,34 @@ export class UserProfileComponent implements OnInit {
       }
 
       await this.commonPopover.loaderPresent('Updating User Profile.');
-      if (this.isExistingUser = false) {
+      this.keystore.get("isSignUpPage").then(res => {
+        if(res == true){
+          this.keystore.set("user", data);
+        }
+      });
+      if (this.isExistingUser == false) {
 
         try {
           this.statusService.userData(data);
           // console.log(JSON.stringify(data));
           // console.log(this.phoneNumber);
+          this.commonPopover.loaderDismiss();
+          this.router.navigate(['/home/map']);
         }
         catch (error) {
           console.log(error);
+          this.commonPopover.loaderDismiss();
         }
-        this.commonPopover.loaderDismiss();
-        this.router.navigate(['/home/map']);
       } else {
         try {
           this.statusService.updateUser(data,this.userData.users[0].Id);
+          this.commonPopover.loaderDismiss();
+          this.router.navigate(['/home/map']);
           // console.log(JSON.stringify(data));
         }
         catch (error) {
           console.log(error);
+          this.commonPopover.loaderDismiss();
         }
         this.commonPopover.loaderDismiss();
         this.router.navigate(['/home/map']);

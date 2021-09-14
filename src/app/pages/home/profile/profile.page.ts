@@ -13,6 +13,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
+      this.keystore.set("isSignUpPage", false);
   });
   }
 

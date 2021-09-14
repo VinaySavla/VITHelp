@@ -53,6 +53,7 @@ export class SetupProfilePage implements OnInit {
   ngOnInit() {
     this.keystore.get("serviceRole").then(user => {
       this.serviceRole = user;
+    this.keystore.set("isSignUpPage", true);
   });
   this.keystore.get("PhoneNumber").then(PhoneNumber => {
     this.signUpForm.value.phone= PhoneNumber;
