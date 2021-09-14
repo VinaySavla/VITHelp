@@ -17,12 +17,12 @@ export class ChatbotPage implements OnInit {
 
     const script2 = document.createElement('script');
     script2.type = 'text/javascript';
-    script2.src = "/assets/build/static/js/2.cb6dc702.chunk.js";
+    script2.src = "/assets/build/static/js/2.272cd284.chunk.js";
     document.getElementsByTagName("body")[0].appendChild(script2);
 
     const script3 = document.createElement('script');
     script3.type = 'text/javascript';
-    script3.src = "/assets/build/static/js/main.67d9528c.chunk.js";
+    script3.src = "/assets/build/static/js/main.b249ae62.chunk.js";
     document.getElementsByTagName("body")[0].appendChild(script3);
 
     // TODO
