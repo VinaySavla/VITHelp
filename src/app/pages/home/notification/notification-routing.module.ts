@@ -10,6 +10,10 @@ const routes: Routes = [
   },  {
     path: 'case',
     loadChildren: () => import('./case/case.module').then( m => m.CasePageModule)
+  },
+  {
+    path: 'certificate',
+    loadChildren: () => import('./certificate/certificate.module').then( m => m.CertificatePageModule)
   }
 
 ];

@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
 
   }
 
- 
+
 
   async login() {
     if (!this.otpForm.valid) {
@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
       // countryCode: this.otpForm.controls["countryCode"].value,
       PhoneNumber: this.otpForm.controls["phone"].value
     };
-    
+
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
