@@ -208,7 +208,7 @@ export class UserProfileComponent implements OnInit {
         Address: this.signUpForm.value.address.formattedAddress,
         Lat: this.signUpForm.value.address.lat,
         Lng: this.signUpForm.value.address.lng,
-        // serviceRole: this.serviceRole,
+        serviceRole: this.serviceRole,
         isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
         Profession: this.signUpForm.controls.profession.value
       };
