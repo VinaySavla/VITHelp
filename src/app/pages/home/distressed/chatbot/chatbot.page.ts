@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageProvider } from 'src/app/providers/storage/storage.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatbotPage implements OnInit {
 
-  constructor() { }
+  constructor(private keystore: StorageProvider) { }
 
   loadReactComponent() {
     const script1 = document.createElement('script');
@@ -17,23 +18,23 @@ export class ChatbotPage implements OnInit {
 
     const script2 = document.createElement('script');
     script2.type = 'text/javascript';
-    script2.src = "/assets/build/static/js/2.1be59e2d.chunk.js";
+    script2.src = "/assets/build/static/js/2.70e99792.chunk.j";
     document.getElementsByTagName("body")[0].appendChild(script2);
 
     const script3 = document.createElement('script');
     script3.type = 'text/javascript';
-    script3.src = "/assets/build/static/js/main.5382ef78.chunk.js";
+    script3.src = "/assets/build/static/js/main.0408449c.chunk.js";
     document.getElementsByTagName("body")[0].appendChild(script3);
 
     // TODO
   
-    // this.keystore.get("user").then((user) => {
-    //   console.log(user.Id)
-    //   const script4 = document.createElement('script');
-    //   script4.type = 'text/javascript';
-    //   script1.innerText = `ActionProvider.setUserId(${user.Id})`;
-    //   document.getElementsByTagName("body")[0].appendChild(script4);
-    // });
+    this.keystore.get("user").then((user) => {
+      Object.assign(window, {user: user});
+      // const script4 = document.createElement('script');
+      // script4.type = 'text/javascript';
+      // script1.innerText = `ActionProvider.setUserId(${user.Id})`;
+      // document.getElementsByTagName("body")[0].appendChild(script4);
+    });
 
   }
 
