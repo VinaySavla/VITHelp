@@ -23,7 +23,7 @@ export class ChatbotPage implements OnInit {
 
     const script3 = document.createElement('script');
     script3.type = 'text/javascript';
-    script3.src = "/assets/build/static/js/main.6eba3d35.chunk.js";
+    script3.src = "/assets/build/static/js/main.3566c3d7.chunk.js";
     document.getElementsByTagName("body")[0].appendChild(script3);
 
     // TODO
