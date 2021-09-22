@@ -48,6 +48,26 @@ export class NotificationPage implements OnInit {
   toCase(CaseID) {
     this.keystore.set('CaseID', CaseID);
   }
+  acceptCase(CaseID) {
+    this.commonPopover.loaderPresent("Updating Status");
+    const data = {
+      CaseId: CaseID,
+      UserId: this.user.Id,
+      serviceRole: this.serviceRole,
+      Status: 'Accepted',
+    };
+    console.log(this.user.Id)
+    try {
+      this.statusService.sendStatus(data).then(res => {
+        this.commonPopover.loaderDismiss();
+        this.ngOnInit();
+      })
+    }
+    catch (error) {
+      console.log(error);
+      this.commonPopover.loaderDismiss();
+    }
+  }
   declineCase(CaseID) {
     this.commonPopover.loaderPresent("Updating Status");
     const data = {
@@ -67,6 +87,17 @@ export class NotificationPage implements OnInit {
       console.log(error);
       this.commonPopover.loaderDismiss();
     }
+  }
+
+  accepted(caseToBeCheck: any): boolean {
+    for(const status of caseToBeCheck.statuses) {
+      if(status.UserId == this.user.Id) {
+        if(status.Status == "Accepted") {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   rejected(caseToBeCheck: any): boolean {

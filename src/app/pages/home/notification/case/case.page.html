@@ -5,7 +5,7 @@
         <p>Name: {{userCaseData.Name}} </p>
         <p>Age:{{userCaseData.Age}} </p>
         <p>Phone Number: {{userCaseData.PhoneNumber}} </p>
-        <p>Address: {{userCaseData.Address}}</p>
+        <p>Address: <a href="https://www.google.com/maps/dir/?api=1&destination={{userCaseData.Lat}},{{userCaseData.Lng}}">{{userCaseData.Address}}</a></p>
         <p>Reason: {{userCaseData.helptype.HelpType}}</p>
         <p>Status: {{userCaseData.Status}}</p>
     </ion-card>

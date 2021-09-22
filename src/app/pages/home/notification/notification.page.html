@@ -8,12 +8,14 @@
       <div>
         <ion-item>
           <ion-label>Case: {{Case.Id}}</ion-label>
-          <ion-button color="white" *ngIf="serviceRole == 'Volunteer'">
-            <ion-icon color="success" size="large" name="checkmark-sharp"></ion-icon>
-          </ion-button>
-          <ion-button color="white" (click)="declineCase(Case.Id)" *ngIf="serviceRole == 'Volunteer'">
-            <ion-icon color="danger" size="large" name="close-sharp"></ion-icon>
-          </ion-button>
+          <div *ngIf="!accepted(Case)">
+            <ion-button color="white" (click)="acceptCase(Case.Id)" *ngIf="serviceRole == 'Volunteer'">
+              <ion-icon color="success" size="large" name="checkmark-sharp"></ion-icon>
+            </ion-button>
+            <ion-button color="white" (click)="declineCase(Case.Id)" *ngIf="serviceRole == 'Volunteer'">
+              <ion-icon color="danger" size="large" name="close-sharp"></ion-icon>
+            </ion-button>
+          </div>
         </ion-item>
         <ion-item>
           <ion-label>Reason: {{Case.helptype.HelpType}}</ion-label>
