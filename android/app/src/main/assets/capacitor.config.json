@@ -1,0 +1,22 @@
+{
+	"appId": "com.oranetech.vit",
+	"appName": "VIT",
+	"webDir": "www",
+	"npmClient": "npm",
+	"cordova": {
+		"preferences": {
+			"ScrollEnabled": "false",
+			"android-minSdkVersion": "19",
+			"BackupWebStorage": "none",
+			"SplashMaintainAspectRatio": "true",
+			"AutoHideSplashScreen": "false",
+			"SplashScreenDelay": "10000",
+			"FadeSplashScreenDuration": "1000",
+			"SplashScreen": "screen",
+			"ShowSplashScreen": "true",
+			"ShowSplashScreenSpinner": "false",
+			"SplashShowOnlyFirstTime": "false",
+			"FadeSplashScreen": "true"
+		}
+	}
+}

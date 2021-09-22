@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VIT</string>
+    <string name="title_activity_main">VIT</string>
+    <string name="package_name">com.oranetech.vit</string>
+    <string name="custom_url_scheme">com.oranetech.vit</string>
+</resources>
