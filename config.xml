@@ -125,5 +125,5 @@
         <variable name="PLAY_SERVICES_LOCATION_VERSION" value="16.+" />
     </plugin>
     <plugin name="cordova-plugin-android-permissions" spec="^1.0.2" />
-    <allow-navigation href="http://localhost:8100" sessionid="5cde97fd" />
+    <allow-navigation href="http://localhost:8100" sessionid="c742acdd" />
 </widget>
