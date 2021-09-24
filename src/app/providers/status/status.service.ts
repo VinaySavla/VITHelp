@@ -1,27 +1,19 @@
 import { Injectable } from '@angular/core';
-import axios, {AxiosInstance} from 'axios';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatusService {
 
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: 'http://localhost:3001/',
-      timeout: 1 * 60 * 1000,
-      headers: {}
-    });
-  }
+  constructor() { }
 
   async raiseCase(data) {
     const headers = {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/caseData/',data,{headers})
+      const res = await axios.post('http://localhost:3001/data/caseData/',data,{headers})
       .then(res=>console.log(res));
     } catch(error) {
       console.log(error);
@@ -31,7 +23,7 @@ export class StatusService {
 
   async getStatus(id) {
     try {
-      const res = await this.axiosInstance.get(`/data/statusData/${id}`);
+      const res = await axios.get(`http://localhost:3001/data/statusData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
@@ -40,7 +32,7 @@ export class StatusService {
   }
   async getCases() {
     try {
-      const res = await this.axiosInstance.get(`/data/caseData/`);
+      const res = await axios.get(`http://localhost:3001/data/caseData/`);
       return res.data;
     } catch(error) {
       console.log(error);
@@ -49,7 +41,7 @@ export class StatusService {
   }
   async getCase(id) {
     try {
-      const res = await this.axiosInstance.get(`/data/caseData/${id}`);
+      const res = await axios.get(`http://localhost:3001/data/caseData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
@@ -59,7 +51,7 @@ export class StatusService {
   }
   async getUserCase(id) {
     try {
-      const res = await this.axiosInstance.get(`/data/userCaseData/${id}`);
+      const res = await axios.get(`http://localhost:3001/data/userCaseData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
@@ -69,7 +61,7 @@ export class StatusService {
 
   async closeCase(id) {
     try {
-      const res = await this.axiosInstance.put(`/data/caseData/${id}`);
+      const res = await axios.put(`http://localhost:3001/data/caseData/${id}`);
       return res.data;
     } catch(error) {
       console.log(error);
@@ -82,7 +74,7 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/statusData/',data,{headers})
+      const res = await axios.post('http://localhost:3001/data/statusData/',data,{headers})
       .then(res=>console.log(res));
     } catch(error) {
       console.log(error);
@@ -91,7 +83,7 @@ export class StatusService {
   }
   async getUser(PhoneNumber) {
     try {
-      const res = await this.axiosInstance.get(`/data/userData/${PhoneNumber}`);
+      const res = await axios.get(`http://localhost:3001/data/userData/${PhoneNumber}`);
       return res.data
     } catch(error) {
       console.log(error);
@@ -103,7 +95,7 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/userData/',data,{headers})
+      const res = await axios.post('http://localhost:3001/data/userData/',data,{headers})
       .then(res=>console.log(res));
     } catch(error) {
       console.log(error);
@@ -116,7 +108,7 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.put(`/data/userData/${id}`,data,{headers})
+      const res = await axios.put(`http://localhost:3001/data/userData/${id}`,data,{headers})
       .then(res=>console.log(res));
     } catch(error) {
       console.log(error);
@@ -129,7 +121,7 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/phoneOtp/',data,{headers})
+      const res = await axios.post('http://localhost:3001/data/phoneOtp/',data,{headers})
       .then(res=>console.log(res));
     } catch(error) {
       console.log(error);
@@ -141,7 +133,7 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.get(`/data/phoneOtp/${PhoneNumber}`,data)
+      const res = await axios.get(`http://localhost:3001/data/phoneOtp/${PhoneNumber}`,data)
       return res.data
     } catch(error) {
       console.log(error);
