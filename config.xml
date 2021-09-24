@@ -3,7 +3,7 @@
     <name>VIT</name>
     <description>Co-Volunteers-IT-Help Application, Preserving Humanity.</description>
     <author email="info@oranetech.com" href="http://VIT.in/">VIT Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -125,4 +125,5 @@
         <variable name="PLAY_SERVICES_LOCATION_VERSION" value="16.+" />
     </plugin>
     <plugin name="cordova-plugin-android-permissions" spec="^1.0.2" />
+    <allow-navigation href="http://localhost:8100" sessionid="5cde97fd" />
 </widget>
