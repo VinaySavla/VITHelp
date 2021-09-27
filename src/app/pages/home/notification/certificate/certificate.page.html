@@ -1,9 +1,59 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>certificate</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-common-header isFullLogoActivate="true" isLoggedAsActivate="true">
+</app-common-header>
+
 
 <ion-content>
+  <div id="certificate" >
 
+    <div style="width:800px; height:800px; padding:20px; text-align:center; border: 10px solid #787878; border-radius: 5px;">
+      <div style="width:750px; height:750px; padding:20px; text-align:center; border: 5px solid #cf5555; border-radius: 15px;">
+        <img
+        src="https://i.ibb.co/Xx6WY1j/favicon.png"
+        alt="VIT logo"  
+        title="VIT logo"
+        width="300"
+      />
+             <div style="font-family:verdana; font-size:50px; font-weight:bold">Certificate for Volunteer</div>
+             <br><br>
+             <div style="font-family:verdana; font-size:25px">This is to certify that Mr./Mrs.</div>
+             <br><br>
+             <div style="font-family:Verdana, Geneva, Tahoma, sans-serif, Times, serif; font-size:30px"><b>{{user.Name}}</b></div><br/><br/>
+            
+             <div style="font-family:verdana; font-size:20px">has volunteered for helping</div> <br>
+             <div style="font-family:verdana; font-size:20px">a person in need.</div>
+            
+
+      </div>
+      </div>
+    
+
+  </div>
+
+  
+  
+  <!-- <button (click)="makePDF()">download</button> -->
+  <ion-button expand="block" shape="flat" (click)="showContent()">Check Id card</ion-button>
+  <ion-button expand="block" shape="flat" (click)="printDiv()">Download Certificate</ion-button>
 </ion-content>
+
+<ion-footer>
+  
+  <div [hidden]=contentHidden>
+  
+    <ion-card style="padding-left: 10px;"> 
+      <img
+        src="https://i.ibb.co/Xx6WY1j/favicon.png"
+        alt="VIT logo"  
+        title="VIT logo"
+        width="100px"
+      /> 
+        <p><strong>Volunteeer Name: </strong>  </p>
+        <p>Age: </p>
+        <p>Phone Number: </p>
+        <p>Address:</p>
+        <p>Status: </p>
+    </ion-card>
+  
+  </div>
+
+</ion-footer>
