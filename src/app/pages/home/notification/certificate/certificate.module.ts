@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonHeaderModule } from 'src/app/components/common-header/common-header.module';
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonLabel} from '@ionic/angular';
 
 import { CertificatePageRoutingModule } from './certificate-routing.module';
 
@@ -13,7 +14,8 @@ import { CertificatePage } from './certificate.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    CertificatePageRoutingModule
+    CertificatePageRoutingModule,
+    CommonHeaderModule
   ],
   declarations: [CertificatePage]
 })

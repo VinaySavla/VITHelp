@@ -20,6 +20,7 @@ import { FormsModule } from "@angular/forms";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
+// import { FCM } from '@ionic-native/fcm/ngx'
 
 
 import * as Sentry from 'sentry-cordova';
@@ -64,6 +65,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     // },
     StorageProvider,
     AndroidPermissions,
+    // FCM,
     Geolocation,
     LocationAccuracy,
     {provide: ErrorHandler, useClass: SentryIonicErrorHandler}

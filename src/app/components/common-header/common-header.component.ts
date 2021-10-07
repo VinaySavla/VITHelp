@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { LoginService } from "src/app/providers/login/login.service";
+// import { FCM } from '@ionic-native/fcm/ngx'
 
 @Component({
   selector: "app-common-header",
@@ -23,7 +24,8 @@ export class CommonHeaderComponent implements OnInit {
     private route: ActivatedRoute ,
     private keystore: StorageProvider,
     private commonPopover: CommonPopoverService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    // private fcm:FCM
   ) {}
 
   ngOnInit() {
@@ -31,6 +33,11 @@ export class CommonHeaderComponent implements OnInit {
       this.serviceRole = user;
   });
   }
+
+  // unsubscribeFromTopic() {
+  //   this.fcm.unsubscribeFromTopic('distressAlert');
+  // }
+
   goToLogout() {
     this.commonPopover
       .alertPopOver("Do you really want to logout?", "Logout confirmation")
@@ -45,6 +52,7 @@ export class CommonHeaderComponent implements OnInit {
     let message = "Successfully logged out";
     //Logout event
     this.loginService.logout().then(result => {
+      // this.unsubscribeFromTopic();
       this.router.navigate(["/login"]);
       this.commonPopover.toastPopOver(message);
       this.commonPopover.loaderDismiss();
