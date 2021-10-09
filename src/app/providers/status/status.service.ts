@@ -9,7 +9,8 @@ export class StatusService {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: "http://localhost:3001/",
+      // baseURL: "http://localhost:3001/",
+      baseURL: "http://65.2.142.67:3001/",
       timeout: 2 * 60 * 1000,
       headers: {},
     });

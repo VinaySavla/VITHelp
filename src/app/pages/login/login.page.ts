@@ -71,12 +71,8 @@ export class LoginPage implements OnInit {
     //TODO send otp Method
     this.keystore.set("PhoneNumber", this.otpForm.value.phone);
     this.keystore.set("countryCode", this.otpForm.value.countryCode);
-    // var phnData = new FormData;
-    // phnData.append('cntrCode', this.otpForm.value.countryCode);
-    // phnData.append('phnNo', this.otpForm.value.phone);
-    // this.crudService.addPhnno(phnData);
     this.statusService.requestOtp(data).then();
     this.commonPopover.loaderDismiss();
-    this.router.navigate(["/submit-otp"/* , data */]);
+    this.router.navigate(["/submit-otp"]);
   }
 }

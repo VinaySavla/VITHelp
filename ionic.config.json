@@ -2,7 +2,9 @@
   "name": "vit",
   "integrations": {
     "cordova": {},
-    "capacitor": {}
+    "capacitor": {
+      "enabled": false
+    }
   },
   "type": "angular"
 }

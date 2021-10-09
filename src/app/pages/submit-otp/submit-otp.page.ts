@@ -23,11 +23,8 @@ export class SubmitOtpPage implements OnInit {
   otpForm: any;
   PhoneNumber:any;
   constructor(
-    private crudService: CrudService,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
-    private http: HttpClient,
     private commonPopover: CommonPopoverService,
     private networkConnection: NetworkConnectionService,
     private keystore: StorageProvider,

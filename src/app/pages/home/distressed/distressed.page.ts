@@ -109,6 +109,7 @@ export class DistressedPage implements OnInit {
     try{
       this.StatusService.raiseCase(data).then(res =>{
         this.commonPopover.loaderDismiss();
+        this.router.navigate(["/home/notification"]);
       })
     }
     catch(error){

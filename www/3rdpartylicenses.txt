@@ -19,6 +19,9 @@ MIT
 @ionic-native/core
 MIT
 
+@ionic-native/firebase-x
+MIT
+
 @ionic-native/geolocation
 MIT
 

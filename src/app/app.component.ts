@@ -13,6 +13,7 @@ import { constants } from "./constants/constants";
 import { GoogleMapsService } from "./providers/google-maps/google-maps.service";
 import _ from "lodash";
 import { StatusService } from "./providers/status/status.service";
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -30,6 +31,7 @@ export class AppComponent {
     private loginService: LoginService,
     private keystore: StorageProvider,
     private router: Router,
+    private firebase: FirebaseX,
     private statusService: StatusService,
     private googleService: GoogleMapsService
   ) {
@@ -53,6 +55,10 @@ export class AppComponent {
         } else {
           return this.onBackButton();
         }
+      });
+      this.firebase.getToken().then(token => console.log(`The token is ${token}`))
+      this.firebase.onMessageReceived().subscribe(data => {
+          console.log(`FCM message: ${data}`);
       });
 
       // //Ask for change role

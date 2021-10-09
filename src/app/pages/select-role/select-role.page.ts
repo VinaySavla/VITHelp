@@ -7,7 +7,7 @@ import { Platform } from "@ionic/angular";
 import { GoogleMapsService } from "src/app/providers/google-maps/google-maps.service";
 import _ from "lodash";
 import { StatusService } from "src/app/providers/status/status.service";
-// import { FCM } from '@ionic-native/fcm/ngx';
+
 
 @Component({
   selector: 'app-select-role',
@@ -26,65 +26,36 @@ export class SelectRolePage implements OnInit {
     private commonPopover: CommonPopoverService,
     private keystore: StorageProvider,
     private platform: Platform,
-    // private fcm: FCM,
     private statusService: StatusService,
     private googleService: GoogleMapsService
-  ) { 
-    // this.platform.ready()
-    //   .then(() => {
-    //     this.fcm.onNotification().subscribe(data => {
-    //       if (data.wasTapped) {
-    //         console.log("Received in background");
-    //       } else {
-    //         console.log("Received in foreground");
-    //       };
-    //     });
-
-    //     this.fcm.onTokenRefresh().subscribe(token => {
-    //       // Register your new token in your back-end if you want
-    //       // backend.registerToken(token);
-    //     });
-    //   })
-   }
+  ) {  }
 
   ngOnInit() {
     this.keystore.get("serviceRole").then(user => {
-        this.serviceRole = user;
-      });
+      this.serviceRole = user;
+    });
+    
   }
 
-  // subscribeToTopic() {
-  //   this.fcm.subscribeToTopic('distressAlert');
-  // }
-
-  // getToken() {
-  //   this.fcm.getToken().then(token => {
-  //     // Register your new token in your back-end if you want
-  //     // backend.registerToken(token);
-  //   });
-  // }
-
+  
   selectRole(Role) {
     this.serviceRole = Role;
     this.keystore.set("serviceRole", Role);
   }
   async chooseRole() {
-    
+
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
     this.commonPopover.loaderPresent('Selecting Role');
-    // if(this.serviceRole == 'Volunteer'){
-    //   this.subscribeToTopic();
-    // }
-    const phoneNumber= await this.keystore.get('PhoneNumber');
+    const phoneNumber = await this.keystore.get('PhoneNumber');
     const userData = await this.statusService.getUser(phoneNumber);
     this.keystore.set("user", userData.users[0]);
-    if(userData.users && typeof userData.users !="undefined" && userData.users !=null && userData.users.length != null && userData.users.length > 0 &&  phoneNumber==userData.users[0].PhoneNumber){
+    if (userData.users && typeof userData.users != "undefined" && userData.users != null && userData.users.length != null && userData.users.length > 0 && phoneNumber == userData.users[0].PhoneNumber) {
       this.router.navigate(["/home"]);
       this.commonPopover.loaderDismiss();
     }
-    else{
+    else {
       this.router.navigate(["/setup-profile"]);
       this.commonPopover.loaderDismiss();
     }
