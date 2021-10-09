@@ -10,6 +10,7 @@ import { NetworkConnectionService } from 'src/app/providers/network-connection/n
 import { CommonPopoverService } from 'src/app/providers/common-popover/common-popover.service';
 import _ from 'lodash';
 import { GoogleMapsService } from 'src/app/providers/google-maps/google-maps.service';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -200,6 +201,8 @@ export class UserProfileComponent implements OnInit {
       let list = _.filter(this.checkBoxList, { isChecked: true });
       list = _.map(list, 'value');
 
+
+
       const data = {
         Name: this.signUpForm.controls.name.value,
         CountryCode: this.countryCode || this.userData.users[0].CountryCode,
@@ -210,7 +213,8 @@ export class UserProfileComponent implements OnInit {
         Lng: this.signUpForm.value.address.lng,
         serviceRole: this.serviceRole,
         isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
-        Profession: this.signUpForm.controls.profession.value
+        Profession: this.signUpForm.controls.profession.value,
+        Token: await this.keystore.get("Token")
       };
 
 

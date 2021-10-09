@@ -157,7 +157,8 @@ export class SetupProfilePage implements OnInit {
       Lng: this.signUpForm.value.address.lng,
       serviceRole: this.serviceRole,
       isUserServiceActive: this.signUpForm.controls.isUserServiceActive.value,
-      Profession: this.signUpForm.controls.profession.value
+      Profession: this.signUpForm.controls.profession.value,
+      Token: await this.keystore.get("Token")
 
     };
 
