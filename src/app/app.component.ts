@@ -58,7 +58,9 @@ export class AppComponent {
       });
       this.firebase.getToken().then(token => console.log(`The token is ${token}`))
       this.firebase.onMessageReceived().subscribe(data => {
-          console.log(`FCM message: ${data}`);
+        var data1 = JSON.stringify(data);
+          // alert(`FCM message: ${data1}`);
+          console.log(`FCM message: ${data1}`);
       });
 
       // //Ask for change role

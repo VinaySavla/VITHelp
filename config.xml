@@ -3,7 +3,7 @@
     <name>VIT</name>
     <description>Co-Volunteers-IT-Help Application, Preserving Humanity.</description>
     <author email="info@oranetech.com" href="http://VIT.in/">VIT Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
