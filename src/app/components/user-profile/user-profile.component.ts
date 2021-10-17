@@ -225,15 +225,16 @@ export class UserProfileComponent implements OnInit {
       }
 
       await this.commonPopover.loaderPresent('Updating User Profile.');
-      this.keystore.get("isSignUpPage").then(res => {
-        if(res == true){
-          this.keystore.set("user", data);
-        }
-      });
+      // this.keystore.get("isSignUpPage").then(res => {
+      //   if(res == true){
+      //     this.keystore.set("user", data);
+      //   }
+      // });
       if (this.isExistingUser == false) {
 
         try {
-          this.statusService.userData(data);
+          const userDataResponseData = await this.statusService.userData(data);
+          this.keystore.set("user", userDataResponseData);
           // console.log(JSON.stringify(data));
           // console.log(this.phoneNumber);
           this.commonPopover.loaderDismiss();

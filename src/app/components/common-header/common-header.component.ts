@@ -53,6 +53,7 @@ export class CommonHeaderComponent implements OnInit {
     //Logout event
     this.loginService.logout().then(result => {
       // this.unsubscribeFromTopic();
+      this.keystore.clear();
       this.router.navigate(["/login"]);
       this.commonPopover.toastPopOver(message);
       this.commonPopover.loaderDismiss();

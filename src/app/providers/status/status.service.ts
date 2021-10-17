@@ -103,8 +103,8 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/userData/',data,{headers})
-      .then(res=>console.log(res));
+      const res = await this.axiosInstance.post('/data/userData/',data,{headers});
+      return res.data;
     } catch(error) {
       console.log(error);
       
