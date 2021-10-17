@@ -111,6 +111,33 @@ export class StatusService {
     }
   }
 
+  async history(userId) {
+    try {
+      const res = await this.axiosInstance.get(`/data/history/${userId}`);
+      return res.data;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  async notifications(userId) {
+    try {
+      const res = await this.axiosInstance.get(`/data/notifications/${userId}`);
+      return res.data;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  async closedCases(userId) {
+    try {
+      const res = await this.axiosInstance.get(`/data/closedCase/${userId}`);
+      return res.data;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   async updateUser(data, id) {
     const headers = {
       "Content-Type":"Application/Json"

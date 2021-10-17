@@ -35,11 +35,11 @@ export class HistoryPage implements OnInit {
   
   getCases() {
     if (this.serviceRole === "Distressed"){
-      this.statusService.getUserCase(this.user.Id).then(Cases => {
+      this.statusService.closedCases(this.user.Id).then(Cases => {
         this.Cases = Cases;
       });
     } else {
-      this.statusService.getCases().then(Cases => {
+      this.statusService.history(this.user.Id).then(Cases => {
         this.Cases = Cases;
       });
     }

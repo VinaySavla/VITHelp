@@ -37,12 +37,11 @@ export class NotificationPage implements OnInit {
     if (this.serviceRole === "Distressed"){
       this.statusService.getUserCase(this.user.Id).then(Cases => {
         this.Cases = Cases;
-        console.log(this.Cases);
-      })
+      });
     } else {
-      this.statusService.getCases().then(Cases => {
-        this.Cases = Cases.filter(caseToBeCheck => !this.rejected(caseToBeCheck));
-      })
+      this.statusService.notifications(this.user.Id).then(Cases => {
+        this.Cases = Cases;
+      });
     }
   }
   toCase(CaseID) {
