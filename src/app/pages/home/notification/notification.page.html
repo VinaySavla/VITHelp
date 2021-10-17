@@ -19,7 +19,7 @@
         </ion-item>
         <ion-item>
           <ion-label>Reason: {{Case.helptype.HelpType}}</ion-label>
-          <div *ngIf="(accepted(Case) && serviceRole == 'Volunteeer') || (Case.UserId == user.Id && serviceRole == 'Distress')">
+          <div *ngIf="(accepted(Case) && serviceRole == 'Volunteeer') || (Case.UserId == user.Id && serviceRole == 'Distressed')">
             <ion-button [routerLink]="['/home/notification/case']" (click)="toCase(Case.Id)">Status</ion-button>
           </div>
         </ion-item>
