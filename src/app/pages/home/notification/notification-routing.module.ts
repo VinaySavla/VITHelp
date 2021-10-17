@@ -7,7 +7,8 @@ const routes: Routes = [
   {
     path: '',
     component: NotificationPage
-  },  {
+  },
+  {
     path: 'case',
     loadChildren: () => import('./case/case.module').then( m => m.CasePageModule)
   },
