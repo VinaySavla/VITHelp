@@ -4,6 +4,7 @@
   </app-common-header>
 
   <ion-content *ngIf="Cases">
+    <ion-button [routerLink]="['/home/notification/history']">History</ion-button>
     <ion-card *ngFor="let Case of Cases" class="ion-padding">
       <div>
         <ion-item>
