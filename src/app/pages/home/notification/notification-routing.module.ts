@@ -13,10 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./case/case.module').then( m => m.CasePageModule)
   },
   {
-    path: 'certificate',
-    loadChildren: () => import('./certificate/certificate.module').then( m => m.CertificatePageModule)
-  },
-  {
     path: 'history',
     loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
   }
