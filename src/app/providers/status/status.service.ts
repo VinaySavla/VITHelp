@@ -21,8 +21,8 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/caseData/',data,{headers})
-      .then(res=>console.log(res));
+      const res = await this.axiosInstance.post('/data/caseData/',data,{headers});
+      return res.data;
     } catch(error) {
       console.log(error);
       
@@ -82,8 +82,8 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.post('/data/statusData/',data,{headers})
-      .then(res=>console.log(res));
+      const res = await this.axiosInstance.post('/data/statusData/',data,{headers});
+      return res.data;
     } catch(error) {
       console.log(error);
       
@@ -143,33 +143,50 @@ export class StatusService {
       "Content-Type":"Application/Json"
     }
     try {
-      const res = await this.axiosInstance.put(`/data/userData/${id}`,data,{headers})
-      .then(res=>console.log(res));
+      const res = await this.axiosInstance.put(`/data/userData/${id}`,data,{headers});
+      return res.data;
     } catch(error) {
       console.log(error);
       
     }
   }
 
-  async requestOtp(data) {
-    const headers = {
-      "Content-Type":"Application/Json"
-    }
+  async sendOtp(phoneNumber) {
     try {
-      const res = await this.axiosInstance.post('/data/phoneOtp/',data,{headers})
-      .then(res=>console.log(res));
+      const res = await this.axiosInstance.get("/otp/send", {
+        params: {
+          phoneNumber: phoneNumber
+        }
+      });
+      return res.data;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  async resendOtp(phoneNumber) {
+    try {
+      const res = await this.axiosInstance.get("/otp/resend",{
+        params: {
+          phoneNumber: phoneNumber
+        }
+      });
+      return res.data;
     } catch(error) {
       console.log(error);
       
     }
   }
-  async verifyOtp(data,PhoneNumber) {
-    const headers = {
-      "Content-Type":"Application/Json"
-    }
+
+  async verifyOtp(phoneNumber, otp) {
     try {
-      const res = await this.axiosInstance.get(`/data/phoneOtp/${PhoneNumber}`,data)
-      return res.data
+      const res = await this.axiosInstance.get("/otp/verify",{
+        params: {
+          phoneNumber: phoneNumber,
+          otp: otp,
+        }
+      });
+      return res.data;
     } catch(error) {
       console.log(error);
       

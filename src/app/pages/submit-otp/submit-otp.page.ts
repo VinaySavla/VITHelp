@@ -55,7 +55,7 @@ export class SubmitOtpPage implements OnInit {
       return this.networkConnection.isConnectionMessage();
     }
     await this.commonPopover.loaderPresent("Resending OTP");
-    //TODO Resend otp Method
+    await this.StatusService.resendOtp(this.PhoneNumber);
     this.commonPopover.loaderDismiss();
   }
   async submitOTP() {
@@ -65,19 +65,11 @@ export class SubmitOtpPage implements OnInit {
     if (!this.otpForm.valid) {
       return;
     }
-    let data = {
-      // countryCode: this.route.snapshot.paramMap.get("countryCode"),
-      phone: this.PhoneNumber,
-      otp: parseInt(this.otpForm.controls["otp"].value)
-    };
 
     await this.commonPopover.loaderPresent("Verifying OTP");
-    //TODO Verify OTP Method
-    this.StatusService.verifyOtp(data,this.PhoneNumber).then(res=> {
-      res = res;
-      // console.log(res.verification.OTP);
-      // console.log(data.otp)
-      if(res.verification.OTP == data.otp)
+    // Verify OTP Method
+    this.StatusService.verifyOtp(this.PhoneNumber, this.otpForm.controls["otp"].value).then(res=> {
+      if(res.type == "success")
       {
         this.keystore.set("isAuthenticated", true);
         this.commonPopover.loaderDismiss();

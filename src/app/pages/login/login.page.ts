@@ -59,19 +59,14 @@ export class LoginPage implements OnInit {
     if (!this.otpForm.valid) {
       return;
     }
-    let data = {
-      // countryCode: this.otpForm.controls["countryCode"].value,
-      PhoneNumber: this.otpForm.controls["phone"].value
-    };
 
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
-    await this.commonPopover.loaderPresent("Sending OTP");
-    //TODO send otp Method
     this.keystore.set("PhoneNumber", this.otpForm.value.phone);
     this.keystore.set("countryCode", this.otpForm.value.countryCode);
-    this.statusService.requestOtp(data).then();
+    await this.commonPopover.loaderPresent("Sending OTP");
+    await this.statusService.sendOtp(this.otpForm.value.phone);
     this.commonPopover.loaderDismiss();
     this.router.navigate(["/submit-otp"]);
   }
