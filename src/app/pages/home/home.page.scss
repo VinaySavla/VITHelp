@@ -1,0 +1,24 @@
+@media (max-width: 300px) {
+    .vithelp-tabbar ion-icon,
+    .vithelp-tabbar ion-label {
+        font-size: 0.5rem;
+    }
+}
+@media (min-width: 300px) and (max-width: 350px) {
+    .vithelp-tabbar ion-icon,
+    .vithelp-tabbar ion-label {
+        font-size: 0.6rem;
+    }
+}
+
+@media (min-width: 350px) and (max-width: 450px) {
+    .vithelp-tabbar ion-icon,
+    .vithelp-tabbar ion-label {
+        font-size: 0.8rem;
+    }
+}
+
+// .vithelp-tabbar ion-icon,
+// .vithelp-tabbar ion-label {
+//     font-size: 2.5vw;
+// }

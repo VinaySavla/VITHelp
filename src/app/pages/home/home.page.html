@@ -1,5 +1,5 @@
 <ion-tabs *ngIf="serviceRole=='Distressed'">
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar class="vithelp-tabbar" slot="bottom">
     <ion-tab-button *ngFor="let tab of tabsList" [tab]="tab.tabName">
       <ion-icon [name]="tab.iconName"></ion-icon>
       <ion-label>{{tab.label}}</ion-label>
@@ -7,7 +7,7 @@
   </ion-tab-bar>
 </ion-tabs>
 <ion-tabs *ngIf="serviceRole=='Volunteer'">
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar class="vithelp-tabbar" slot="bottom">
     <ion-tab-button *ngFor="let tab of tabsListV" [tab]="tab.tabName">
       <ion-icon [name]="tab.iconName"></ion-icon>
       <ion-label>{{tab.label}}</ion-label>
