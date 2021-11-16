@@ -55,8 +55,7 @@ export class NotificationPage implements OnInit {
       serviceRole: this.serviceRole,
       Status: 'Accepted',
     };
-    console.log(this.user.Id)
-    try {
+      try {
       this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();
         this.ngOnInit();
@@ -75,7 +74,6 @@ export class NotificationPage implements OnInit {
       serviceRole: this.serviceRole,
       Status: 'Declined',
     };
-    console.log(this.user.Id)
     try {
       this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();

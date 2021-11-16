@@ -67,11 +67,9 @@ export class UserProfileComponent implements OnInit {
     const phoneNumber = await this.keystore.get('PhoneNumber');
     this.statusService.getUser(phoneNumber).then(res => {
       this.userData = res
-      console.log(this.userData);
       this.isLoading = false;
       if ((this.userData.users && typeof this.userData.users != "undefined" && this.userData.users != null && this.userData.users.length != null && this.userData.users.length > 0)) {
         this.isExistingUser = true;
-        console.log(this.userData.users[0])
         this.signUpForm = this.formBuilder.group({
           name: [this.userData.users[0].Name || '', [Validators.required]],
           countryCode: [
@@ -193,7 +191,6 @@ export class UserProfileComponent implements OnInit {
    */
   async saveUserInfo() {
     if (this.signUpForm.valid) {
-      console.log('User  Profile Component | saveUserInfo()');
       if (this.networkConnection.isOffline()) {
         return this.networkConnection.isConnectionMessage();
       }
@@ -235,8 +232,6 @@ export class UserProfileComponent implements OnInit {
         try {
           const userDataResponseData = await this.statusService.userData(data);
           this.keystore.set("user", userDataResponseData);
-          // console.log(JSON.stringify(data));
-          // console.log(this.phoneNumber);
           this.commonPopover.loaderDismiss();
           this.router.navigate(['/home/map']);
         }
@@ -249,7 +244,6 @@ export class UserProfileComponent implements OnInit {
           this.statusService.updateUser(data,this.userData.users[0].Id);
           this.commonPopover.loaderDismiss();
           this.router.navigate(['/home/map']);
-          // console.log(JSON.stringify(data));
         }
         catch (error) {
           console.log(error);

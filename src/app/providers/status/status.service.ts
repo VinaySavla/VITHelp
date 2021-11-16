@@ -122,7 +122,11 @@ export class StatusService {
 
   async notifications(userId) {
     try {
-      const res = await this.axiosInstance.get(`/data/notifications/${userId}`);
+      const res = await this.axiosInstance.get(`/data/nearbyCases`,{
+        params: {
+          userID: userId
+        }
+        });
       return res.data;
     } catch(error) {
       console.log(error);

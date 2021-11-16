@@ -52,7 +52,6 @@ export class CasePage implements OnInit, AfterViewChecked {
       });
       this.statusService.getStatus(this.CaseId).then((statusData) => {
         this.statusData = statusData["statuses"];
-        console.log(this.statusData);
       });
     });
   }
@@ -77,11 +76,9 @@ export class CasePage implements OnInit, AfterViewChecked {
 
   public get messages() {
     return this.statusData == undefined ? [] : this.statusData.map((status) => {
-      // console.log(status);
       return {
         user: status.user.Name,
         serviceRole: status.serviceRole,
-        // serviceRole: this.serviceRole, //Temp Fix
         msg: status.Status,
         createdAt: status.time
       }
@@ -99,7 +96,6 @@ export class CasePage implements OnInit, AfterViewChecked {
       serviceRole: this.serviceRole,
       Status: this.messageBox,
     };
-    console.log(data);
     try {
       this.statusService.sendStatus(data).then(res => {
         this.commonPopover.loaderDismiss();

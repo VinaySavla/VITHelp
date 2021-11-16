@@ -139,7 +139,6 @@ export class SetupProfilePage implements OnInit {
    * Save user info
    */
   async saveUserInfo() {
-    console.log('User  Profile Component | saveUserInfo()');
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
