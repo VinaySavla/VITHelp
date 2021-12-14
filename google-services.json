@@ -1,41 +1,43 @@
 {
   "project_info": {
-    "project_number": "643915431046",
-    "project_id": "vithelp-79689",
-    "storage_bucket": "vithelp-79689.appspot.com"
+    "project_number": "395467296676",
+    "firebase_url": "https://covithelp-c2619.firebaseio.com",
+    "project_id": "covithelp-c2619",
+    "storage_bucket": "covithelp-c2619.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:643915431046:android:3d7a336b8473c44a3da507",
+        "mobilesdk_app_id": "1:395467296676:android:a7cd7761385b05c1d8fb31",
         "android_client_info": {
           "package_name": "in.oranetech.vit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "643915431046-28qhubh6c8d55cnm9vc9o9edfu390il3.apps.googleusercontent.com",
+          "client_id": "395467296676-rbcmn2e482t6bu1h3ami7n3h13c2i412.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.oranetech.vit",
+            "certificate_hash": "87d7a5736250ee74b233742375569905bb4cfa22"
+          }
+        },
+        {
+          "client_id": "395467296676-hhhe1gde4u01mk55a8cil34cdebtlti1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-lfkybr_rldsTDvECU6coQbREJV9UXXw"
+          "current_key": "AIzaSyBmbqgFKpNEG0NcvcL2ofWKNb7dtE_VxyQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "643915431046-28qhubh6c8d55cnm9vc9o9edfu390il3.apps.googleusercontent.com",
+              "client_id": "395467296676-hhhe1gde4u01mk55a8cil34cdebtlti1.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "643915431046-ruj9a255t7tqmqf06pg7efdeedk4p4dh.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "in.oranetech.vit"
-              }
             }
           ]
         }

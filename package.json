@@ -1,8 +1,8 @@
 {
   "name": "vithelp",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "oranetch",
+  "homepage": "http://VIT.in/",
   "scripts": {
     "start": "ionic cordova run android -l --consolelogs --serverlogs",
     "build": "ionic cordova build android --prod --release",
