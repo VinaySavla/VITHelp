@@ -4,6 +4,12 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
+    "start": "ionic cordova run android -l --consolelogs --serverlogs",
+    "build": "ionic cordova build android --prod --release",
+    "build_dev": "ionic cordova build android",
+    "dev": "ionic serve"
+  },
+  "_scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
