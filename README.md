@@ -19,5 +19,5 @@ ________________________
 
 Database Connection
 Username : admin
-Passphrase : COVithelp@123
+Passphrase : COVithelp123
 
